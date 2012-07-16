@@ -1,3 +1,8 @@
+INHack20ControlDistribucionBundle:
+    resource: "@INHack20ControlDistribucionBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
