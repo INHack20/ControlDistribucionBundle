@@ -125,24 +125,4 @@ class Tribunal
     {
         return $this->hechos;
     }
-
-    /**
-     * Add distribuciones
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Distribucion $distribuciones
-     */
-    public function addDistribucion(\INHack20\ControlDistribucionBundle\Entity\Distribucion $distribuciones)
-    {
-        $this->distribuciones[] = $distribuciones;
-    }
-
-    /**
-     * Get distribuciones
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getDistribuciones()
-    {
-        return $this->distribuciones;
-    }
 }

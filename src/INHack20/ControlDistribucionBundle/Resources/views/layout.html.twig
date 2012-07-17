@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>
+    {% block titulo %}
+        DEM
+    {% endblock %}
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+
+{% block css %}
+
+{% endblock %}
+
+</head>
+<body>
+    <div id="menu">
+        {% block menu %}
+            <ul>
+                Tribunales
+                <li>
+                    Control
+                    <ul>
+                        <a href="#" >AA</a>
+                    </ul>
+                </li>
+            </ul>
+        {% endblock  %}
+    </div>  
+ <div id="contenido">
+     {% block contenido %}
+       
+     {% endblock %}
+</div>
+</body>
+</html>

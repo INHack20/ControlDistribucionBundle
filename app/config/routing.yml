@@ -3,6 +3,9 @@ INHack20ControlDistribucionBundle:
     type:     annotation
     prefix:   /
 
+INHack20UserBundle:
+    resource: "@INHack20UserBundle/Resources/config/routing.yml"
+    
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

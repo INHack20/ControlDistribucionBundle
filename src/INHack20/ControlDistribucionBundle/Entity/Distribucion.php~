@@ -43,6 +43,7 @@ class Distribucion
      */
     protected $tribunal;
 
+
     /**
      * Get id
      *
@@ -91,25 +92,5 @@ class Distribucion
     public function getActualizado()
     {
         return $this->actualizado;
-    }
-
-    /**
-     * Set tribunal
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Tribunal $tribunal
-     */
-    public function setTribunal(\INHack20\ControlDistribucionBundle\Entity\Tribunal $tribunal)
-    {
-        $this->tribunal = $tribunal;
-    }
-
-    /**
-     * Get tribunal
-     *
-     * @return INHack20\ControlDistribucionBundle\Entity\Tribunal 
-     */
-    public function getTribunal()
-    {
-        return $this->tribunal;
     }
 }

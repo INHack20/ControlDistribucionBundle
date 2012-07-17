@@ -58,3 +58,26 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: INHack20\UserBundle\Entity\User
+    registration:
+        form:
+            type: inhack20_user_registration
+    profile:
+        form:
+            type: inhack20_user_profile
+    service:
+        mailer: fos_user.mailer.default
+        
+    from_email:
+        address:        inhack20@gmail.com
+        sender_name:    Ing. Carlos Mendoza
+        
+    resetting:
+        email:
+            from_email:
+                address:        inhack20@gmail.com
+                sender_name:    Ing. Carlos Mendoza
