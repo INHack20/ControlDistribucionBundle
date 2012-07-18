@@ -5,12 +5,12 @@ namespace INHack20\ControlDistribucionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * INHack20\ControlDistribucionBundle\Entity\Hecho
+ * INHack20\ControlDistribucionBundle\Entity\Causa
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Hecho
+class Causa
 {
     /**
      * @var integer $id
@@ -31,15 +31,15 @@ class Hecho
     /**
      *
      * @var Tribunal
-     * @ORM\ManyToOne(targetEntity="Tribunal",inversedBy="hechos")
-     * @ORM\JoinColumn(name="tribunal_id", referencedColumnName="id") 
+     * @ORM\ManyToOne(targetEntity="TribunalTipo",inversedBy="causas")
+     * @ORM\JoinColumn(name="tribunaltipo_id", referencedColumnName="id") 
      */
-    protected $tribunal;
+    protected $tribunalTipo;
     
     /**
      *
      * @var Grupo
-     * @ORM\ManyToOne(targetEntity="Grupo",inversedBy="hechos")
+     * @ORM\ManyToOne(targetEntity="Grupo",inversedBy="causas")
      * @ORM\JoinColumn(name="grupo_id",referencedColumnName="id") 
      */
     protected $grupo;
@@ -75,26 +75,6 @@ class Hecho
     }
 
     /**
-     * Set tribunal
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Tribunal $tribunal
-     */
-    public function setTribunal(\INHack20\ControlDistribucionBundle\Entity\Tribunal $tribunal)
-    {
-        $this->tribunal = $tribunal;
-    }
-
-    /**
-     * Get tribunal
-     *
-     * @return INHack20\ControlDistribucionBundle\Entity\Tribunal 
-     */
-    public function getTribunal()
-    {
-        return $this->tribunal;
-    }
-
-    /**
      * Set grupo
      *
      * @param INHack20\ControlDistribucionBundle\Entity\Grupo $grupo
@@ -112,5 +92,25 @@ class Hecho
     public function getGrupo()
     {
         return $this->grupo;
+    }
+
+    /**
+     * Set tribunalTipo
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\TribunalTipo $tribunalTipo
+     */
+    public function setTribunalTipo(\INHack20\ControlDistribucionBundle\Entity\TribunalTipo $tribunalTipo)
+    {
+        $this->tribunalTipo = $tribunalTipo;
+    }
+
+    /**
+     * Get tribunalTipo
+     *
+     * @return INHack20\ControlDistribucionBundle\Entity\TribunalTipo 
+     */
+    public function getTribunalTipo()
+    {
+        return $this->tribunalTipo;
     }
 }

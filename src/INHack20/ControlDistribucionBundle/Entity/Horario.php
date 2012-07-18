@@ -44,26 +44,6 @@ class Horario
     private $horaFin;
 
     /**
-     * @var boolean $emite
-     *
-     * @ORM\Column(name="emite", type="boolean")
-     */
-    private $emite;
-    
-    /**
-     *
-     * @var GrupoHorario
-     * @ORM\ManyToMany(targetEntity="Grupo")
-     * @ORM\JoinTable(name="Horarios_Grupos")
-     */
-    protected $grupos;
-
-    public function __construct()
-    {
-        $this->grupo = new ArrayCollection();
-    }
-    
-    /**
      * Get id
      *
      * @return integer 
@@ -133,43 +113,9 @@ class Horario
         return $this->horaFin;
     }
 
-    /**
-     * Set emite
-     *
-     * @param boolean $emite
-     */
-    public function setEmite($emite)
-    {
-        $this->emite = $emite;
-    }
-
-    /**
-     * Get emite
-     *
-     * @return boolean 
-     */
-    public function getEmite()
-    {
-        return $this->emite;
-    }
-
-    /**
-     * Add grupos
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Grupo $grupos
-     */
-    public function addGrupo(\INHack20\ControlDistribucionBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos[] = $grupos;
-    }
-
-    /**
-     * Get grupos
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getGrupos()
-    {
-        return $this->grupos;
+    public function getDescripcion(){
+        return $this->dias . ' (' .
+                $this->horaInicio->format('h:ia') . ' '.
+                $this->horaFin->format('h:ia') . ')';
     }
 }

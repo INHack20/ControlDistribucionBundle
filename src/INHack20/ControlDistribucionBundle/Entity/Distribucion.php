@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Distribucion
 {
@@ -31,7 +32,7 @@ class Distribucion
     /**
      * @var datetime $actualizado
      *
-     * @ORM\Column(name="actualizado", type="datetime")
+     * @ORM\Column(name="actualizado", type="datetime", nullable=true)
      */
     protected $actualizado;
     
@@ -57,10 +58,11 @@ class Distribucion
      * Set creado
      *
      * @param datetime $creado
+     * @ORM\PrePersist
      */
-    public function setCreado($creado)
+    public function setCreado()
     {
-        $this->creado = $creado;
+        $this->creado = new \DateTime();
     }
 
     /**
@@ -77,10 +79,11 @@ class Distribucion
      * Set actualizado
      *
      * @param datetime $actualizado
+     * @ORM\preUpdate
      */
-    public function setActualizado($actualizado)
+    public function setActualizado()
     {
-        $this->actualizado = $actualizado;
+        $this->actualizado = new \DateTime();
     }
 
     /**

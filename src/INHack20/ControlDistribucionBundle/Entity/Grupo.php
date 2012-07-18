@@ -32,20 +32,20 @@ class Grupo
     /**
      *
      * @var Horario
-     * @ORM\ManyToMany(targetEntity="Horario", mappedBy="grupo") 
+     * @ORM\ManyToMany(targetEntity="Horario") 
      */
     protected $horarios;
     
     /**
      *
-     * @var Hecho
-     * @ORM\OneToMany(targetEntity="Hecho",mappedBy="grupo") 
+     * @var Causa
+     * @ORM\OneToMany(targetEntity="Causa",mappedBy="grupo") 
      */
-    protected $hechos;
+    protected $causas;
     
     public function __construct(){
         $this->horarios = new ArrayCollection();
-        $this->hechos = new ArrayCollection();
+        $this->causas = new ArrayCollection();
     }
 
     /**
@@ -99,22 +99,22 @@ class Grupo
     }
 
     /**
-     * Add hechos
+     * Add causas
      *
-     * @param INHack20\ControlDistribucionBundle\Entity\Hecho $hechos
+     * @param INHack20\ControlDistribucionBundle\Entity\Causa $causas
      */
-    public function addHecho(\INHack20\ControlDistribucionBundle\Entity\Hecho $hechos)
+    public function addCausa(\INHack20\ControlDistribucionBundle\Entity\Causa $causas)
     {
-        $this->hechos[] = $hechos;
+        $this->causas[] = $causas;
     }
 
     /**
-     * Get hechos
+     * Get causas
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getHechos()
+    public function getCausas()
     {
-        return $this->hechos;
+        return $this->causas;
     }
 }

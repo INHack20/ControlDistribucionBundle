@@ -35,9 +35,15 @@ class TribunalTipo
      * @ORM\OneToMany(targetEntity="Tribunal", mappedBy="tribunalTipo") 
      */
     protected $tribunales;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Causa",mappedBy="tribunalTipo")
+     */
+    protected $causas;
 
     public function __construct(){
         $this->tribunales = new ArrayCollection();
+        $this->causas = new ArrayCollection();
     }
 
     /**
@@ -88,5 +94,25 @@ class TribunalTipo
     public function getTribunales()
     {
         return $this->tribunales;
+    }
+
+    /**
+     * Add causas
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\Causa $causas
+     */
+    public function addCausa(\INHack20\ControlDistribucionBundle\Entity\Causa $causas)
+    {
+        $this->causas[] = $causas;
+    }
+
+    /**
+     * Get causas
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCausas()
+    {
+        return $this->causas;
     }
 }

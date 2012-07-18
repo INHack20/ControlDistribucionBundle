@@ -39,20 +39,12 @@ class Tribunal
     
     /**
      *
-     * @var Hecho
-     * @ORM\OneToMany(targetEntity="Hecho", mappedBy="tribunal")
-     */
-    protected $hechos;
-    
-    /**
-     *
      * @var Distribucion
      * @ORM\OneToMany(targetEntity="Distribucion",mappedBy="tribunal")
      */
     protected $distribuciones;
     
     public function __construct(){
-        $this->hechos = new ArrayCollection();
         $this->distribuciones = new ArrayCollection();
     }
     
@@ -107,26 +99,6 @@ class Tribunal
     }
 
     /**
-     * Add hechos
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Hecho $hechos
-     */
-    public function addHecho(\INHack20\ControlDistribucionBundle\Entity\Hecho $hechos)
-    {
-        $this->hechos[] = $hechos;
-    }
-
-    /**
-     * Get hechos
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getHechos()
-    {
-        return $this->hechos;
-    }
-
-    /**
      * Add distribuciones
      *
      * @param INHack20\ControlDistribucionBundle\Entity\Distribucion $distribuciones
@@ -144,5 +116,10 @@ class Tribunal
     public function getDistribuciones()
     {
         return $this->distribuciones;
+    }
+    
+    public function getDescripcion()
+    {
+        return $this->nro . ' De ' . $this->tribunalTipo->getNombre();
     }
 }
