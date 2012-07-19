@@ -19,6 +19,9 @@ class TribunalType extends AbstractType
                 'label' => 'Tribunal de ',
                 'empty_value' => 'Seleccione'
             ))
+            ->add('habilitado',null,array(
+                'required' => false,
+            ))
         ;
     }
 

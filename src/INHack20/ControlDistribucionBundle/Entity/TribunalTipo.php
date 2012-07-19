@@ -30,6 +30,12 @@ class TribunalTipo
     private $nombre;
     
     /**
+     * @ORM\Column(name="limiteCausas", type="integer")
+     * @var type 
+     */
+    private $limiteCausas;
+    
+    /**
      *
      * @var Tribunal
      * @ORM\OneToMany(targetEntity="Tribunal", mappedBy="tribunalTipo") 
@@ -114,5 +120,25 @@ class TribunalTipo
     public function getCausas()
     {
         return $this->causas;
+    }
+
+    /**
+     * Set limiteCausas
+     *
+     * @param integer $limiteCausas
+     */
+    public function setLimiteCausas($limiteCausas)
+    {
+        $this->limiteCausas = $limiteCausas;
+    }
+
+    /**
+     * Get limiteCausas
+     *
+     * @return integer 
+     */
+    public function getLimiteCausas()
+    {
+        return $this->limiteCausas;
     }
 }

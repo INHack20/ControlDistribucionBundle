@@ -39,7 +39,7 @@ class Causa
     /**
      *
      * @var Grupo
-     * @ORM\ManyToOne(targetEntity="Grupo",inversedBy="causas")
+     * @ORM\ManyToOne(targetEntity="Grupo")
      * @ORM\JoinColumn(name="grupo_id",referencedColumnName="id") 
      */
     protected $grupo;

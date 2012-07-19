@@ -18,20 +18,12 @@
 <body>
     <div id="menu">
         {% block menu %}
-            <ul>
-                Tribunales
-                <li>
-                    Control
-                    <ul>
-                        <a href="#" >AA</a>
-                    </ul>
-                </li>
-            </ul>
+            {% render 'INHack20ControlDistribucionBundle:Principal:menu' %}
         {% endblock  %}
     </div>  
  <div id="contenido">
      {% block contenido %}
-       
+         
      {% endblock %}
 </div>
 </body>

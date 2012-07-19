@@ -36,16 +36,8 @@ class Grupo
      */
     protected $horarios;
     
-    /**
-     *
-     * @var Causa
-     * @ORM\OneToMany(targetEntity="Causa",mappedBy="grupo") 
-     */
-    protected $causas;
-    
     public function __construct(){
         $this->horarios = new ArrayCollection();
-        $this->causas = new ArrayCollection();
     }
 
     /**
@@ -96,25 +88,5 @@ class Grupo
     public function getHorarios()
     {
         return $this->horarios;
-    }
-
-    /**
-     * Add causas
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Causa $causas
-     */
-    public function addCausa(\INHack20\ControlDistribucionBundle\Entity\Causa $causas)
-    {
-        $this->causas[] = $causas;
-    }
-
-    /**
-     * Get causas
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getCausas()
-    {
-        return $this->causas;
     }
 }

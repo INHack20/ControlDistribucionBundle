@@ -11,6 +11,9 @@ class TribunalTipoType extends AbstractType
     {
         $builder
             ->add('nombre')
+            ->add('limitecausas',null,array(
+                'label' => 'Limite de Causas'
+            ))
         ;
     }
 

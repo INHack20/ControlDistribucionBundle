@@ -16,4 +16,18 @@ class PrincipalController extends Controller
     {
         return array();
     }
+    
+    /**
+     * Genera el menu dinamicamente de acuerdo a los datos almacenados.
+     * 
+     * @Template()
+     */
+    public function menuAction()
+    {
+         $em = $this->getDoctrine()->getEntityManager();
+        
+        $tipoTribunales = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->findAll();
+        
+        return array('tipoTribunales' => $tipoTribunales);
+    }
 }

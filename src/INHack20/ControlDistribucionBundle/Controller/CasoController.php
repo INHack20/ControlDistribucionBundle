@@ -6,45 +6,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use INHack20\ControlDistribucionBundle\Entity\Tribunal;
-use INHack20\ControlDistribucionBundle\Form\TribunalType;
+use INHack20\ControlDistribucionBundle\Entity\Caso;
+use INHack20\ControlDistribucionBundle\Form\CasoType;
 
 /**
- * Tribunal controller.
+ * Caso controller.
  *
- * @Route("/tribunal")
+ * @Route("/caso")
  */
-class TribunalController extends Controller
+class CasoController extends Controller
 {
     /**
-     * Lists all Tribunal entities.
+     * Lists all Caso entities.
      *
-     * @Route("/", name="tribunal")
+     * @Route("/", name="caso")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('INHack20ControlDistribucionBundle:Tribunal')->findAll();
+        $entities = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->findAll();
 
         return array('entities' => $entities);
     }
 
     /**
-     * Finds and displays a Tribunal entity.
+     * Finds and displays a Caso entity.
      *
-     * @Route("/{id}/show", name="tribunal_show")
+     * @Route("/{id}/show", name="caso_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Tribunal')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tribunal entity.');
+            throw $this->createNotFoundException('Unable to find Caso entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -55,16 +55,15 @@ class TribunalController extends Controller
     }
 
     /**
-     * Displays a form to create a new Tribunal entity.
+     * Displays a form to create a new Caso entity.
      *
-     * @Route("/new", name="tribunal_new")
+     * @Route("/new", name="caso_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Tribunal();
-        $entity->setHabilitado(true);
-        $form   = $this->createForm(new TribunalType(), $entity);
+        $entity = new Caso();
+        $form   = $this->createForm(new CasoType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -73,17 +72,17 @@ class TribunalController extends Controller
     }
 
     /**
-     * Creates a new Tribunal entity.
+     * Creates a new Caso entity.
      *
-     * @Route("/create", name="tribunal_create")
+     * @Route("/create", name="caso_create")
      * @Method("post")
-     * @Template("INHack20ControlDistribucionBundle:Tribunal:new.html.twig")
+     * @Template("INHack20ControlDistribucionBundle:Caso:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Tribunal();
+        $entity  = new Caso();
         $request = $this->getRequest();
-        $form    = $this->createForm(new TribunalType(), $entity);
+        $form    = $this->createForm(new CasoType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -91,7 +90,7 @@ class TribunalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tribunal_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('caso_show', array('id' => $entity->getId())));
             
         }
 
@@ -102,22 +101,22 @@ class TribunalController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Tribunal entity.
+     * Displays a form to edit an existing Caso entity.
      *
-     * @Route("/{id}/edit", name="tribunal_edit")
+     * @Route("/{id}/edit", name="caso_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Tribunal')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tribunal entity.');
+            throw $this->createNotFoundException('Unable to find Caso entity.');
         }
 
-        $editForm = $this->createForm(new TribunalType(), $entity);
+        $editForm = $this->createForm(new CasoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -128,23 +127,23 @@ class TribunalController extends Controller
     }
 
     /**
-     * Edits an existing Tribunal entity.
+     * Edits an existing Caso entity.
      *
-     * @Route("/{id}/update", name="tribunal_update")
+     * @Route("/{id}/update", name="caso_update")
      * @Method("post")
-     * @Template("INHack20ControlDistribucionBundle:Tribunal:edit.html.twig")
+     * @Template("INHack20ControlDistribucionBundle:Caso:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Tribunal')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tribunal entity.');
+            throw $this->createNotFoundException('Unable to find Caso entity.');
         }
 
-        $editForm   = $this->createForm(new TribunalType(), $entity);
+        $editForm   = $this->createForm(new CasoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -155,7 +154,7 @@ class TribunalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tribunal_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('caso_edit', array('id' => $id)));
         }
 
         return array(
@@ -166,9 +165,9 @@ class TribunalController extends Controller
     }
 
     /**
-     * Deletes a Tribunal entity.
+     * Deletes a Caso entity.
      *
-     * @Route("/{id}/delete", name="tribunal_delete")
+     * @Route("/{id}/delete", name="caso_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -180,17 +179,17 @@ class TribunalController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('INHack20ControlDistribucionBundle:Tribunal')->find($id);
+            $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Tribunal entity.');
+                throw $this->createNotFoundException('Unable to find Caso entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('tribunal'));
+        return $this->redirect($this->generateUrl('caso'));
     }
 
     private function createDeleteForm($id)

@@ -1,4 +1,4 @@
-<h1>TribunalTipo</h1>
+<h1>Distribucion</h1>
 
 <table class="record_properties">
     <tbody>
@@ -7,29 +7,29 @@
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Nombre</th>
-            <td>{{ entity.nombre }}</td>
+            <th>Creado</th>
+            <td>{{ entity.creado|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Limite de Causas</th>
-            <td>{{ entity.limitecausas }}</td>
+            <th>Actualizado</th>
+            <td>{{ entity.actualizado|date('Y-m-d H:i:s') }}</td>
         </tr>
     </tbody>
 </table>
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('tribunaltipo') }}">
+        <a href="{{ path('distribucion') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('tribunaltipo_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('distribucion_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('tribunaltipo_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('distribucion_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>
         </form>

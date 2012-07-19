@@ -1,0 +1,7 @@
+{% for tipotribunal in tipoTribunales %}
+     <ul>{{ tipotribunal.nombre }}
+             {% for causa in tipotribunal.causas %}
+                 <li><a href="{{ path('distribucion_distribuir',{ 'idCausa' : causa.id}) }}">ID = {{ causa.id }} {{ causa.nombre}}</a></li>
+             {% endfor %}
+     </ul>              
+{% endfor %}

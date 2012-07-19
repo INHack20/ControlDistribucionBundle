@@ -31,6 +31,13 @@ class Tribunal
 
     /**
      *
+     * @var Boolean $habilitado
+     * @ORM\Column(name="habilitado", type="boolean")
+     */
+    private $habilitado;
+    
+    /**
+     *
      * @var TribunalTipo
      * @ORM\ManyToOne(targetEntity="TribunalTipo", inversedBy="tribunales")
      * @ORM\JoinColumn(name="tribunalTipo_id",referencedColumnName="id")
@@ -121,5 +128,35 @@ class Tribunal
     public function getDescripcion()
     {
         return $this->nro . ' De ' . $this->tribunalTipo->getNombre();
+    }
+
+    /**
+     * Set habilitado
+     *
+     * @param boolean $habilitado
+     */
+    public function setHabilitado($habilitado)
+    {
+        $this->habilitado = $habilitado;
+    }
+
+    /**
+     * Get habilitado
+     *
+     * @return boolean 
+     */
+    public function isHabilitado()
+    {
+        return $this->habilitado;
+    }
+
+    /**
+     * Get habilitado
+     *
+     * @return boolean 
+     */
+    public function getHabilitado()
+    {
+        return $this->habilitado;
     }
 }

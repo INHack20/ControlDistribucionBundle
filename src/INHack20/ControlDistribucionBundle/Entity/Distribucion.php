@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * INHack20\ControlDistribucionBundle\Entity\Distribucion
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="INHack20\ControlDistribucionBundle\Repository\DistribucionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Distribucion
@@ -43,6 +43,14 @@ class Distribucion
      * @ORM\JoinColumn(name="tribunal_id",referencedColumnName="id")
      */
     protected $tribunal;
+    
+    /**
+     *
+     * @var Causa
+     * @ORM\ManyToOne(targetEntity="Causa")
+     * @ORM\JoinColumn(name="causa_id",referencedColumnName="id")
+     */
+    protected $causa;
 
     /**
      * Get id
@@ -114,5 +122,25 @@ class Distribucion
     public function getTribunal()
     {
         return $this->tribunal;
+    }
+
+    /**
+     * Set causa
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\Causa $causa
+     */
+    public function setCausa(\INHack20\ControlDistribucionBundle\Entity\Causa $causa)
+    {
+        $this->causa = $causa;
+    }
+
+    /**
+     * Get causa
+     *
+     * @return INHack20\ControlDistribucionBundle\Entity\Causa 
+     */
+    public function getCausa()
+    {
+        return $this->causa;
     }
 }
