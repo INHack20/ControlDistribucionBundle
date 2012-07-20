@@ -31,10 +31,17 @@ class Tribunal
 
     /**
      *
-     * @var Boolean $habilitado
+     * @var boolean $habilitado
      * @ORM\Column(name="habilitado", type="boolean")
      */
     private $habilitado;
+    
+    /**
+     *
+     * @var boolean $despacho
+     * @ORM\Column(name="despacho", type="boolean") 
+     */
+    private $despacho;
     
     /**
      *
@@ -158,5 +165,35 @@ class Tribunal
     public function getHabilitado()
     {
         return $this->habilitado;
+    }
+
+    /**
+     * Set despacho
+     *
+     * @param boolean $despacho
+     */
+    public function setDespacho($despacho)
+    {
+        $this->despacho = $despacho;
+    }
+
+    /**
+     * Get despacho
+     *
+     * @return boolean 
+     */
+    public function isDespacho()
+    {
+        return $this->despacho;
+    }
+
+    /**
+     * Get despacho
+     *
+     * @return boolean 
+     */
+    public function getDespacho()
+    {
+        return $this->despacho;
     }
 }

@@ -23,13 +23,11 @@ class DistribucionRepository extends EntityRepository
                 ->join('d.tribunal', 't')
                 ->where('t.tribunalTipo= :tribunaltipo')
                 ->andWhere($qb->expr()->like('d.creado',"'".$fechaHoy->format('Y-m-d')."%'"))
-                //->andWhere('t.habilitado = true')
+                ->andWhere('t.despacho = true')
                 ->groupBy('d.tribunal')
                 ;
         $qb->setParameter('tribunaltipo', $tribunalTipo);
-        
         //echo $qb->getDQL();
-        
         //die;
         $query = $qb->getQuery()->getResult();
         return $query;

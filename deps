@@ -74,3 +74,11 @@
     git=http://github.com/doctrine/DoctrineFixturesBundle.git
     target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
     version=origin/2.0
+
+[WhiteOctoberTCPDFBundle]
+    git=http://github.com/whiteoctober/WhiteOctoberTCPDFBundle.git
+    target=/bundles/WhiteOctober/TCPDFBundle
+
+[TCPDF]
+    git=git://tcpdf.git.sourceforge.net/gitroot/tcpdf/tcpdf
+    target=/tcpdf

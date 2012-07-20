@@ -1,7 +1,7 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
 {% block contenido %}
-    <h1>Causa</h1>
+    <h1>Fiscalia</h1>
 
     <table class="record_properties">
         <tbody>
@@ -18,17 +18,17 @@
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('causa') }}">
+            <a href="{{ path('fiscalia') }}">
                 Back to the list
             </a>
         </li>
         <li>
-            <a href="{{ path('causa_edit', { 'id': entity.id }) }}">
+            <a href="{{ path('fiscalia_edit', { 'id': entity.id }) }}">
                 Edit
             </a>
         </li>
         <li>
-            <form action="{{ path('causa_delete', { 'id': entity.id }) }}" method="post">
+            <form action="{{ path('fiscalia_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
                 <button type="submit">Delete</button>
             </form>

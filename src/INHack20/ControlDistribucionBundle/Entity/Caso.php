@@ -23,18 +23,19 @@ class Caso
     private $id;
 
     /**
-     * @var string $procedencia
+     * @var string $fiscalia
      *
-     * @ORM\Column(name="procedencia", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Fiscalia")
+     * @ORM\JoinColumn(name="fiscalia_id", referencedColumnName="id")
      */
-    private $procedencia;
+    private $fiscalia;
 
     /**
-     * @var string $nroCausaFiscal
+     * @var string $nroAsuntoFiscal
      *
-     * @ORM\Column(name="nroCausaFiscal", type="string", length=40)
+     * @ORM\Column(name="nroAsuntoFiscal", type="string", length=40)
      */
-    private $nroCausaFiscal;
+    private $nroAsuntoFiscal;
 
     /**
      * @var string $nroOficioFiscal
@@ -46,14 +47,14 @@ class Caso
     /**
      * @var string $nombreImputado
      *
-     * @ORM\Column(name="nombreImputado", type="string", length=50)
+     * @ORM\Column(name="nombreImputado", type="string", length=50, nullable=true)
      */
     private $nombreImputado;
 
     /**
      * @var string $nombreVictima
      *
-     * @ORM\Column(name="nombreVictima", type="string", length=50)
+     * @ORM\Column(name="nombreVictima", type="string", length=50, nullable=true)
      */
     private $nombreVictima;
     
@@ -88,12 +89,12 @@ class Caso
     
     /**
      *
-     * @var Fiscalia $fiscalia
-     * @ORM\ManyToOne(targetEntity="Fiscalia")
-     * @ORM\JoinColumn(name="fiscalia_id", referencedColumnName="id") 
+     * @var Usuario $usuario
+     * @ORM\ManyToOne(targetEntity="INHack20\UserBundle\Entity\User")
+     * @0RM\JoinColumn(name="user_id",referencedColumnName="id")
      */
-    protected $fiscalia;
-
+    protected $usuario;
+    
     /**
      * Get id
      *
@@ -102,46 +103,6 @@ class Caso
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set procedencia
-     *
-     * @param string $procedencia
-     */
-    public function setProcedencia($procedencia)
-    {
-        $this->procedencia = $procedencia;
-    }
-
-    /**
-     * Get procedencia
-     *
-     * @return string 
-     */
-    public function getProcedencia()
-    {
-        return $this->procedencia;
-    }
-
-    /**
-     * Set nroCausaFiscal
-     *
-     * @param string $nroCausaFiscal
-     */
-    public function setNroCausaFiscal($nroCausaFiscal)
-    {
-        $this->nroCausaFiscal = $nroCausaFiscal;
-    }
-
-    /**
-     * Get nroCausaFiscal
-     *
-     * @return string 
-     */
-    public function getNroCausaFiscal()
-    {
-        return $this->nroCausaFiscal;
     }
 
     /**
@@ -304,5 +265,46 @@ class Caso
     public function getFiscalia()
     {
         return $this->fiscalia;
+    }
+    
+
+    /**
+     * Set usuario
+     *
+     * @param INHack20\UserBundle\Entity\User $usuario
+     */
+    public function setUsuario(\INHack20\UserBundle\Entity\User $usuario)
+    {
+        $this->usuario = $usuario;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return INHack20\UserBundle\Entity\User 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * Set nroAsuntoFiscal
+     *
+     * @param string $nroAsuntoFiscal
+     */
+    public function setNroAsuntoFiscal($nroAsuntoFiscal)
+    {
+        $this->nroAsuntoFiscal = $nroAsuntoFiscal;
+    }
+
+    /**
+     * Get nroAsuntoFiscal
+     *
+     * @return string 
+     */
+    public function getNroAsuntoFiscal()
+    {
+        return $this->nroAsuntoFiscal;
     }
 }

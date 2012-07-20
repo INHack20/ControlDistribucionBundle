@@ -1,16 +1,19 @@
-<h1>Caso creation</h1>
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
+{% block contenido %}
+    <h1>Registro de Caso</h1>
 
-<form action="{{ path('caso_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+    <form action="{{ path('caso_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('caso') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('caso') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

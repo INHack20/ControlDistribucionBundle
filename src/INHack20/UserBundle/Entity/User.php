@@ -47,7 +47,15 @@ class User extends BaseUser
      * @ORM\column(name="unidadAdministrativa", type="string", length=150, nullable=true)
      */
     private $unidadAdministrativa;
-    
+ 
+    /**
+     *
+     * @var Estado $estado
+     * @ORM\ManyToOne(targetEntity="INHack20\ControlDistribucionBundle\Entity\Estado")
+     * @ORM\JoinColumn(name="estado_id",referencedColumnName="id")
+     */
+    protected $estado;
+
     /**
      * Variable para asignar rol al usuario
      */
@@ -223,5 +231,25 @@ class User extends BaseUser
                 }
         }
         
+    }
+
+    /**
+     * Set estado
+     *
+     * @param INHack20\\ControlDistribucionBundle\\Entity\\Estado $estado
+     */
+    public function setEstado(\INHack20\ControlDistribucionBundle\Entity\Estado $estado)
+    {
+        $this->estado = $estado;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return INHack20\\ControlDistribucionBundle\\Entity\\Estado 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use INHack20\ControlDistribucionBundle\Entity\Estado;
 
 /**
  * Description of UserFixtures
@@ -31,7 +32,7 @@ class UserFixtures implements FixtureInterface, ContainerAwareInterface{
         
         $usuario->setNombre('ADMIN');
         $usuario->setApellido('ADMIN');
-        
+                
         $usuario->setUsername('admin');
         $usuario->setEmail('admin@admin.com');
         

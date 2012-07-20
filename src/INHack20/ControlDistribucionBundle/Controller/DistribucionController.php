@@ -345,8 +345,6 @@ class DistribucionController extends Controller
             $distribuciones = new Distribucion();
             $distribuciones = $em->getRepository('INHack20ControlDistribucionBundle:Distribucion')->findTodayDistribuciones($tribunalTipo);
 
-
-
             $limiteAsignacion=$tribunalTipo->getLimiteCausas();//limite de ocurrencia
 
             //Cantidad de causas asignadas, hay q ver si esta en su limite o no, para tenerlo en cuenta dentro de la probabilidad.
@@ -360,7 +358,7 @@ class DistribucionController extends Controller
             }
 
                 foreach ($tribunales as $datos) {
-                if($datos['tribunal']->isHabilitado())
+                if($datos['tribunal']->isHabilitado() && $datos['tribunal']->isDespacho())
                         $tribunalesSorteo [] = $datos['tribunal'];
             }
 
@@ -389,7 +387,7 @@ class DistribucionController extends Controller
                 }
                 else{
                     foreach ($tribunalesOriginales as $tribunal) {
-                        if($tribunal->isHabilitado())
+                        if($tribunal->isHabilitado() && $tribunal->isDespacho())
                         $tribunalesSorteo [] = $tribunal;
                         //die();
                     }
@@ -432,6 +430,7 @@ class DistribucionController extends Controller
                         if(($key == 'valor' 
                                 && ($value % $limiteAsignacion) == ($limiteAsignacion - 1))
                                 && $datos['tribunal']->isHabilitado()
+                                && $datos['tribunal']->isDespacho()
                                 && $tribunalesSorteo[$numAleatorio]->getId() == $datos['tribunal']->getId()
                         ){
 

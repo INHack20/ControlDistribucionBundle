@@ -1,16 +1,20 @@
-<h1>TribunalTipo creation</h1>
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
-<form action="{{ path('tribunaltipo_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% block contenido %}
+    <h1>TribunalTipo creation</h1>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('tribunaltipo') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <form action="{{ path('tribunaltipo_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('tribunaltipo') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

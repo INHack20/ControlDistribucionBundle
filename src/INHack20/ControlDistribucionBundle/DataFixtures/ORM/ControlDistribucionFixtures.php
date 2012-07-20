@@ -10,6 +10,8 @@ use INHack20\ControlDistribucionBundle\Entity\Grupo;
 use INHack20\ControlDistribucionBundle\Entity\Horario;
 use INHack20\ControlDistribucionBundle\Entity\Causa;
 use INHack20\ControlDistribucionBundle\Entity\Distribucion;
+use INHack20\ControlDistribucionBundle\Entity\Estado;
+use INHack20\ControlDistribucionBundle\Entity\Fiscalia;
 
 /**
  * Description of ControlDistribucionFixtures
@@ -19,6 +21,119 @@ use INHack20\ControlDistribucionBundle\Entity\Distribucion;
 class ControlDistribucionFixtures implements FixtureInterface {
     
     public function load(ObjectManager $manager) {
+        
+        $estado = new Estado();
+        $estado->setNombre('Anzoátegui');
+        $manager->persist($estado);
+        
+        $estadoApure = new Estado();
+        $estadoApure->setNombre('Apure');
+        $manager->persist($estadoApure);
+        
+        $estado = new Estado();
+        $estado->setNombre('Aragua');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Barinas');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Bolívar');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Carabobo');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Cojedes');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Delta Amacuro');
+        $manager->persist($estado);
+                   
+        $estado = new Estado();
+        $estado->setNombre('Distrito Capital');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Falcón');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Guárico');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Lara');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Mérida');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Miranda');
+        $manager->persist($estado);
+                    
+        $estado = new Estado();
+        $estado->setNombre('Monagas');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Nueva Esparta');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Portuguesa');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Sucre');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Táchira');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Trujillo');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Vargas');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Yaracuy');
+        $manager->persist($estado);
+        
+        $estado = new Estado();
+        $estado->setNombre('Zulia');
+        $manager->persist($estado);
+        
+        $fiscalias = '1-16';
+        if(in_array('-',str_split($fiscalias)))
+        {
+            $fiscalias = explode('-', $fiscalias);
+            if(count($fiscalias)==2)
+            {
+                $fiscalias = range($fiscalias[0], $fiscalias[1]);
+                $temp = array();
+                foreach ($fiscalias as $valor) {
+                    $fiscalia = new Fiscalia();
+                    $fiscalia->setNombre('FISCALIA '. strtoupper($this->numeroToOrdinal($valor)));
+                    $fiscalia->setEstado($estadoApure);
+                        $manager->persist($fiscalia);
+                    
+                }
+                $fiscalias = $temp;
+            }
+        }
+        
+        
         
         $horario = new Horario();
         $horario->setDias('LUN-MAR,VIE');
@@ -63,30 +178,35 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $tribunalControl1->setNro(1);
         $tribunalControl1->setTribunalTipo($tribunalTipoControl);
         $tribunalControl1->setHabilitado(true);
+        $tribunalControl1->setDespacho(true);
             $manager->persist($tribunalControl1);
         
         $tribunalControl2 = new Tribunal();
         $tribunalControl2->setNro(2);
         $tribunalControl2->setTribunalTipo($tribunalTipoControl);
         $tribunalControl2->setHabilitado(true);
+        $tribunalControl2->setDespacho(true);
             $manager->persist($tribunalControl2);
         
         $tribunalControl3 = new Tribunal();
         $tribunalControl3->setNro(3);
         $tribunalControl3->setTribunalTipo($tribunalTipoControl);
         $tribunalControl3->setHabilitado(true);
+        $tribunalControl3->setDespacho(true);
             $manager->persist($tribunalControl3);
         
         $tribunalJuicio1 = new Tribunal();
         $tribunalJuicio1->setNro(1);
         $tribunalJuicio1->setTribunalTipo($tribunalTipoJucio);
         $tribunalJuicio1->setHabilitado(true);
+        $tribunalJuicio1->setDespacho(true);
             $manager->persist($tribunalJuicio1);
         
         $tribunalJuicio2 = new Tribunal();
         $tribunalJuicio2->setNro(2);
         $tribunalJuicio2->setTribunalTipo($tribunalTipoJucio);
         $tribunalJuicio2->setHabilitado(true);
+        $tribunalJuicio2->setDespacho(true);
             $manager->persist($tribunalJuicio2);
         
         $causaControl1 = new Causa();
@@ -189,7 +309,47 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $distribucion->setCausa($causaJucio3);
             $manager->persist($distribucion);
         */
-            
+        
+        $usuario = $manager->getRepository('INHack20UserBundle:User')->findOneBy(array(
+            'username' => 'ADMIN',
+        ));    
+        $usuario->setEstado($estadoApure);    
+            $manager->persist($usuario);
+        
         $manager->flush();
     }
+    
+    private function numeroToOrdinal($nro){
+        
+                    $nrosOrdinalesFemeninos = array(
+                    0 => '',
+                    1 => 'primera',
+                    2 => 'segunda',
+                    3 => 'tercera',
+                    4 => 'cuarta',
+                    5 => 'quinta',
+                    6 => 'sexta',
+                    7 => 'septima',
+                    8 => 'octava',
+                    9 => 'novena',
+                    10 => 'decima',
+                    20 => 'vigesima',
+                    30 => 'trigesima',
+                    40 => 'cuadragesima',
+                    50 => 'quincuagesima',
+                    60 => 'sexagesima',
+                );
+                if($nro >= 0 && $nro<=10)
+                    {
+                        $nro = $nrosOrdinalesFemeninos[$nro];
+                    }
+                elseif($nro >= 11 && $nro<=19){
+                        $nro = $nrosOrdinalesFemeninos[10] . ' ' . $nrosOrdinalesFemeninos[$nro - 10];
+                }    
+                elseif($nro >= 20 && $nro<=99){
+                        $resto = (floor($nro / 10)) * 10;
+                        $nro = $nrosOrdinalesFemeninos[$resto] . ' ' . $nrosOrdinalesFemeninos[$nro - $resto];
+                }
+                return $nro;
+     }//fin funcion
 }

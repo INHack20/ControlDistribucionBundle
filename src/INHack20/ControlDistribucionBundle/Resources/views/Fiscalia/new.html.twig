@@ -1,9 +1,9 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
 {% block contenido %}
-    <h1>Causa creation</h1>
+    <h1>Fiscalia creation</h1>
 
-    <form action="{{ path('causa_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('fiscalia_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
@@ -12,7 +12,7 @@
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('causa') }}">
+            <a href="{{ path('fiscalia') }}">
                 Back to the list
             </a>
         </li>

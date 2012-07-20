@@ -6,45 +6,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use INHack20\ControlDistribucionBundle\Entity\Caso;
-use INHack20\ControlDistribucionBundle\Form\CasoType;
+use INHack20\ControlDistribucionBundle\Entity\Fiscalia;
+use INHack20\ControlDistribucionBundle\Form\FiscaliaType;
 
 /**
- * Caso controller.
+ * Fiscalia controller.
  *
- * @Route("/caso")
+ * @Route("/fiscalia")
  */
-class CasoController extends Controller
+class FiscaliaController extends Controller
 {
     /**
-     * Lists all Caso entities.
+     * Lists all Fiscalia entities.
      *
-     * @Route("/", name="caso")
+     * @Route("/", name="fiscalia")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->findAll();
+        $entities = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->findAll();
 
         return array('entities' => $entities);
     }
 
     /**
-     * Finds and displays a Caso entity.
+     * Finds and displays a Fiscalia entity.
      *
-     * @Route("/{id}/show", name="caso_show")
+     * @Route("/{id}/show", name="fiscalia_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caso entity.');
+            throw $this->createNotFoundException('Unable to find Fiscalia entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -55,45 +55,42 @@ class CasoController extends Controller
     }
 
     /**
-     * Displays a form to create a new Caso entity.
+     * Displays a form to create a new Fiscalia entity.
      *
-     * @Route("/{idCausa}/new", name="caso_new")
+     * @Route("/new", name="fiscalia_new")
      * @Template()
      */
-    public function newAction($idCausa)
+    public function newAction()
     {
-        $entity = new Caso();
-        
-        $form   = $this->createForm(new CasoType(), $entity);
-        
+        $entity = new Fiscalia();
+        $form   = $this->createForm(new FiscaliaType(), $entity);
+
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
-            'idCausa' => $idCausa,
+            'form'   => $form->createView()
         );
     }
 
     /**
-     * Creates a new Caso entity.
+     * Creates a new Fiscalia entity.
      *
-     * @Route("/create", name="caso_create")
+     * @Route("/create", name="fiscalia_create")
      * @Method("post")
-     * @Template("INHack20ControlDistribucionBundle:Caso:new.html.twig")
+     * @Template("INHack20ControlDistribucionBundle:Fiscalia:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Caso();
+        $entity  = new Fiscalia();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CasoType(), $entity);
+        $form    = $this->createForm(new FiscaliaType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $entity->setUsuario($this->container->get('security.context')->getToken()->getUser());
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('caso_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('fiscalia_show', array('id' => $entity->getId())));
             
         }
 
@@ -104,22 +101,22 @@ class CasoController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Caso entity.
+     * Displays a form to edit an existing Fiscalia entity.
      *
-     * @Route("/{id}/edit", name="caso_edit")
+     * @Route("/{id}/edit", name="fiscalia_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caso entity.');
+            throw $this->createNotFoundException('Unable to find Fiscalia entity.');
         }
 
-        $editForm = $this->createForm(new CasoType(), $entity);
+        $editForm = $this->createForm(new FiscaliaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -130,23 +127,23 @@ class CasoController extends Controller
     }
 
     /**
-     * Edits an existing Caso entity.
+     * Edits an existing Fiscalia entity.
      *
-     * @Route("/{id}/update", name="caso_update")
+     * @Route("/{id}/update", name="fiscalia_update")
      * @Method("post")
-     * @Template("INHack20ControlDistribucionBundle:Caso:edit.html.twig")
+     * @Template("INHack20ControlDistribucionBundle:Fiscalia:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
+        $entity = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Caso entity.');
+            throw $this->createNotFoundException('Unable to find Fiscalia entity.');
         }
 
-        $editForm   = $this->createForm(new CasoType(), $entity);
+        $editForm   = $this->createForm(new FiscaliaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -157,7 +154,7 @@ class CasoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('caso_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('fiscalia_edit', array('id' => $id)));
         }
 
         return array(
@@ -168,9 +165,9 @@ class CasoController extends Controller
     }
 
     /**
-     * Deletes a Caso entity.
+     * Deletes a Fiscalia entity.
      *
-     * @Route("/{id}/delete", name="caso_delete")
+     * @Route("/{id}/delete", name="fiscalia_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -182,17 +179,17 @@ class CasoController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($id);
+            $entity = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Caso entity.');
+                throw $this->createNotFoundException('Unable to find Fiscalia entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('caso'));
+        return $this->redirect($this->generateUrl('fiscalia'));
     }
 
     private function createDeleteForm($id)

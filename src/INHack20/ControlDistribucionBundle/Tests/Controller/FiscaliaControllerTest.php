@@ -4,7 +4,7 @@ namespace INHack20\ControlDistribucionBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CasoControllerTest extends WebTestCase
+class FiscaliaControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class CasoControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/caso/');
+        $crawler = $client->request('GET', '/fiscalia/');
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'caso[field_name]'  => 'Test',
+            'fiscalia[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CasoControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'caso[field_name]'  => 'Foo',
+            'fiscalia[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

@@ -1,4 +1,4 @@
-{% extends 'INHack20ControlDistribucionBundle::layout.html.twig' %}
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 {% block contenido %}
     {% if distribucion is defined %}
         Se ha asignado El Tribunal {{ distribucion.tribunal.descripcion }} de la causa {{ distribucion.causa.nombre }}

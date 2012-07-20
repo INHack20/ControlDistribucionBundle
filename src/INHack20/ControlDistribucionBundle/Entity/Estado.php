@@ -5,12 +5,12 @@ namespace INHack20\ControlDistribucionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * INHack20\ControlDistribucionBundle\Entity\Fiscalia
+ * INHack20\ControlDistribucionBundle\Entity\Estado
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Fiscalia
+class Estado
 {
     /**
      * @var integer $id
@@ -24,17 +24,10 @@ class Fiscalia
     /**
      * @var string $nombre
      *
-     * @ORM\Column(name="nombre", type="string", length=40)
+     * @ORM\Column(name="nombre", type="string", length=20)
      */
     private $nombre;
 
-    /**
-     *
-     * @var Estado $estado
-     * @ORM\ManyToOne(targetEntity="Estado")
-     * @ORM\JoinColumn(name="estado_id", referencedColumnName="id") 
-     */
-    protected $estado;
 
     /**
      * Get id
@@ -64,25 +57,5 @@ class Fiscalia
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Estado $estado
-     */
-    public function setEstado(\INHack20\ControlDistribucionBundle\Entity\Estado $estado)
-    {
-        $this->estado = $estado;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return INHack20\ControlDistribucionBundle\Entity\Estado 
-     */
-    public function getEstado()
-    {
-        return $this->estado;
     }
 }

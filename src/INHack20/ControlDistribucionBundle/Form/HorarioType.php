@@ -15,13 +15,13 @@ class HorarioType extends AbstractType
                 'input' => 'datetime',
                 'widget' => 'choice',
                 'empty_value' => '<>',
-                //'hours' => range(1, 12),
+                'label' => 'Hora Inicio',
             ))
             ->add('horaFin','time',array(
                 'input' => 'datetime',
                 'widget' => 'choice',
                 'empty_value' => '<>',
-                //'hours' => range(1, 12),
+                'label' => 'Hora Fin',
             ))
         ;
     }
