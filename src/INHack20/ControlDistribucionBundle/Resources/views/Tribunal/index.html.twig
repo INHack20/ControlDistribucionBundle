@@ -1,30 +1,36 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
 {% block contenido %}
-    <h1>Tribunal list</h1>
+    <h1>Lista de Tribunal(es)</h1>
 
-    <table class="records_list">
+    <table class="records_Lista de ">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Nro</th>
-                <th>Habilitado</th>
-                <th>Actions</th>
+                <th>¿Hay Despacho?</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('tribunal_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('tribunal_Ver', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>Tribunal {{ entity.nro }} De {{ entity.tribunaltipo.nombre }}</td>
-                <td>{{ entity.habilitado }}</td>
+                <td>
+                    {% if entity.isdespacho %}
+                        <font color="green">SI</font>
+                    {% else %}
+                        <font color="red">NO</font>
+                    {% endif %}
+                </td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('tribunal_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('tribunal_Ver', { 'id': entity.id }) }}">Ver</a>
                         </li>
                         <li>
-                            <a href="{{ path('tribunal_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('tribunal_Editar', { 'id': entity.id }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>
@@ -36,7 +42,7 @@
     <ul>
         <li>
             <a href="{{ path('tribunal_new') }}">
-                Create a new entry
+                Registrar
             </a>
         </li>
     </ul>

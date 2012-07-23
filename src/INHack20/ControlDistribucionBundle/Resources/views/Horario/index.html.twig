@@ -1,32 +1,32 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
 {% block contenido %}
-    <h1>Horario list</h1>
+    <h1>Lista de Horario(s)</h1>
 
-    <table class="records_list">
+    <table class="records_Lista de ">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Dias</th>
-                <th>Horainicio</th>
-                <th>Horafin</th>
-                <th>Actions</th>
+                <th>Hora de Inicio</th>
+                <th>Hora de Cierre</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('horario_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('horario_Ver', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.dias }}</td>
                 <td>{% if entity.horaInicio %}{{ entity.horaInicio|date('h:i a') }}{% endif %}</td>
                 <td>{% if entity.horaFin %}{{ entity.horaFin|date('h:i a') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('horario_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('horario_Ver', { 'id': entity.id }) }}">Ver</a>
                         </li>
                         <li>
-                            <a href="{{ path('horario_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('horario_Editar', { 'id': entity.id }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>
@@ -38,7 +38,7 @@
     <ul>
         <li>
             <a href="{{ path('horario_new') }}">
-                Create a new entry
+                Registrar
             </a>
         </li>
     </ul>

@@ -4,9 +4,9 @@
     </li>
 </ul>
 {% for tipotribunal in tipoTribunales %}
-     <ul>{{ tipotribunal.nombre }}
+     <ul>Causas del Tribunal de {{ tipotribunal.nombre }}
              {% for causa in tipotribunal.causas %}
-                 <li><a href="{{ path('caso_new',{ 'idCausa' : causa.id}) }}">ID = {{ causa.id }} {{ causa.nombre}}</a></li>
+                 <li><a href="{{ path('caso_new',{ 'idCausa' : causa.id}) }}">{{ causa.nombre}}</a></li>
              {% endfor %}
      </ul>              
 {% endfor %}

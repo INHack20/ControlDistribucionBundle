@@ -10,23 +10,23 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Fiscaliaprocedencia</th>
-                <td>{{ entity.fiscalia.nombre }}</td>
+                <th>Procedencia</th>
+                <td>Fiscalia {{ entity.fiscalia.nombre }}</td>
             </tr>
             <tr>
-                <th>Nrocausafiscal</th>
+                <th>N&deg; Asunto Fiscal</th>
                 <td>{{ entity.nroAsuntoFiscal }}</td>
             </tr>
             <tr>
-                <th>Nrooficiofiscal</th>
+                <th>N&deg; Oficio Fiscal</th>
                 <td>{{ entity.nroOficioFiscal }}</td>
             </tr>
             <tr>
-                <th>Nombreimputado</th>
+                <th>Nombre del Imputado</th>
                 <td>{{ entity.nombreImputado }}</td>
             </tr>
             <tr>
-                <th>Nombrevictima</th>
+                <th>Nombre de la Victima</th>
                 <td>{{ entity.nombreVictima }}</td>
             </tr>
             <tr>
@@ -39,18 +39,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('caso') }}">
-                Back to the list
+                Regresar a la Lista
             </a>
         </li>
         <li>
-            <a href="{{ path('caso_edit', { 'id': entity.id }) }}">
-                Edit
+            <a href="{{ path('caso_Editar', { 'id': entity.id }) }}">
+                Editar
             </a>
         </li>
         <li>
             <form action="{{ path('caso_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">Eliminar</button>
             </form>
         </li>
     </ul>

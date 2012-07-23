@@ -14,11 +14,11 @@
                 <td>{{ entity.dias }}</td>
             </tr>
             <tr>
-                <th>Horainicio</th>
+                <th>Hora de Inicio</th>
                 <td>{{ entity.horaInicio|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Horafin</th>
+                <th>Hora de Cierre</th>
                 <td>{{ entity.horaFin|date('Y-m-d H:i:s') }}</td>
             </tr>
         </tbody>
@@ -27,18 +27,18 @@
     <ul class="record_actions">
         <li>
             <a href="{{ path('horario') }}">
-                Back to the list
+                Regresar a la Lista
             </a>
         </li>
         <li>
-            <a href="{{ path('horario_edit', { 'id': entity.id }) }}">
-                Edit
+            <a href="{{ path('horario_Editar', { 'id': entity.id }) }}">
+                Editar
             </a>
         </li>
         <li>
             <form action="{{ path('horario_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button type="submit">Delete</button>
+                <button type="submit">Eliminar</button>
             </form>
         </li>
     </ul>

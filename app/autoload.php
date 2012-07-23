@@ -17,6 +17,7 @@ $loader->registerNamespaces(array(
     'FOS' => __DIR__.'/../vendor/bundles',
     'Doctrine\\Common\\DataFixtures' => __DIR__.'/../vendor/doctrine-fixtures/lib',
     'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
+    'WhiteOctober' => __DIR__.'/../vendor/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
@@ -42,3 +43,15 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
 AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
 
 require __DIR__.'/../vendor/swiftmailer/lib/swift_required.php';
+
+function myLoader()
+{
+    $file = __DIR__ . '/../vendor/tcpdf/tcpdf.php';
+    if (!file_exists($file))
+    {
+        return false;
+    }
+    require_once $file;
+}
+
+spl_autoload_register('myLoader');

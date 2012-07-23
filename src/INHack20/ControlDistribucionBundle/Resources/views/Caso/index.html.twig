@@ -1,26 +1,26 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 
 {% block contenido %}
-    <h1>Caso list</h1>
+    <h1>Casos</h1>
 
-    <table class="records_list">
+    <table class="records_Lista de ">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Fiscaliaprocedencia</th>
-                <th>Nrocausafiscal</th>
-                <th>Nrooficiofiscal</th>
-                <th>Nombreimputado</th>
-                <th>Nombrevictima</th>
+                <th>Procedencia</th>
+                <th>N&deg; Asutno Fiscal</th>
+                <th>N&deg; Oficio Fiscal</th>
+                <th>Nombre del Imputado</th>
+                <th>Nombre de la Victima</th>
                 <th>Pieza</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('caso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.fiscalia.nombre }}</td>
+                <td><a href="{{ path('caso_Ver', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>Fiscalia{{ entity.fiscalia.nombre }}</td>
                 <td>{{ entity.nroAsuntoFiscal }}</td>
                 <td>{{ entity.nroOficioFiscal }}</td>
                 <td>{{ entity.nombreImputado }}</td>
@@ -29,10 +29,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('caso_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('caso_Ver', { 'id': entity.id }) }}">Ver</a>
                         </li>
                         <li>
-                            <a href="{{ path('caso_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('caso_Editar', { 'id': entity.id }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>
@@ -41,11 +41,5 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('caso_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+    
 {% endblock %}
