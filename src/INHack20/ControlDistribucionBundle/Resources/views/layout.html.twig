@@ -3,28 +3,54 @@
 <head>
 <title>
     {% block titulo %}
-        DEM
+            DEM
     {% endblock %}
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-
+<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 {% block css %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/inhack20controldistribucion/css/layout.css') }}" />
 {% endblock %}
-
 </head>
-<body>
-    <div id="menu">
-        {% block menu %}
-            {% render 'INHack20ControlDistribucionBundle:Principal:menu' %}
-        {% endblock  %}
-    </div>  
- <div id="contenido">
-     {% block contenido %}
-         
-     {% endblock %}
-</div>
+<body class="gradiente">    
+    
+    <div id="wrapper">
+           <div id="headerwrap">
+                <div id="header">
+                     
+                </div>
+            </div>
+        <div id="navigationwrap">
+            <div id="navigation">
+                <p>This is the Menu</p>
+            </div>
+        </div>
+        <div id="leftcolumnwrap">
+            <div id="leftcolumn">
+                <p>
+                {% block menu %}
+                    {% render 'INHack20ControlDistribucionBundle:Principal:menu' %}
+                {% endblock  %}
+                </p>
+            </div>
+        </div>
+        <div id="contentwrap">
+            <div id="content">
+            {% block contenido %}
+                    <p>Este es el contenido</p>
+                {% endblock %}
+            </div>
+        </div>
+        <div id="footerwrap">
+            <div id="footer">
+                {% block pie %}
+                    <p>This is the Footer</p>
+                {% endblock  %}
+            </div>
+        </div>
+    </div>
+   
 </body>
 </html>
