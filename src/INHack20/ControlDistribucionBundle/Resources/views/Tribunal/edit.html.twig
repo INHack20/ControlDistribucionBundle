@@ -3,8 +3,8 @@
 {% block contenido %}
     <h1>Editar Tribunal</h1>
 
-    <form action="{{ path('tribunal_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(Editar_form) }}>
-        {{ form_widget(Editar_form) }}
+    <form action="{{ path('tribunal_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        {{ form_widget(edit_form) }}
         <p>
             <button type="submit">Editar</button>
         </p>

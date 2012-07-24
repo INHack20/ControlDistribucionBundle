@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
             new INHack20\UserBundle\INHack20UserBundle(),
             new INHack20\ControlDistribucionBundle\INHack20ControlDistribucionBundle(),
+            new MakerLabs\PagerBundle\MakerLabsPagerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

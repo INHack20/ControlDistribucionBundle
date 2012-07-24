@@ -40,7 +40,7 @@ class Caso
     /**
      * @var string $nroOficioFiscal
      *
-     * @ORM\Column(name="nroOficioFiscal", type="string", length=40)
+     * @ORM\Column(name="nroOficioFiscal", type="string", length=40, nullable=true)
      */
     private $nroOficioFiscal;
 
@@ -82,7 +82,7 @@ class Caso
     /**
      *
      * @var Distribucion $distribucion
-     * @ORM\OneToOne(targetEntity="Distribucion") 
+     * @ORM\OneToOne(targetEntity="Distribucion", cascade={"persist","remove"}) 
      * @ORM\JoinColumn(name="distribucion_id", referencedColumnName="id")
      */
     protected $distribucion;

@@ -13,26 +13,28 @@
                 <th>Nombre del Imputado</th>
                 <th>Nombre de la Victima</th>
                 <th>Pieza</th>
+                <th>Tribunal</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('caso_Ver', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>Fiscalia{{ entity.fiscalia.nombre }}</td>
+                <td><a href="{{ path('caso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.fiscalia.nombre }}</td>
                 <td>{{ entity.nroAsuntoFiscal }}</td>
                 <td>{{ entity.nroOficioFiscal }}</td>
                 <td>{{ entity.nombreImputado }}</td>
                 <td>{{ entity.nombreVictima }}</td>
                 <td>{{ entity.pieza }}</td>
+                <td>{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('caso_Ver', { 'id': entity.id }) }}">Ver</a>
+                            <a href="{{ path('caso_show', { 'id': entity.id }) }}">Ver</a>
                         </li>
                         <li>
-                            <a href="{{ path('caso_Editar', { 'id': entity.id }) }}">Editar</a>
+                            <a href="{{ path('caso_edit', { 'id': entity.id }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>

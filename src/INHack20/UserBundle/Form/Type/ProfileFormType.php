@@ -29,23 +29,9 @@ class ProfileFormType extends BaseType
                     'label' => 'Unidad Administrativa',
                 ))
                 ->add('estado','entity',array(
-                    'class' => 'INHack20\InventarioBundle\Entity\Estado',
-                    'property' => 'descripcion',
+                    'class' => 'INHack20\ControlDistribucionBundle\Entity\Estado',
+                    'property' => 'nombre',
                     'empty_value' => 'Seleccione',
-                ))
-                ->add('firmaDirector','entity',array(
-                    'label' => 'Firma del Director',
-                    'class' => 'INHack20\InventarioBundle\Entity\Firma',
-                    'property' => 'descripcion',
-                    'empty_value' => 'Seleccione',
-                    'required' => false,
-                ))
-                ->add('firmaDivision','entity',array(
-                    'label' => 'Firma Jefe Division',
-                    'class' => 'INHack20\InventarioBundle\Entity\Firma',
-                    'property' => 'descripcion',
-                    'empty_value' => 'Seleccione',
-                    'required' => false,
                 ))
                 ;
     }
@@ -54,5 +40,5 @@ class ProfileFormType extends BaseType
     {
         return 'inhack20_user_profile';
     }
-    public function __construct(){}
+    //public function __construct(){}
 }

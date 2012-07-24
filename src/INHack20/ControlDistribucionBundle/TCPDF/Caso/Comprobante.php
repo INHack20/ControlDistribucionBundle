@@ -10,18 +10,17 @@ namespace INHack20\ControlDistribucionBundle\TCPDF\Caso;
 class Comprobante extends \TCPDF{
     
     private $logo;
+    private $nroControlInterno;
+    private $nombre;
+    private $cargo;
 
     //Page header
     public function Header() {
-        //echo $this->getAssetUrl('s.js');
-        // Logo
-        $image_file =$this->logo;
-        //$this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Set font
         $this->SetFont('helvetica', 'B', 12);
         // Title
         //$this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-        
+        $fechaHoy = new \DateTime();
         $html ='
             
                             <p style="margin-bottom: 0cm;" align="center">
@@ -32,12 +31,12 @@ class Comprobante extends \TCPDF{
                             <p style="margin-bottom: 0cm; line-height: 1" align="center">Unidad de Recepción y
                                 Distribución de Documentos del Circuito Judicial Penal del Edo.Apure<br/>
                                 Área de Alguacilazgo<br/>
-                                San Fernando de Apure, <b>17 de Julio de 2012</b><br/>
+                                San Fernando de Apure, <b>'.$fechaHoy->format('d-m-Y').'</b><br/>
                                 <b>202 ° y 153 °</b>
                             </p>
                             <br/>
                             <p style="margin-bottom: 0cm;" align="right">
-                                N° Control Interno: 001
+                                N° Control Interno: '.$this->nroControlInterno.'
                             </p>
                        
         ';
@@ -57,7 +56,7 @@ class Comprobante extends \TCPDF{
                         <tbody>
                             <tr>
                                 <td style="text-align: center;">
-                                    MANUEL SILVA<br>EL JEFE DE LA UNIDAD<br>
+                                    '.$this->nombre.'<br>'.$this->cargo.'<br>
                                 </td>
                                 <td style="vertical-align: top; text-align: center;">
                                     RECIBIDO<br>
@@ -71,11 +70,21 @@ class Comprobante extends \TCPDF{
         $this->SetY(-40);
         $this->writeHTML($html, true, false, true, false, '');
         // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 10, 'Pagina '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
     
     public function setLogo($logo) {
         $this->logo = $logo;
     }
+    public function setNroControlInterno($nroControlInterno) {
+        $this->nroControlInterno = $nroControlInterno;
+    }
 
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function setCargo($cargo) {
+        $this->cargo = $cargo;
+    }
 }

@@ -1,14 +1,23 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 {% block contenido %}
     <h1>Registro de Caso</h1>
-
-    <form action="{{ path('caso_create') }}" method="post" {{ form_enctype(form) }}>
+    
+    Destino: Tribunal de {{ causa.tribunaltipo.nombre }}<br/>
+    Causa: {{ causa.nombre }}<br/><br/><br/>
+    
+    <form action="{{ path('caso_create',{'idCausa' : causa.id }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Registrar</button>
         </p>
     </form>
-
+    
+    {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
+        {% for error in erroesDistribucion %}
+            <font color="red">{{ error }}</font><br/>
+        {% endfor%}
+    {% endif %}
+    
     <ul class="record_actions">
         <li>
             <a href="{{ path('caso') }}">

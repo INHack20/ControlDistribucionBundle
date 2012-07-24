@@ -1,0 +1,12 @@
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
+
+{% block contenido %}
+<h1>Ver Resumen de Casos</h1>
+
+<form action="{{ path('caso_resumen') }}" method="post" {{ form_enctype(form) }} >
+    {{ form_widget(form) }}
+        <p>
+            <button type="submit">Ver Resumen</button>
+        </p>
+</form>
+{% endblock %}

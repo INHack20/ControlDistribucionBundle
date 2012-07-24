@@ -11,6 +11,8 @@ app/bootstrap*
 *.sql
 *.tar.*
 *.zip
+# Comandos mas usados
+*.cmd
 
 # Symfony directories
 */logs/*

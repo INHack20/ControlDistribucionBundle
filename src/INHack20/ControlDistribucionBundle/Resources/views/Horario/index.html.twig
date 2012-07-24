@@ -16,17 +16,17 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('horario_Ver', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('horario_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.dias }}</td>
                 <td>{% if entity.horaInicio %}{{ entity.horaInicio|date('h:i a') }}{% endif %}</td>
                 <td>{% if entity.horaFin %}{{ entity.horaFin|date('h:i a') }}{% endif %}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('horario_Ver', { 'id': entity.id }) }}">Ver</a>
+                            <a href="{{ path('horario_show', { 'id': entity.id }) }}">Ver</a>
                         </li>
                         <li>
-                            <a href="{{ path('horario_Editar', { 'id': entity.id }) }}">Editar</a>
+                            <a href="{{ path('horario_edit', { 'id': entity.id }) }}">Editar</a>
                         </li>
                     </ul>
                 </td>

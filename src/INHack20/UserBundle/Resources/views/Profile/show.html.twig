@@ -1,8 +1,4 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
-{% block css %}
-{{ parent() }}
-    {% include 'INHack20InventarioBundle:Principal:formatotabla.html.twig' %}
-{% endblock %}
 {% block fos_user_content %}
 {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 {% endblock fos_user_content %}

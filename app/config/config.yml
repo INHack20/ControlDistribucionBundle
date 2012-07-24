@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.ini }
     - { resource: security.yml }
+    - { resource: @INHack20UserBundle/Resources/config/services.yml }
 
 framework:
     #esi:             ~
@@ -83,6 +84,3 @@ fos_user:
             from_email:
                 address:        inhack20@gmail.com
                 sender_name:    Ing. Carlos Mendoza
-                
-white_october_tcpdf:
-    class: INHack20\ControlDistribucionBundle\TCPDF\Caso\Comprobante

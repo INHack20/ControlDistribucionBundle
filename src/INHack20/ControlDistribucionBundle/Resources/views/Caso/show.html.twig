@@ -11,7 +11,7 @@
             </tr>
             <tr>
                 <th>Procedencia</th>
-                <td>Fiscalia {{ entity.fiscalia.nombre }}</td>
+                <td>{{ entity.fiscalia.nombre }}</td>
             </tr>
             <tr>
                 <th>N&deg; Asunto Fiscal</th>
@@ -33,17 +33,26 @@
                 <th>Pieza</th>
                 <td>{{ entity.pieza }}</td>
             </tr>
+            <tr>
+                <th>Tribunal Asignado</th>
+                <td>{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}</td>
+            </tr>
         </tbody>
     </table>
 
     <ul class="record_actions">
+        <li>
+            <a href="{{ path('caso_comprobante',{'idCaso' : entity.id }) }}">
+                Ver Comprobante
+            </a>
+        </li>
         <li>
             <a href="{{ path('caso') }}">
                 Regresar a la Lista
             </a>
         </li>
         <li>
-            <a href="{{ path('caso_Editar', { 'id': entity.id }) }}">
+            <a href="{{ path('caso_edit', { 'id': entity.id }) }}">
                 Editar
             </a>
         </li>
