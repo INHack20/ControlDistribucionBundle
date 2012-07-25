@@ -1,12 +1,98 @@
-<ul>
-    <li>
-        <a href="{{ path('_bienvenido') }}">Inicio</a>
-    </li>
-</ul>
-{% for tipotribunal in tipoTribunales %}
-     <ul>Causas del Tribunal de {{ tipotribunal.nombre }}
-             {% for causa in tipotribunal.causas %}
-                 <li><a href="{{ path('caso_new',{ 'idCausa' : causa.id}) }}">{{ causa.nombre}}</a></li>
-             {% endfor %}
-     </ul>              
-{% endfor %}
+<script type="text/javascript">
+    $(document).ready(function($){
+
+            $('#mega-menu').dcMegaMenu({
+                    rowItems: '3',
+                    speed: 'fast',
+                    effect: 'fade'
+            });
+    });
+</script>
+<link href="{{ asset('bundles/inhack20controldistribucion/css/grey.css') }}" rel="stylesheet" type="text/css" />
+
+    <div class="menu">
+        <div class="grey">  
+            <ul id="mega-menu" class="mega-menu">
+                    <li><a href="{{ path('_bienvenido') }}">Inicio</a></li>
+                    <li><a href="#">Tribunales</a>
+                            <ul>
+                                    {% for tipotribunal in tipoTribunales %}
+                                    <li><a href="#">{{ tipotribunal.nombre }}</a>
+                                        <ul>
+                                                {% for causa in tipotribunal.causas %}
+                                                    <li><a href="{{ path('caso_new',{ 'idCausa' : causa.id}) }}">{{ causa.nombre}}</a></li>
+                                                {% endfor %}
+                                        </ul>              
+                                    {% endfor %}
+                            </ul>
+                    </li>
+                <li><a href="#">Consultas</a>
+                    <ul>
+                        <li><a href="#">Special Offers</a>
+                            <ul>
+                                    <li><a href="#">Offer 1</a></li>
+                                    <li><a href="#">Offer 2</a></li>
+                                    <li><a href="#">Offer 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Reduced Price</a>
+                            <ul>
+                                    <li><a href="#">Offer 4</a></li>
+                                    <li><a href="#">Offer 5</a></li>
+                                    <li><a href="#">Offer 6</a></li>
+                                    <li><a href="#">Offer 7</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Clearance Items</a>
+                            <ul>
+                                    <li><a href="#">Offer 9</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="menu-item-129"><a href="#">Ex-Stock</a>
+                            <ul>
+                                    <li><a href="#">Offer 10</a></li>
+                                    <li><a href="#">Offer 11</a></li>
+                                    <li><a href="#">Offer 12</a></li>
+                                    <li><a href="#">Offer 13</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">Configuraci&oacute;n</a>
+                    <ul>
+                        <li><a href="#">Special Offers</a>
+                            <ul>
+                                    <li><a href="#">Offer 1</a></li>
+                                    <li><a href="#">Offer 2</a></li>
+                                    <li><a href="#">Offer 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Reduced Price</a>
+                            <ul>
+                                    <li><a href="#">Offer 4</a></li>
+                                    <li><a href="#">Offer 5</a></li>
+                                    <li><a href="#">Offer 6</a></li>
+                                    <li><a href="#">Offer 7</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Clearance Items</a>
+                            <ul>
+                                    <li><a href="#">Offer 9</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="menu-item-129"><a href="#">Ex-Stock</a>
+                            <ul>
+                                    <li><a href="#">Offer 10</a></li>
+                                    <li><a href="#">Offer 11</a></li>
+                                    <li><a href="#">Offer 12</a></li>
+                                    <li><a href="#">Offer 13</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="{{ path('fos_user_security_logout') }}">Cerrar Sesi&oacute;n</a></li>
+            </ul>
+        </div>
+    </div>

@@ -1,0 +1,29 @@
+<script type="text/javascript">
+			$(function(){
+
+				// Datepicker
+				$('#datepicker').datepicker({
+					inline: true
+				});
+
+				
+
+			});
+</script>
+<fieldset style="border:2px solid; padding: 10px;">
+    <legend>Tribunales</legend>
+    
+        {% for tipotribunal in tipoTribunales %}
+    <a href="#{{ tipotribunal.nombre }}"><button class="css3button" style="cursor: pointer">{{ tipotribunal.nombre | upper }}</button></a><br/><br/>
+        {% endfor %}
+    
+</fieldset>
+<style type="text/css">
+        #datepicker{
+            font: 72.5% "Trebuchet MS", sans-serif;
+            
+            margin: 20px auto 0;
+        }
+</style>
+<!-- Datepicker -->
+<div id="datepicker"></div>

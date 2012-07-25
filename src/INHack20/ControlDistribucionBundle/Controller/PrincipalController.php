@@ -23,17 +23,25 @@ class PrincipalController extends Controller
      * 
      * @Template()
      */
-    public function menuAction()
+    public function menuLateralAction()
     {
-         $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
         
         $tipoTribunales = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->findAll();
         
         return array('tipoTribunales' => $tipoTribunales);
     }
-    
-    private function getAssetUrl($path, $packageName = null)
+    /**
+     * Genera el menu dinamicamente de acuerdo a los datos almacenados.
+     * 
+     * @Template()
+     */
+    public function menuAction()
     {
-        return $this->container->get('templating.helper.assets')->getUrl($path, $packageName);
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $tipoTribunales = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->findAll();
+        
+        return array('tipoTribunales' => $tipoTribunales);
     }
 }
