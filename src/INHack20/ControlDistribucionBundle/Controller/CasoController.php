@@ -10,6 +10,8 @@ use INHack20\ControlDistribucionBundle\Entity\Caso;
 use INHack20\ControlDistribucionBundle\Form\CasoType;
 use INHack20\ControlDistribucionBundle\TCPDF\Caso\Resumen;
 use INHack20\ControlDistribucionBundle\Entity\Distribucion;
+use MakerLabs\PagerBundle\Pager;
+use MakerLabs\PagerBundle\Adapter\DoctrineOrmAdapter;
 
 /**
  * Caso controller.
@@ -21,16 +23,59 @@ class CasoController extends Controller
     /**
      * Lists all Caso entities.
      *
-     * @Route("/", name="caso")
+     * @Route("/{page}", name="caso", requirements={"page" = "\d+"}, defaults={"page" = "1"})
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->findAll();
-
-        return array('entities' => $entities);
+        
+        $qb = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->createQueryBuilder('c');
+        $adapter = new DoctrineOrmAdapter($qb);
+        $paginador = new Pager($adapter, array('page' => $page,'limit' => 3));
+        $formBuscar = $this->createFormBuscar();
+        
+        return array(
+            'paginador' => $paginador,
+            'formBuscar' => $formBuscar->createView(),
+            );
+    }
+    
+    private function createFormBuscar(){
+        return $this->createFormBuilder()
+                ->add('tipobusqueda','choice',array(
+                 'label' => 'Tipo De Busqueda',
+                 'choices' => array('1' => 'Fecha',
+                                    '2' => 'Ubicacion',
+                                    '3' => 'Todos',
+                     ),
+                 'empty_value' => 'Seleccione',
+                ))
+                ->add('fecha','date',array(
+                    'input' => 'datetime',
+                    'widget' => 'single_text',
+                    'required' => 'false',
+                ))
+                ->add('tribunal','entity',array(
+                    'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Tribunal',
+                    'property' => 'descripcion',
+                    'empty_value' => 'Seleccione',
+                    'required' => false,
+                ))
+                ->add('tribunaltipo','entity',array(
+                    'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\TribunalTipo',
+                    'property' => 'nombre',
+                    'empty_value' => 'Seleccione',
+                    'required' => false,
+                    'label' => 'Tipo de Tribunal'
+                ))
+                ->add('causa','entity',array(
+                    'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Causa',
+                    'property' => 'nombre',
+                    'empty_value' => 'Seleccione',
+                    'required' => false,
+                ))->getForm()
+                ;
     }
 
     /**
@@ -428,9 +473,9 @@ class CasoController extends Controller
                     del Ministerio Público, relacionado con el asunto Fiscal N°
                     <b>'.$caso->getNroAsuntoFiscal().'</b>,
                      seguido al imputado:
-                    <b>'.$caso->getNombreImputado().',</b>
+                    <b>'.strtoupper($caso->getNombreImputado()).',</b>
                      por la presunta comisiona de un delito en perjuicio de la víctima
-                    <b>'.$caso->getNombreVictima().'.</b></p>
+                    <b>'.strtoupper($caso->getNombreVictima()).'.</b></p>
         
             ';
         

@@ -1,0 +1,13 @@
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
+
+{% block contenido %}
+    <h1>Tribunal de {{ tribunalTipo.nombre }}</h1>
+    <br/><br/><br/>
+    <fieldset style="width: 150px; margin: auto">
+        <legend>Causas</legend>
+            {% for causa in tribunalTipo.causas %}
+        <a href="{{ path('caso_new',{'idCausa' : causa.id }) }}" style="text-decoration: none"><button class="css3button" style="cursor: pointer">{{ causa.nombre | upper }}</button></a><br/><br/>
+            {% endfor %}
+    </fieldset>
+   
+{% endblock %}

@@ -60,7 +60,7 @@ class Comprobante extends \TCPDF{
                                 </td>
                                 <td style="vertical-align: top; text-align: center;">
                                     RECIBIDO<br>
-                                    SECRETARIA<br>
+                                    SECRETARIO(A)<br>
                                 </td>
                             </tr>
                         </tbody>

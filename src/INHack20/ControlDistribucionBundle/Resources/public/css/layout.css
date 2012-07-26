@@ -6,8 +6,9 @@ body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 13px;
     color:#333;
-    margin: 10px;
+    margin: 5px;
     
+        
     /*min-height: 650px;*/
     background: #5b729b; /* Old browsers */
     background: -moz-linear-gradient(top,  #5b729b 0%, #44629b 41%, #44629b 50%, #506b9b 68%, #5b729b 100%); /* FF3.6+ */
@@ -21,22 +22,56 @@ body {
 }
 
 fieldset {
-    -moz-border-radius: 21px;
-    -webkit-border-radius: 21px;
-    border-radius: 21px;
+    border:2px solid;
+    padding: 10px;
+    background: #6f81ff;
+    float: none;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
     /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
 }
+legend
+{
+    color: #000000;
+    font-size:1.3em;
+    font-weight: bold;
+    font-variant:small-caps;
+
+    margin-left: 1em;
+    padding:0px 5px;
+}
+
 
 p {
     padding: 10px;
 }
 
+h1{
+    text-align: center;
+    font-size: 30px;
+}
+
+b{
+   font: 100 140% sans-serif bold;
+   color: #000000;
+}
+table{
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin: auto;
+}
+table label{
+   font: 100 120% sans-serif bold;
+   color: #000000;
+}
 button.css3button {
+        cursor: pointer;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #ffffff;
 	padding: 10px 20px;
-        min-width: 160px;        
+        min-width: 160px;
 	background: -moz-linear-gradient(
 		top,
 		#f0f0f0 0%,
@@ -65,6 +100,13 @@ button.css3button {
 	text-shadow:
 		0px -1px 0px rgba(000,000,000,0.4),
 		0px 1px 0px rgba(255,255,255,0.3);
+}
+
+.reloj{
+    
+    float: right;
+    margin: -25px 10px auto auto;
+    position: relative;
 }
 
 #wrapper {
@@ -112,7 +154,7 @@ button.css3button {
     border: 1px solid #1fb8eb;
     margin: 5px;
     padding: 30px;
-    min-height: 338px;
+    min-height: 355px;
     
     /* Gradiente */
     background: #cedbe8; /* Old browsers */

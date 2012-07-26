@@ -178,6 +178,9 @@ class Distribucion
             5 =>'VIE',
             6 =>'SAB',
         );
+        $diasCompletos = array (
+            'Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'
+        );
         //print_r($dias);   
         
         //echo '<br/>Cantidad de horarios = '.count($horarios).'<br/>';
@@ -287,7 +290,7 @@ class Distribucion
                  $errores [] = 'En esta hora  '.$fechaHoy->format('h:i a').', no se permite la insercion de la causa '.$causa->getNombre();
         }
         else
-           $errores [] = 'Los dias '.$dias[$fechaHoy->format('w')].' no se permite la insercion de la causa '.$causa->getNombre();
+           $errores [] = 'Los dias '.$diasCompletos[$fechaHoy->format('w')].' no se permite la insercion de la causa '.$causa->getNombre();
         
         if($distribuir){
         

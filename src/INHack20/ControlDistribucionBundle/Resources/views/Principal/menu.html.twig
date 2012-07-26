@@ -28,71 +28,64 @@
                     </li>
                 <li><a href="#">Consultas</a>
                     <ul>
-                        <li><a href="#">Special Offers</a>
+                        <li><a href="#">Casos</a>
                             <ul>
-                                    <li><a href="#">Offer 1</a></li>
-                                    <li><a href="#">Offer 2</a></li>
-                                    <li><a href="#">Offer 3</a></li>
+                                    <li><a href="#">Diario</a></li>
+                                    <li><a href="#">Semanal</a></li>
+                                    <li><a href="{{ path('caso') }}">Todos</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Reduced Price</a>
+                        <li><a href="#">Estadistica</a>
                             <ul>
-                                    <li><a href="#">Offer 4</a></li>
-                                    <li><a href="#">Offer 5</a></li>
-                                    <li><a href="#">Offer 6</a></li>
-                                    <li><a href="#">Offer 7</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Clearance Items</a>
-                            <ul>
-                                    <li><a href="#">Offer 9</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="menu-item-129"><a href="#">Ex-Stock</a>
-                            <ul>
-                                    <li><a href="#">Offer 10</a></li>
-                                    <li><a href="#">Offer 11</a></li>
-                                    <li><a href="#">Offer 12</a></li>
-                                    <li><a href="#">Offer 13</a></li>
+                                    <li><a href="#">Diario</a></li>
+                                    <li><a href="#">Semanal</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li><a href="#">Configuraci&oacute;n</a>
                     <ul>
-                        <li><a href="#">Special Offers</a>
-                            <ul>
-                                    <li><a href="#">Offer 1</a></li>
-                                    <li><a href="#">Offer 2</a></li>
-                                    <li><a href="#">Offer 3</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reduced Price</a>
-                            <ul>
-                                    <li><a href="#">Offer 4</a></li>
-                                    <li><a href="#">Offer 5</a></li>
-                                    <li><a href="#">Offer 6</a></li>
-                                    <li><a href="#">Offer 7</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Clearance Items</a>
-                            <ul>
-                                    <li><a href="#">Offer 9</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="menu-item-129"><a href="#">Ex-Stock</a>
-                            <ul>
-                                    <li><a href="#">Offer 10</a></li>
-                                    <li><a href="#">Offer 11</a></li>
-                                    <li><a href="#">Offer 12</a></li>
-                                    <li><a href="#">Offer 13</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{{ path('tribunal') }}">Tribunales</a></li>
+                        <li><a href="{{ path('tribunaltipo') }}">Tipos de Tribunales</a></li>
+                        <li><a href="{{ path('causa') }}">Causas</a></li>
+                        <li><a href="{{ path('fiscalia') }}">Fiscalias</a></li>
+                        <li><a href="{{ path('horario') }}">Horarios</a></li>
+                        <li><a href="{{ path('grupo') }}">Grupos de Horarios</a></li>
+                        <li><a href="{{ path('fos_user_lista_usuarios') }}">Usuarios</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ path('fos_user_security_logout') }}">Cerrar Sesi&oacute;n</a></li>
             </ul>
+                
+                
         </div>
+        
+            
+    </div>
+    
+<div class="reloj">
+        <div id="hora"></div>
+        <script>
+            var Digital=new Date('{{ "now"|date('d M Y G:i:s') }}');
+            function show(){
+                var hours=Digital.getHours();
+                var minutes=Digital.getMinutes();
+                var seconds=Digital.getSeconds();
+                var dn="AM";
+                if (hours>12){
+                    dn="PM";
+                    hours=hours-12;
+                }
+                if (hours==0)
+                    hours=12;
+                if (minutes<=9)
+                    minutes="0"+minutes;
+                if (seconds<=9)
+                    seconds="0"+seconds;
+                document.getElementById('hora').innerHTML="Hora: "+hours+":"+minutes+":"+seconds+" "+dn;
+                Digital.setSeconds(Digital.getSeconds()+1);
+                    setTimeout("show()",1000)
+                }
+        show();
+        </script>
     </div>

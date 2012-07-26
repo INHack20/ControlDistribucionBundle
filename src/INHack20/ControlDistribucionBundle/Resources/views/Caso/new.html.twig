@@ -1,28 +1,134 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 {% block contenido %}
     <h1>Registro de Caso</h1>
-    
-    Destino: Tribunal de {{ causa.tribunaltipo.nombre }}<br/>
-    Causa: {{ causa.nombre }}<br/><br/><br/>
-    
-    <form action="{{ path('caso_create',{'idCausa' : causa.id }) }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit">Registrar</button>
-        </p>
-    </form>
-    
+    <br/><br/>
     {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
         {% for error in erroesDistribucion %}
             <font color="red">{{ error }}</font><br/>
         {% endfor%}
+        <br/>
     {% endif %}
+    <fieldset>
+        <legend>Infomacion</legend>
+        <b style="text-transform: uppercase;">Destino: Tribunal de {{ causa.tribunaltipo.nombre }}<br/><br/>
+            Causa: {{ causa.nombre }}</b> 
+    </fieldset>
+    <br/><br/><br/>
+    <fieldset>
+         <legend>Datos de Causa</legend>
+            <form action="{{ path('caso_create',{'idCausa' : causa.id }) }}" method="post" {{ form_enctype(form) }}>
+
+                    <br/><br/>            
+                    <table style="text-align: left;" border="1" cellpadding="2"
+                        cellspacing="2">
+                        <tbody>
+                            {{ form_row(form.estado) }}
+                            {{ form_row(form.fiscalia) }}
+                            {{ form_row(form.nroAsuntoFiscal) }}
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.nroOficioFiscal) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.nroOficioFiscal) }}
+                                        {{ form_errors(form.nroOficioFiscal) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(form.nroOficioDesconocido) }}
+                                        {{ form_widget(form.nroOficioDesconocido) }}
+                                        {{ form_errors(form.nroOficioDesconocido) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.nombreImputado) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.nombreImputado) }}
+                                        {{ form_errors(form.nombreImputado) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(form.nombreImputadoDesconocido) }}
+                                        {{ form_widget(form.nombreImputadoDesconocido) }}
+                                        {{ form_errors(form.nombreImputadoDesconocido) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(form.nombreVictima) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(form.nombreVictima) }}
+                                        {{ form_errors(form.nombreVictima) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(form.nombreVictimaDesconocido) }}
+                                        {{ form_widget(form.nombreVictimaDesconocido) }}
+                                        {{ form_errors(form.nombreVictimaDesconocido) }}
+                                    </td>
+                                </tr>
+                            {{ form_row(form.pieza) }}
+                        </tbody>
+                    </table>
+
+                    {{ form_rest(form) }}
+                    <br/><br/>
+                    <p align="center">
+                        <button type="submit" class="css3button">Registrar</button>
+                    </p>
+
+            </form>
+    </fieldset>
+{% endblock %}
+{% block javascript %}
+    var desconocido = "desconocido";
+    $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").removeAttr("readonly");
+         }
+    });
+    $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").removeAttr("readonly");
+         }
+    });
+    $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").removeAttr("readonly");
+         }
+    });
     
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('caso') }}">
-                Regresar a la Lista
-            </a>
-        </li>
-    </ul>
+    if($("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value") == desconocido)
+        $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+        
+    if($("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value") == desconocido)
+        $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
+        
+    if($("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value") == desconocido)
+        $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+        
 {% endblock %}

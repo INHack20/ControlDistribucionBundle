@@ -199,4 +199,21 @@ class TribunalTipoController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Se encarga de listar las causas que se procesan en un tipo de tribunal
+     * @Route("/{id}/causas", name="tribunaltipo_causas") 
+     * @Template()
+     */
+    public function causasAction($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $tribunaltipo = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->find($id);
+        if(!$tribunaltipo)
+        {
+            throw $this->createNotFoundException('No se ha encontrado la entidad TribunalTipo');
+        }
+        return array(
+            'tribunalTipo' => $tribunaltipo,
+        );
+    }
 }

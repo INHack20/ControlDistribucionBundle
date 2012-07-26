@@ -3,13 +3,77 @@
 {% block contenido %}
     <h1>Editar Caso</h1>
 
-    <form action="{{ path('caso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        {{ form_widget(edit_form) }}
-        <p>
-            <button type="submit">Editar</button>
-        </p>
-    </form>
+   <br/><br/>
 
+    <fieldset>
+         <legend>Datos de Causa</legend>
+             <form action="{{ path('caso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+                    <br/><br/>            
+                    <table style="text-align: left;" border="1" cellpadding="2"
+                        cellspacing="2">
+                        <tbody>
+                            {{ form_row(edit_form.estado) }}
+                            {{ form_row(edit_form.fiscalia) }}
+                            {{ form_row(edit_form.nroAsuntoFiscal) }}
+                                <tr>
+                                    <td>
+                                        {{ form_label(edit_form.nroOficioFiscal) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(edit_form.nroOficioFiscal) }}
+                                        {{ form_errors(edit_form.nroOficioFiscal) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(edit_form.nroOficioDesconocido) }}
+                                        {{ form_widget(edit_form.nroOficioDesconocido) }}
+                                        {{ form_errors(edit_form.nroOficioDesconocido) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(edit_form.nombreImputado) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(edit_form.nombreImputado) }}
+                                        {{ form_errors(edit_form.nombreImputado) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(edit_form.nombreImputadoDesconocido) }}
+                                        {{ form_widget(edit_form.nombreImputadoDesconocido) }}
+                                        {{ form_errors(edit_form.nombreImputadoDesconocido) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ form_label(edit_form.nombreVictima) }}
+
+                                    </td>
+                                    <td>
+                                        {{ form_widget(edit_form.nombreVictima) }}
+                                        {{ form_errors(edit_form.nombreVictima) }}
+                                    </td>
+                                    <td>
+                                        {{ form_label(edit_form.nombreVictimaDesconocido) }}
+                                        {{ form_widget(edit_form.nombreVictimaDesconocido) }}
+                                        {{ form_errors(edit_form.nombreVictimaDesconocido) }}
+                                    </td>
+                                </tr>
+                            {{ form_row(edit_form.pieza) }}
+                        </tbody>
+                    </table>
+
+                    {{ form_rest(edit_form) }}
+                    <br/><br/>
+                    <p align="center">
+                        <button type="submit" class="css3button">Guardar Cambios</button>
+                    </p>
+
+            </form>
+    </fieldset>
+    
     <ul class="record_actions">
         <li>
             <a href="{{ path('caso') }}">
@@ -23,4 +87,61 @@
             </form>
         </li>
     </ul>
+{% endblock %}
+   
+{% block javascript %}
+    var desconocido = "desconocido";
+    $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").removeAttr("readonly");
+         }
+    });
+    $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").removeAttr("readonly");
+         }
+    });
+    $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").click(function(){
+        var v = $(this).attr('checked');
+        if(v=="checked"){
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+            }
+         else
+         {
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value","");
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").removeAttr("readonly");
+         }
+    });
+    
+    if($("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value") == desconocido)
+    {
+        $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+        $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").attr("checked","checked");
+    }
+        
+    if($("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value") == desconocido){
+        $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
+        $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").attr("checked","checked");
+      }
+        
+    if($("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value") == desconocido){
+        $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+        $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").attr("checked","checked");
+     }   
+        
 {% endblock %}
