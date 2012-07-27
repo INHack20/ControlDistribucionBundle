@@ -2,19 +2,15 @@
 
 {% block contenido %}
     <h1>Registro de Tipo de Tribunal</h1>
-
-    <form action="{{ path('tribunaltipo_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <p>
-            <button type="submit">Registrar</button>
-        </p>
-    </form>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('tribunaltipo') }}">
-                Regresar a la Lista
-            </a>
-        </li>
-    </ul>
+    <br/><br/><br/>
+    <fieldset>
+        <legend>Datos</legend>
+        <form action="{{ path('tribunaltipo_create') }}" method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+            <br/><br/>
+            <p align="center">
+                <button type="submit" class="css3button">Registrar</button>
+            </p>
+        </form>
+    </fieldset>
 {% endblock %}

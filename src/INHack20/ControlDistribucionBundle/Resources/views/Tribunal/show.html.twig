@@ -2,36 +2,53 @@
 
 {% block contenido %}
     <h1>Tribunal</h1>
-
-    <table class="record_properties">
-        <tbody>
+    <br/><br/>
+    <table class="tableCSS" style="width: auto">
+        <thead>
             <tr>
-                <th>Id</th>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="even">
+                <td>Id</td>
                 <td>{{ entity.id }}</td>
             </tr>
-            <tr>
-                <th>N&deg;</th>
-                <td>{{ entity.nro }}</td>
+            <tr class="odd">
+                <td>N&deg;</td>
+                <td>{{ entity.descripcion }}</td>
             </tr>
         </tbody>
+        <thead>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
     </table>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('tribunal') }}">
-                Regresar a la Lista
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('tribunal_edit', { 'id': entity.id }) }}">
-                Editar
-            </a>
-        </li>
-        <li>
-            <form action="{{ path('tribunal_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button type="submit">Eliminar</button>
-            </form>
-        </li>
-    </ul>
+    <br/><br/>
+    <table>
+        <tr>
+            <td>
+                <a href="{{ path('tribunal_edit',{'id' : entity.id }) }}">
+                    <button class="css3button">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/editar.png') }}" width="16" height="16" alt="" />
+                        Editar
+                    </button>
+                </a>
+                    &nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                <form action="{{ path('tribunaltipo_delete', { 'id': entity.id }) }}" method="post">
+                        <button class="css3button">
+                            <img src="{{ asset('bundles/inhack20controldistribucion/images/eliminar.png') }}" width="16" height="16" alt="" />
+                            Eliminar
+                        </button>
+                     {{ form_widget(delete_form) }}
+                </form>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+    </table>
 {% endblock %}

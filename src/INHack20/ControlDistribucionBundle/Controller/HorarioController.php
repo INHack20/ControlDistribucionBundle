@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\HorarioType;
 /**
  * Horario controller.
  *
- * @Route("/horario")
+ * @Route("/config/horario")
  */
 class HorarioController extends Controller
 {

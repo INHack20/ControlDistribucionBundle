@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\GrupoType;
 /**
  * Grupo controller.
  *
- * @Route("/grupo")
+ * @Route("/config/grupo")
  */
 class GrupoController extends Controller
 {

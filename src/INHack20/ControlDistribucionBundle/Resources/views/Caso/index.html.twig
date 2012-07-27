@@ -2,53 +2,17 @@
 
 {% block contenido %}
     <h1>Casos</h1>
-    <br/><br/>
+    <br/>
+        {% if(parametros is defined and parametros['f_desde'] != '' and parametros['f_hasta'] !='') %}
+            <h2>Desde <b>{{ parametros['f_desde'] | date('d-m-Y') }}</b> Hasta <b>{{ parametros['f_hasta'] | date('d-m-Y') }}</b></h2>
+        {% endif %}
+    <br/>
     {% if formBuscar is defined %}
         {% include 'INHack20ControlDistribucionBundle:Caso:formBuscar.html.twig' %}
     {% endif %}
-    
-    <table border="2" class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Procedencia</th>
-                <th>N&deg; Asutno Fiscal</th>
-                <th>N&deg; Oficio Fiscal</th>
-                <th>Nombre del Imputado</th>
-                <th>Nombre de la Victima</th>
-                <th>Pieza</th>
-                <th>Tribunal</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in paginador.getResults %}
-            <tr>
-                <td><a href="{{ path('caso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.fiscalia.nombre }}</td>
-                <td>{{ entity.nroAsuntoFiscal }}</td>
-                <td>{{ entity.nroOficioFiscal }}</td>
-                <td>{{ entity.nombreImputado }}</td>
-                <td>{{ entity.nombreVictima }}</td>
-                <td>{{ entity.pieza }}</td>
-                <td>{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('caso_show', { 'id': entity.id }) }}">Ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('caso_edit', { 'id': entity.id }) }}">Editar</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <br/>
+    <div id="result-busqueda">
+        {% include 'INHack20ControlDistribucionBundle:Caso:lista.html.twig' %}
+    </div>
     <br/>
-    {% if paginador.isPaginable %}
-        {{ paginate(paginador,'caso') }}
-    {% endif %}
-    
 {% endblock %}

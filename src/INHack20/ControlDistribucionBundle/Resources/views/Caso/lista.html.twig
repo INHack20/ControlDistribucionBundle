@@ -1,0 +1,49 @@
+<table class="tableCSS">
+        <thead>
+            <tr>
+                <th>N&deg;</th>
+                <th>Procedencia</th>
+                <th>N&deg; Asutno Fiscal</th>
+                <th>N&deg; Oficio Fiscal</th>
+                <th>Nombre del Imputado</th>
+                <th>Nombre de la Victima</th>
+                <th>Pieza</th>
+                <th>Tribunal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in paginador.getResults %}
+            <tr class="{% if loop.index % 2 == 0 %}odd{% else %}even{% endif %}">
+                <td>{{ LIMITE_PAGINACION * (paginador.getPage - 1) + loop.index }}</td>
+                <td>{% if entity.fiscalia %}{{ entity.fiscalia.nombre }}{% endif %}</td>
+                <td>{{ entity.nroAsuntoFiscal }}</td>
+                <td>{{ entity.nroOficioFiscal }}</td>
+                <td>{{ entity.nombreImputado }}</td>
+                <td>{{ entity.nombreVictima }}</td>
+                <td>{{ entity.pieza }}</td>
+                <td>{% if entity.distribucion and entity.distribucion.tribunal %}{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('caso_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/ver.png') }}" width="24" height="24" alt="" />
+                    </a>
+                    <a href="{{ path('caso_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/editar.png') }}" width="24" height="24" alt="" />
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="{% if loop.index % 2 == 0 %}odd{% else %}even{% endif %}">
+                <td></td>
+                <td colspan="8" rowspan="1">No Se Encontraron Resultados</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+</table>
+<br/>
+{% if paginador.isPaginable %}
+    {% if parametros is not defined %}
+        {% set parametros = {} %}
+    {% endif %}
+        {{ paginate(paginador,'caso',parametros) }}
+{% endif %}

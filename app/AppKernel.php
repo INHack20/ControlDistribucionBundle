@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new INHack20\UserBundle\INHack20UserBundle(),
             new INHack20\ControlDistribucionBundle\INHack20ControlDistribucionBundle(),
             new MakerLabs\PagerBundle\MakerLabsPagerBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

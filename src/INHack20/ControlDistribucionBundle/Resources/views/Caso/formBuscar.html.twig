@@ -1,22 +1,26 @@
 {% form_theme formBuscar 'INHack20ControlDistribucionBundle:Form:fields.html.twig' %}
-<form id="formBuscar" action="" method="post" {{ form_enctype(formBuscar) }}>
+<form id="formBuscar" action="{{ path('caso') }}" method="post" {{ form_enctype(formBuscar) }}>
         <div style="min-height: 100px;"> 
             <table style="text-align: left;" border="1" cellpadding="2"
                         cellspacing="2">
                 <tbody>
-            {{ form_row(formBuscar.tipobusqueda) }}
-            {{ form_row(formBuscar.fecha) }}
-            {{ form_row(formBuscar.tribunal, { 'class' : '1' }) }}
-            {{ form_row(formBuscar.tribunaltipo, { 'class' : '2' }) }}
-            {{ form_row(formBuscar.causa, { 'class' : '3' }) }}
+            {{ form_row(formBuscar.fecha, { 'class' : '0' }) }}
+            {{ form_row(formBuscar.id, { 'class' : '1' }) }}
+            {{ form_row(formBuscar.tribunal, { 'class' : '2' }) }}
+            {{ form_row(formBuscar.tribunaltipo, { 'class' : '3' }) }}
+            {{ form_row(formBuscar.causa, { 'class' : '4' }) }}
+            {{ form_row(formBuscar.nroAsuntoFiscal, { 'class' : '5' }) }}
+            {{ form_row(formBuscar.nroOficioFiscal, { 'class' : '6' }) }}
+            {{ form_row(formBuscar.nombreImputado, { 'class' : '7' }) }}
+            {{ form_row(formBuscar.nombreVictima, { 'class' : '8' }) }}
             {{ form_rest(formBuscar) }}    
                     </tbody></table>
         </div>
         
             <br/>
             <p align="right">
-            <button id="btnBuscar" class="miBoton">
-                <img src="" width="16" height="16" alt="" />
+                <button id="btnBuscar" class="css3button" style="min-width: 10px">
+                <img src="{{ asset('bundles/inhack20controldistribucion/images/buscar.png') }}" width="16" height="16" alt="" />
                 Buscar</button>
             </p>        
 </form>
@@ -35,18 +39,16 @@
                         $(".busqueda input").attr("value","");
                         $(".busqueda select").attr("value","");
                     }
-                    $("#form_tipobusqueda").change(function(){
-                        
-                        limpiar();
-                        ocultar();
-                        if($(this).val()!="")
-                            {
-                                $("."+$(this).val()).show(500);
-                            }                
+                    
+                    $(".check").change(function(){
+                        if($(this).attr('checked')=='checked'){
+                            $('.'+$(this).attr('value')).removeAttr('disabled');
+                        }
+                        else{
+                            $('.'+$(this).attr('value')).attr('disabled','disabled');
+                        }
                     });
-                    $("#form_tipobusqueda").attr("value","");
-                    //$(".busqueda").hide();
-            
+                    
             //Campos del formulario
             $("#form_fecha").datepicker();
         });

@@ -1,0 +1,55 @@
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
+{% block titulo %}
+    Ah Ocurrido un error: {{ status_text }}
+{% endblock %}
+{% block contenido %}
+    <div id="error403">
+        <br>
+            <h1>Oops! A ocurrido un error.</h1>
+        <br/><br/><br/>
+        <div id="cajaImagen">
+            <img style="width: 130px; height: 96px; padding-right: 5px; " alt="" src="{{ asset('bundles/inhack20controldistribucion/images/403error.jpg') }}">
+        </div>
+        <div id="cajaText">
+            <font color="red" size="6px" >Lo siento usted no tiene permiso para acceder a este recurso.</font>
+        </div>
+    <br/>
+    
+        <div id="cajaEstatus" style="margin-bottom: auto">
+            <h2 align="right" >El Servidor Ha Retornado "{{ status_code }} {{ status_text }}".</h2>
+        </div>
+        <br/><br/>
+    </div>
+       
+    
+    <style>
+        #cajaText{
+            width: 80%;
+            float: left;
+            margin: 0 auto;
+            padding-top: 25px;
+        }
+        #cajaImagen {
+            width: 19%;
+            float: left;
+            margin: 0 auto;
+        }
+        #cajaEstatus{
+            float: right;
+            position: absolute;
+            bottom: 0;
+            clear: both;
+            margin-left: 35%;
+        }
+        #error403 {
+            min-height: 350px;
+            background-color: #ffffff;
+            border: 2px solid #999999;
+            -moz-box-shadow: 0px 0px 20px #000000;
+            -webkit-box-shadow: 0px 0px 20px #000000;
+            box-shadow: 0px 0px 20px #000000;
+            /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+        }
+            
+    </style>
+{% endblock %}

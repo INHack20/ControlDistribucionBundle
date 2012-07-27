@@ -1,0 +1,39 @@
+{% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
+{% block contenido %}
+<h1>Estadistica de Distribuci&oacute;n Diaria</h1>
+<br/><br/>
+<table style="text-align: left; width: auto; margin: auto" class="tableCSS" cellpadding="2" cellspacing="2">
+    <thead>
+        <tr>
+            <th style="vertical-align: top;"><br>
+            </th>
+            <th style="vertical-align: top; text-align: center;">{{ dia }}<br>
+         </tr>
+    </thead>
+    <tbody>
+        
+        {% for tribunal in estadisticas|keys %}
+            <tr class="even">
+                <td style="vertical-align: top;"><br></td>
+                <td 
+                style="vertical-align: top; text-align: center;">
+                   {{ tribunal }}
+                </td>
+            </tr>
+                    {% for causa, valor in estadisticas[tribunal] %}
+                        <tr class="odd">
+                            <td style="vertical-align: top;">
+                                {{ causa }}{# Aqui va un td td#}
+                                    
+                            </td>
+                                {% for dia in valor %}
+                                    <td style="vertical-align: top;">
+                                            {{ dia }}{# Otro td #}
+                                    </td>
+                                {% endfor %}
+                         </tr>
+                    {% endfor %}
+           {% endfor %} 
+    </tbody>
+</table>
+{% endblock %}

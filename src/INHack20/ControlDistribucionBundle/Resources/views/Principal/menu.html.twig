@@ -30,17 +30,21 @@
                     <ul>
                         <li><a href="#">Casos</a>
                             <ul>
-                                    <li><a href="#">Diario</a></li>
-                                    <li><a href="#">Semanal</a></li>
-                                    <li><a href="{{ path('caso') }}">Todos</a></li>
+                                    <li><a href="{{ path('caso',{ 'fecha' : 'now' | date('Y-m-d'), 'form' : false }) }}">Diario</a></li>
+                                    <li><a href="#" id="caso_semanal" class="consulta" value="1" route="caso" >Semanal</a></li>
+                                    <li><a href="{{ path('caso',{'form' : true}) }}">Todos</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Estadistica</a>
-                            <ul>
-                                    <li><a href="#">Diario</a></li>
-                                    <li><a href="#">Semanal</a></li>
-                            </ul>
-                        </li>
+                         {% for tipotribunal in tipoTribunales %}
+                        <li><a href="#">Estadistica {{ tipotribunal.nombre }}</a>
+                                 <ul>
+                                    <li><a href="{{ path('distribucion_estadistica_diaria', { 'id' : tipotribunal.id }) }}">Diaria</a></li>
+                                    <li><a href="{{ path('distribucion_estadistica_diaria', { 'id' : tipotribunal.id, 'detallada' : true }) }}">Diaria(Detallada)</a></li>
+                                    <li><a href="#" id="distribucion_semanal_{{ loop.index }}" class="consulta" idtp="{{ tipotribunal.id }}" detallada="0" route="distribucion_estadistica_semanal" >Semanal</a></li>
+                                    <li><a href="#" id="distribucion_semanal_detalalda_{{ loop.index }}" class="consulta" idtp="{{ tipotribunal.id }}" route="distribucion_estadistica_semanal" detallada="1" >Semanal(Detallada)</a></li>
+                                </ul>
+                          </li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li><a href="#">Configuraci&oacute;n</a>
@@ -51,10 +55,18 @@
                         <li><a href="{{ path('fiscalia') }}">Fiscalias</a></li>
                         <li><a href="{{ path('horario') }}">Horarios</a></li>
                         <li><a href="{{ path('grupo') }}">Grupos de Horarios</a></li>
-                        <li><a href="{{ path('fos_user_lista_usuarios') }}">Usuarios</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('fos_user_security_logout') }}">Cerrar Sesi&oacute;n</a></li>
+                <li><a href="#">Usuario</a>
+                    <ul>
+                        <li><a href="{{ path('fos_user_profile_show') }}">Mis Datos</a></li>
+                        <li><a href="{{ path('fos_user_profile_edit') }}">Actualizar Datos</a></li>
+                        <li><a href="{{ path('fos_user_change_password') }}">Cambiar contrase&ntilde;a</a></li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">Registrar Usuario</a></li>
+                        <li><a href="{{ path('fos_user_lista_usuarios') }}">Administrar Usuarios</a></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">Cerrar Sesi&oacute;n</a></li>
+                    </ul>
+                </li>
             </ul>
                 
                 

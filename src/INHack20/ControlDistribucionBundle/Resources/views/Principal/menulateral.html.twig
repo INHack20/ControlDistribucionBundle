@@ -10,7 +10,7 @@
     <legend>Tribunales</legend>
     
         {% for tipotribunal in tipoTribunales %}
-    <a href="{{ path('tribunaltipo_causas',{'id' : tipotribunal.id }) }}" style="text-decoration: none"><button class="css3button" style="cursor: pointer">{{ tipotribunal.nombre | upper }}</button></a><br/><br/>
+    <a href="{{ path('caso_causas',{'id' : tipotribunal.id }) }}" style="text-decoration: none"><button class="css3button" style="cursor: pointer">{{ tipotribunal.nombre | upper }}</button></a><br/><br/>
         {% endfor %}
     
 </fieldset>

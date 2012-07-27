@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\TribunalType;
 /**
  * Tribunal controller.
  *
- * @Route("/tribunal")
+ * @Route("/config/tribunal")
  */
 class TribunalController extends Controller
 {
@@ -155,7 +155,7 @@ class TribunalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tribunal_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tribunal_show', array('id' => $id)));
         }
 
         return array(

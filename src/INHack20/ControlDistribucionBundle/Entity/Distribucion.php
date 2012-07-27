@@ -375,9 +375,6 @@ class Distribucion
              */
             /*** DEBUG *****/      
             
-
-
-            //$distribucion = new Distribucion();
             $this->setCausa($causa);
             if(count($tribunalesSorteo) > 0)
                 $this->setTribunal($tribunalesSorteo[$numAleatorio]);

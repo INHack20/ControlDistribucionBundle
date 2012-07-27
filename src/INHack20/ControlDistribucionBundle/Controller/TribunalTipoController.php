@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\TribunalTipoType;
 /**
  * TribunalTipo controller.
  *
- * @Route("/tribunaltipo")
+ * @Route("/config/tribunaltipo")
  */
 class TribunalTipoController extends Controller
 {
@@ -154,7 +154,7 @@ class TribunalTipoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tribunaltipo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tribunaltipo_show', array('id' => $id)));
         }
 
         return array(
@@ -198,22 +198,5 @@ class TribunalTipoController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
-    }
-    
-    /**
-     * Se encarga de listar las causas que se procesan en un tipo de tribunal
-     * @Route("/{id}/causas", name="tribunaltipo_causas") 
-     * @Template()
-     */
-    public function causasAction($id){
-        $em = $this->getDoctrine()->getEntityManager();
-        $tribunaltipo = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->find($id);
-        if(!$tribunaltipo)
-        {
-            throw $this->createNotFoundException('No se ha encontrado la entidad TribunalTipo');
-        }
-        return array(
-            'tribunalTipo' => $tribunaltipo,
-        );
     }
 }

@@ -113,4 +113,8 @@ class Causa
     {
         return $this->tribunalTipo;
     }
+    
+    public function getDescripcion(){
+        return $this->nombre . ' ['.$this->tribunalTipo->getNombre().']';
+    }
 }

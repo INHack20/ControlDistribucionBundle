@@ -14,8 +14,12 @@ use Doctrine\Common\Collections\Collection;
  */
 class User extends BaseUser
 {
-    private $roles_definidos = array('ROLE_SUPER_ADMIN','ROLE_USER','ROLE_SUPER_USER','ROLE_ADMIN');
-
+    private $roles_definidos = array(
+                'ROLE_USER' => 'Usuario',
+                'ROLE_SUPER_USER' => 'Super Usuario',
+                'ROLE_ADMIN' => 'Administrador',
+                'ROLE_SUPER_ADMIN' => 'Super Administrador');
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -231,6 +235,10 @@ class User extends BaseUser
                 }
         }
         
+    }
+    
+    public function getRoleDescripcion(){
+        return $this->roles_definidos[$this->getRole()];
     }
 
     /**

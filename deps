@@ -82,3 +82,7 @@
 [TCPDF]
     git=git://tcpdf.git.sourceforge.net/gitroot/tcpdf/tcpdf
     target=/tcpdf
+
+[FOSJsRoutingBundle]
+    git=git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git
+    target=/bundles/FOS/JsRoutingBundle

@@ -4,7 +4,9 @@
         <div class="{% if class is defined %}{{ class }} busqueda{% endif %}">
             <table border="0">
                 <tr>
-                    <td>{{ form_label(form) }}{{ form_errors(form) }}</td>
+                    <td>
+                        <input type="checkbox" value="1"/>
+                        {{ form_label(form) }}{{ form_errors(form) }}</td>
                     <td>{{ form_widget(form) }} <input type="checkbox" value="1"/></td>
                 </tr>
             </table>   
@@ -12,16 +14,26 @@
     {% endspaceless %}
 {% endblock field_row %}
 #}
+
 {% block field_row %}
 {% spaceless %}
     <tr>
         <td>
+            {% if class is defined %}
+                <input type="checkbox" class="check" value="{{ class }}"/>&nbsp;
+            {% endif %}
             {{ form_label(form, label|default(null)) }}
         </td>
         <td>
             {{ form_errors(form) }}
-            {{ form_widget(form) }}
-            <input type="checkbox" value="1"/>
+            {% if class is defined %}
+                {{ form_widget(form,{ 'attr' : { 'class' : class, 'disabled' : 'disabled' } }) }}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+            
+            
+            
         </td>
     </tr>
 {% endspaceless %}

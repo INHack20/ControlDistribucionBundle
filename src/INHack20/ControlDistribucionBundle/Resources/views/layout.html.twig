@@ -21,10 +21,19 @@
 <script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery-ui.custom.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery.ui.datepicker-es.js') }}"></script>
 
+{# FOSJsRoutingBundle #}
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+{# Mis funciones personales #}
+<script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/funciones.js') }}"></script>
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/inhack20controldistribucion/css/layout.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/inhack20controldistribucion/css/form_style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/inhack20controldistribucion/css/boton_style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/makerlabspager/css/round.css') }}" />
+    {# Estilo de tabla #}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/inhack20controldistribucion/css/tabla_style.css') }}" />
 {% endblock %}
 </head>
 <body>    
@@ -74,5 +83,6 @@
             {% block javascript %}{% endblock %}
         });
     </script>
+    {% include 'INHack20ControlDistribucionBundle:Principal:jqueryui.html.twig' %}
 </body>
 </html>

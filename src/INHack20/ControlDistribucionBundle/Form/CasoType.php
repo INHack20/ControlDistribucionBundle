@@ -28,11 +28,11 @@ class CasoType extends AbstractType
                             ->where('f.estado = :estado')
                             ->setParameter('estado', $estado)
                             ;
-
-                }
+                  }
             ))
             ->add('nroAsuntoFiscal',null,array(
                 'label' => 'N&deg; Asunto Fiscal',
+                'read_only' => $this->read_only,
             ))
             ->add('nroOficioDesconocido','checkbox',array(
                 'label' => '¿Desconocido?',
@@ -66,8 +66,10 @@ class CasoType extends AbstractType
     }
     
     private $estado;
-    public function __construct($estado = null){
+    private $read_only;
+    public function __construct($estado = null, $read_only = false){
         $this->estado = $estado;
+        $this->read_only = $read_only;
     }
     
     public function getName()

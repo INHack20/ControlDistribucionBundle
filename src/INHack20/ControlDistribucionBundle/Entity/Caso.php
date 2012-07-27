@@ -40,21 +40,21 @@ class Caso
     /**
      * @var string $nroOficioFiscal
      *
-     * @ORM\Column(name="nroOficioFiscal", type="string", length=40, nullable=true)
+     * @ORM\Column(name="nroOficioFiscal", type="string", length=40)
      */
     private $nroOficioFiscal;
 
     /**
      * @var string $nombreImputado
      *
-     * @ORM\Column(name="nombreImputado", type="string", length=50, nullable=true)
+     * @ORM\Column(name="nombreImputado", type="string", length=50)
      */
     private $nombreImputado;
 
     /**
      * @var string $nombreVictima
      *
-     * @ORM\Column(name="nombreVictima", type="string", length=50, nullable=true)
+     * @ORM\Column(name="nombreVictima", type="string", length=50)
      */
     private $nombreVictima;
     

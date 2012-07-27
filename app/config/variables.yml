@@ -1,0 +1,3 @@
+parameters:
+    #Limite de paginacion
+    LIMITE_PAGINACION : 3

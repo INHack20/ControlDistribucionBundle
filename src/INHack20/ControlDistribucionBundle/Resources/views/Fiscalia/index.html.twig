@@ -2,40 +2,36 @@
 
 {% block contenido %}
     <h1>Lista de Fiscalia</h1>
-
-    <table class="records_list">
+<br/><br/>
+    <table class="tableCSS">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>N&deg;</th>
                 <th>Nombre</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('fiscalia_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <tr class="{% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}">
+                <td>{{ loop.index }}</td>
                 <td>{{ entity.nombre }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('fiscalia_show', { 'id': entity.id }) }}">Ver</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('fiscalia_edit', { 'id': entity.id }) }}">Editar</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('fiscalia_show', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/ver.png') }}" width="24" height="24" alt="" />
+                    </a>
+                    <a href="{{ path('fiscalia_edit', { 'id': entity.id }) }}">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/editar.png') }}" width="24" height="24" alt="" />
+                    </a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('fiscalia_new') }}">
-                Registrar
-            </a>
-        </li>
-    </ul>
+    <br/><br/>
+    <p align="right">
+                <a href="{{ path('fiscalia_new') }}"><button id="btnBuscar" class="css3button" style="min-width: 10px">
+                <img src="{{ asset('bundles/inhack20controldistribucion/images/registrar.png') }}" width="16" height="16" alt="" />
+                Registrar</button></a>
+    </p>
 {% endblock %}

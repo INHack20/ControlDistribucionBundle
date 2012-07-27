@@ -12,6 +12,7 @@ use INHack20\ControlDistribucionBundle\TCPDF\Caso\Resumen;
 use INHack20\ControlDistribucionBundle\Entity\Distribucion;
 use MakerLabs\PagerBundle\Pager;
 use MakerLabs\PagerBundle\Adapter\DoctrineOrmAdapter;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Caso controller.
@@ -23,38 +24,141 @@ class CasoController extends Controller
     /**
      * Lists all Caso entities.
      *
-     * @Route("/{page}", name="caso", requirements={"page" = "\d+"}, defaults={"page" = "1"})
+     * @Route("/{page}", name="caso", requirements={"page" = "\d+"}, defaults={"page" = "1"}, options={"expose" = true})
      * @Template()
      */
     public function indexAction($page)
     {
+        $request = $this->getRequest();
         $em = $this->getDoctrine()->getEntityManager();
-        
         $qb = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->createQueryBuilder('c');
-        $adapter = new DoctrineOrmAdapter($qb);
-        $paginador = new Pager($adapter, array('page' => $page,'limit' => 3));
+        
+        $cargarFormulario = $request->query->get('form');
         $formBuscar = $this->createFormBuscar();
         
-        return array(
-            'paginador' => $paginador,
-            'formBuscar' => $formBuscar->createView(),
-            );
+        $parametros = array();
+            // Variables de busqueda por fechas
+            $parametros['fecha'] = $request->query->get('fecha');
+            $parametros['f_desde'] = $request->query->get('f_desde');
+            $parametros['f_hasta'] = $request->query->get('f_hasta');
+            
+        // Variables de consulta por fechas
+            if($parametros['fecha'] != '')
+                $qb->andWhere($qb->expr()->like('c.creado', "'".$parametros['fecha']."%'"));
+            
+            if($parametros['f_desde'] != '' && $parametros['f_hasta'] != ''){
+            $qb->where('c.creado >= :f_desde')
+                    ->setParameter('f_desde', $parametros['f_desde'])
+                    ;
+            $qb->andWhere('c.creado <= :f_hasta')
+                    ->setParameter('f_hasta', $parametros['f_hasta']. '23:59 59')
+                    ;
+            }//fin if    
+        
+        if($request->isXmlHttpRequest()){
+            
+            // Variables de busqueda desde formulario
+            $parametros['tribunaltipo'] = $request->query->get('tribunaltipo');
+            $parametros['id'] = $request->query->get('id');
+            $parametros['tribunal'] = $request->query->get('tribunal');
+            $parametros['causa'] = $request->query->get('causa');
+            $parametros['nroAsuntoFiscal'] = $request->query->get('nroAsuntoFiscal');
+            $parametros['nroOficioFiscal'] = $request->query->get('nroOficioFiscal');
+            $parametros['nombreImputado'] = $request->query->get('nombreImputado');
+            $parametros['nombreVictima'] = $request->query->get('nombreVictima');
+            
+            $formBuscar->bindRequest($request);
+            if($formBuscar->isValid()){
+               $data = $formBuscar->getData();
+                    $parametros['fecha'] = $data['fecha']!='' ? $data['fecha']->format('Y-m-d') : '';
+                    $parametros['id'] = $data['id'];
+                    $parametros['tribunaltipo'] = $data['tribunaltipo']!='' ? $data['tribunaltipo']->getId() : '';
+                    $parametros['tribunal'] = $data['tribunal']!= '' ? $data['tribunal']->getId() : '';
+                    $parametros['causa'] = $data['causa'] != '' ? $data['causa']->getId() : '';
+                    $parametros['nroAsuntoFiscal'] = $data['nroAsuntoFiscal'];
+                    $parametros['nroOficioFiscal'] = $data['nroOficioFiscal'];
+                    $parametros['nombreImputado'] = $data['nombreImputado'];
+                    $parametros['nombreVictima'] = $data['nombreVictima'];
+               }
+            
+            // Creo la consulta de los datos del formulario
+            $qb->join('c.distribucion','d');
+
+            if($parametros['id']!='')
+                $qb->andWhere ('d.id = :id')
+                    ->setParameter('id', $parametros['id']);
+            
+            if($parametros['tribunal']!='')
+                $qb->andWhere ('d.tribunal = :tribunal')
+                    ->setParameter('tribunal', $parametros['tribunal']);
+
+            if($parametros['tribunaltipo'] != ''){
+                $qb->join('d.tribunal', 't');
+                $qb->andWhere('t.tribunalTipo = :tribunaltipo')
+                    ->setParameter('tribunaltipo',$parametros['tribunaltipo']);
+            }
+            
+            if($parametros['causa'] != '')
+                $qb->andWhere ('d.causa = :causa')
+                    ->setParameter('causa', $parametros['causa']);
+            
+            if($parametros['nroAsuntoFiscal'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nroAsuntoFiscal', "'%".$parametros['nroAsuntoFiscal']."%'"));
+            
+            if($parametros['nroOficioFiscal'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nroOficioFiscal', "'%".$parametros['nroOficioFiscal']."%'"));
+            
+            if($parametros['nombreImputado'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nombreImputado', "'%".$parametros['nombreImputado']."%'"));
+            
+            if($parametros['nombreVictima'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nombreVictima', "'%".$parametros['nombreVictima']."%'"));
+        }
+        
+        $qb->orderBy('c.creado','desc');
+        
+        $adapter = new DoctrineOrmAdapter($qb);
+        $paginador = new Pager($adapter, array('page' => $page,'limit' => $this->container->getParameter('LIMITE_PAGINACION')));
+        
+        
+        if($request->isXmlHttpRequest())
+        {
+            return $this->render('INHack20ControlDistribucionBundle:Caso:lista.html.twig',array(
+                'paginador' => $paginador,
+                'parametros' => $parametros,
+            ));
+        }
+        if($cargarFormulario)
+            return array(
+                'paginador' => $paginador,
+                'formBuscar' => $formBuscar->createView(),
+                );
+        else
+            return array(
+                'paginador' => $paginador,
+                'parametros' => $parametros,
+                );
     }
     
     private function createFormBuscar(){
+       
         return $this->createFormBuilder()
-                ->add('tipobusqueda','choice',array(
-                 'label' => 'Tipo De Busqueda',
-                 'choices' => array('1' => 'Fecha',
-                                    '2' => 'Ubicacion',
-                                    '3' => 'Todos',
-                     ),
-                 'empty_value' => 'Seleccione',
-                ))
                 ->add('fecha','date',array(
                     'input' => 'datetime',
                     'widget' => 'single_text',
-                    'required' => 'false',
+                    'required' => false,
+                    
+                ))
+                ->add('id',null,array(
+                    'required' => false,
+                    'label' => 'N&deg; Control Interno',
+                ))
+                ->add('tribunaltipo','entity',array(
+                    'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\TribunalTipo',
+                    'property' => 'nombre',
+                    'empty_value' => 'Seleccione',
+                    'required' => false,
+                    'label' => 'Tipo de Tribunal',
                 ))
                 ->add('tribunal','entity',array(
                     'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Tribunal',
@@ -62,19 +166,29 @@ class CasoController extends Controller
                     'empty_value' => 'Seleccione',
                     'required' => false,
                 ))
-                ->add('tribunaltipo','entity',array(
-                    'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\TribunalTipo',
-                    'property' => 'nombre',
-                    'empty_value' => 'Seleccione',
-                    'required' => false,
-                    'label' => 'Tipo de Tribunal'
-                ))
                 ->add('causa','entity',array(
                     'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Causa',
-                    'property' => 'nombre',
+                    'property' => 'descripcion',
                     'empty_value' => 'Seleccione',
                     'required' => false,
-                ))->getForm()
+                ))
+                ->add('nroAsuntoFiscal',null,array(
+                    'label' => 'N&deg; Asunto Fiscal',
+                    'required' => false,
+                ))
+                ->add('nroOficioFiscal',null,array(
+                    'label' => 'N&deg; Oficio Fiscal',
+                    'required' => false,
+                ))
+                ->add('nombreImputado',null,array(
+                    'label' => 'Nombre del Imputado',
+                    'required' => false,
+                ))
+                ->add('nombreVictima',null,array(
+                    'label' => 'Nombre de la Victima',
+                    'required' => false,
+                ))
+                ->getForm()
                 ;
     }
 
@@ -106,6 +220,7 @@ class CasoController extends Controller
      *
      * @Route("/{idCausa}/new", name="caso_new")
      * @Template()
+     * @Secure(roles="ROLE_SUPER_USER")
      */
     public function newAction($idCausa)
     {
@@ -136,6 +251,7 @@ class CasoController extends Controller
      * @Route("/{idCausa}/create", name="caso_create")
      * @Method("post")
      * @Template("INHack20ControlDistribucionBundle:Caso:new.html.twig")
+     * @Secure(roles="ROLE_SUPER_USER")
      */
     public function createAction($idCausa)
     {
@@ -164,7 +280,6 @@ class CasoController extends Controller
             else{
                  $entity->setDistribucion($distribucion);
                  $entity->setUsuario($this->container->get('security.context')->getToken()->getUser());
-                 $em = $this->getDoctrine()->getEntityManager();
                  $em->persist($entity);
                  $em->flush();
 
@@ -185,6 +300,7 @@ class CasoController extends Controller
      *
      * @Route("/{id}/edit", name="caso_edit")
      * @Template()
+     * @Secure(roles="ROLE_SUPER_USER")
      */
     public function editAction($id)
     {
@@ -195,8 +311,13 @@ class CasoController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Caso entity.');
         }
+        // Verificamos si el usuario tiene acceso a modificar todos los campos
+        $read_only = true;
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')){
+            $read_only = false;
+        }
         
-        $editForm = $this->createForm(new CasoType($entity->getFiscalia()->getEstado()), $entity);
+        $editForm = $this->createForm(new CasoType($entity->getFiscalia()->getEstado(),$read_only),$entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -212,6 +333,7 @@ class CasoController extends Controller
      * @Route("/{id}/update", name="caso_update")
      * @Method("post")
      * @Template("INHack20ControlDistribucionBundle:Caso:edit.html.twig")
+     * @Secure(roles="ROLE_SUPER_USER")
      */
     public function updateAction($id)
     {
@@ -222,8 +344,13 @@ class CasoController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Caso entity.');
         }
-
-        $editForm   = $this->createForm(new CasoType($entity->getFiscalia()->getEstado()), $entity);
+        
+        // Verificamos si el usuario tiene acceso a modificar todos los campos
+        $read_only = true;
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')){
+            $read_only = false;
+        }
+        $editForm   = $this->createForm(new CasoType($entity->getFiscalia()->getEstado(),$read_only), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -249,6 +376,7 @@ class CasoController extends Controller
      *
      * @Route("/{id}/delete", name="caso_delete")
      * @Method("post")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction($id)
     {
@@ -271,124 +399,30 @@ class CasoController extends Controller
 
         return $this->redirect($this->generateUrl('caso'));
     }
-
+    
+    /**
+     * Se encarga de listar las causas que se procesan en un tipo de tribunal
+     * @Route("/{id}/causas", name="caso_causas") 
+     * @Template()
+     */
+    public function causasAction($id){
+        $em = $this->getDoctrine()->getEntityManager();
+        $tribunaltipo = $em->getRepository('INHack20ControlDistribucionBundle:TribunalTipo')->find($id);
+        if(!$tribunaltipo)
+        {
+            throw $this->createNotFoundException('No se ha encontrado la entidad TribunalTipo');
+        }
+        return array(
+            'tribunalTipo' => $tribunaltipo,
+        );
+    }
+    
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()
         ;
-    }
-    
-    /**
-     * @Route("/resumen", name="caso_resumen") 
-     * @Template()
-     */
-    public function resumenAction(){
-        $request = $this->getRequest();
-        
-        $form = $this->createResumenForm();
-        
-        if($request->getMethod()=='POST'){
-            $form->bindRequest($request);
-            if($form->isValid()){
-                // create new PDF document
-                
-                $datos = $form->getData();
-                
-                $pdf = new Resumen('L', 'mm', 'A4', true, 'UTF-8', false);
-
-                $pdf->setLogo($this->getAssetUrl('bundles/inhack20controldistribucion/images/escudo.jpeg'));
-                $pdf->setFecha($datos['fecha']->format('d-m-Y'));
-                
-                // set document information
-                $pdf->SetCreator('TCPDF');
-                $pdf->SetAuthor('Ing. Carlos Mendoza');
-                $pdf->SetTitle('Comprobante de recepcion de asunto nuevo');
-                $pdf->SetSubject('TCPDF Tutorial');
-                $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-                // set default header data
-                $pdf->SetHeaderData('tcpdf_logo.jpg', 30, 'EJEMPLO', 'POR MENDOZA CARLOS');
-
-                // set header and footer fonts
-                $pdf->setHeaderFont(Array('helvetica', '', 10));
-                $pdf->setFooterFont(Array('helvetica', '', 8));
-
-                // set default monospaced font
-                $pdf->SetDefaultMonospacedFont('courier');
-                $pdf->SetFont('helvetica', '', 10);
-
-
-                //set margins
-                $PDF_MARGIN_LEFT = 15;
-                $PDF_MARGIN_TOP = 85;
-                $PDF_MARGIN_RIGHT = 15;
-                $PDF_MARGIN_HEADER = 15;
-                $PDF_MARGIN_FOOTER = 25;
-                $pdf->SetMargins($PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, $PDF_MARGIN_RIGHT);
-                $pdf->SetHeaderMargin($PDF_MARGIN_HEADER);
-                $pdf->SetFooterMargin($PDF_MARGIN_FOOTER);
-
-                $PDF_MARGIN_BOTTOM = 25;
-                //set auto page breaks
-                $pdf->SetAutoPageBreak(TRUE, $PDF_MARGIN_BOTTOM);
-
-
-
-                $pdf->AddPage();
-
-                $html='
-                    <table style="text-align: center; width: 100%;" border="1" cellpadding="0" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td style="vertical-align: top;">Fecha<br></td>
-                                <td style="vertical-align: top;">Hora<br></td>
-                                <td style="vertical-align: top;">N° Oficio<br></td>
-                                <td style="vertical-align: top;">N° Asunto Fiscal<br></td>
-                                <td style="vertical-align: top;">Imputado<br></td>
-                                <td style="vertical-align: top;">Victima<br></td>
-                                <td style="vertical-align: top;">Tribunal<br></td>
-                            </tr>
-                       ';
-                 $html.='
-                            <tr>
-                                <td style="vertical-align: top;">_fecha<br></td>
-                                <td style="vertical-align: top;">_hora<br></td>
-                                <td style="vertical-align: top;">_n_oficio<br></td>
-                                <td style="vertical-align: top;">_asunto_fiscal<br></td>
-                                <td style="vertical-align: top;">_imputado<br></td>
-                                <td style="vertical-align: top;">_victima<br></td>
-                                <td style="vertical-align: top;">_tribunal<br></td>
-                            </tr>
-                        ';
-                 
-                $html.='</tbody>
-                    </table>
-                    ';
-                
-                $pdf->writeHTML($html, true, false, true, false, '');
-                
-                return $pdf->Output('resumen.pdf');
-                }
-        }
-        
-        return array(
-            'form' => $form->createView(),
-        );
-    }
-    
-    private function createResumenForm(){
-        $fecha = new \DateTime();
-        return $this->createFormBuilder(array('fecha',$fecha))
-            ->add('fecha','date',array(
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'invalid_message' => 'Debe ingresar una fecha valida. ( Ejemplo '.$fecha->format('d-m-Y').')',
-                
-            ))
-            ->getForm()
-            ;
     }
     
     /**

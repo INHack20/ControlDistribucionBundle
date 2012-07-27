@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\FiscaliaType;
 /**
  * Fiscalia controller.
  *
- * @Route("/fiscalia")
+ * @Route("/config/fiscalia")
  */
 class FiscaliaController extends Controller
 {

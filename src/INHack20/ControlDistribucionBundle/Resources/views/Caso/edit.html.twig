@@ -2,9 +2,7 @@
 
 {% block contenido %}
     <h1>Editar Caso</h1>
-
-   <br/><br/>
-
+    <br/><br/>
     <fieldset>
          <legend>Datos de Causa</legend>
              <form action="{{ path('caso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
@@ -68,25 +66,19 @@
                     {{ form_rest(edit_form) }}
                     <br/><br/>
                     <p align="center">
-                        <button type="submit" class="css3button">Guardar Cambios</button>
+                        <button type="submit" class="css3button">
+                            <img src="{{ asset('bundles/inhack20controldistribucion/images/guardar.png') }}" width="16" height="16" alt="" />
+                            Guardar Cambios</button>
                     </p>
 
             </form>
-    </fieldset>
-    
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('caso') }}">
-                Regresar a la Lista
-            </a>
-        </li>
-        <li>
             <form action="{{ path('caso_delete', { 'id': entity.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button type="submit">Eliminar</button>
+                    {{ form_widget(delete_form) }}
+                    <button type="submit" class="css3button" style="float: right;">
+                        <img src="{{ asset('bundles/inhack20controldistribucion/images/eliminar.png') }}" width="16" height="16" alt="" />                        
+                        Eliminar</button>
             </form>
-        </li>
-    </ul>
+    </fieldset>
 {% endblock %}
    
 {% block javascript %}

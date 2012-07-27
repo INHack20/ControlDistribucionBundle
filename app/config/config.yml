@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.ini }
     - { resource: security.yml }
+    - { resource: variables.yml }
     - { resource: @INHack20UserBundle/Resources/config/services.yml }
 
 framework:
@@ -23,6 +24,8 @@ twig:
     strict_variables: %kernel.debug%
     form:
       resources: ['INHack20ControlDistribucionBundle:Form:fields_global.html.twig']
+    globals:
+      LIMITE_PAGINACION : %LIMITE_PAGINACION%
 
 # Assetic Configuration
 assetic:

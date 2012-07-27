@@ -5,7 +5,9 @@ INHack20ControlDistribucionBundle:
 
 INHack20UserBundle:
     resource: "@INHack20UserBundle/Resources/config/routing.yml"
-    
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

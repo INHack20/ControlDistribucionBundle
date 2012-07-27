@@ -2,19 +2,15 @@
 
 {% block contenido %}
     <h1>Registro de Causa</h1>
-
+    <br/><br/><br/>
+    <fieldset>
+        <legend>Datos</legend>
     <form action="{{ path('causa_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <p>
-            <button type="submit">Registrar</button>
-        </p>
-    </form>
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('causa') }}">
-                Regresar a la Lista
-            </a>
-        </li>
-    </ul>
+            <br/><br/>
+            <p align="center">
+                <button type="submit" class="css3button">Registrar</button>
+            </p>
+        </form>
+    </fieldset>
 {% endblock %}

@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\CausaType;
 /**
  * Causa controller.
  *
- * @Route("/causa")
+ * @Route("/config/causa")
  */
 class CausaController extends Controller
 {

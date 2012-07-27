@@ -12,6 +12,7 @@ use INHack20\ControlDistribucionBundle\Entity\Causa;
 use INHack20\ControlDistribucionBundle\Entity\Distribucion;
 use INHack20\ControlDistribucionBundle\Entity\Estado;
 use INHack20\ControlDistribucionBundle\Entity\Fiscalia;
+use INHack20\ControlDistribucionBundle\Entity\Caso;
 
 /**
  * Description of ControlDistribucionFixtures
@@ -115,13 +116,13 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $manager->persist($estado);
         
         $fiscalias = '1-16';
+        $fiscalia = null;
         if(in_array('-',str_split($fiscalias)))
         {
             $fiscalias = explode('-', $fiscalias);
             if(count($fiscalias)==2)
             {
                 $fiscalias = range($fiscalias[0], $fiscalias[1]);
-                $temp = array();
                 foreach ($fiscalias as $valor) {
                     $fiscalia = new Fiscalia();
                     $fiscalia->setNombre('FISCALIA '. strtoupper($this->numeroToOrdinal($valor)));
@@ -129,7 +130,6 @@ class ControlDistribucionFixtures implements FixtureInterface {
                         $manager->persist($fiscalia);
                     
                 }
-                $fiscalias = $temp;
             }
         }
         
@@ -169,10 +169,10 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $tribunalTipoControl->setLimiteCausas(3);
             $manager->persist($tribunalTipoControl);
             
-        $tribunalTipoJucio = new TribunalTipo();
-        $tribunalTipoJucio->setNombre('Jucio');
-        $tribunalTipoJucio->setLimiteCausas(2);
-            $manager->persist($tribunalTipoJucio);
+        $tribunalTipoJuicio = new TribunalTipo();
+        $tribunalTipoJuicio->setNombre('Juicio');
+        $tribunalTipoJuicio->setLimiteCausas(2);
+            $manager->persist($tribunalTipoJuicio);
             
         $tribunalControl1 = new Tribunal();
         $tribunalControl1->setNro(1);
@@ -197,14 +197,14 @@ class ControlDistribucionFixtures implements FixtureInterface {
         
         $tribunalJuicio1 = new Tribunal();
         $tribunalJuicio1->setNro(1);
-        $tribunalJuicio1->setTribunalTipo($tribunalTipoJucio);
+        $tribunalJuicio1->setTribunalTipo($tribunalTipoJuicio);
         $tribunalJuicio1->setHabilitado(true);
         $tribunalJuicio1->setDespacho(true);
             $manager->persist($tribunalJuicio1);
         
         $tribunalJuicio2 = new Tribunal();
         $tribunalJuicio2->setNro(2);
-        $tribunalJuicio2->setTribunalTipo($tribunalTipoJucio);
+        $tribunalJuicio2->setTribunalTipo($tribunalTipoJuicio);
         $tribunalJuicio2->setHabilitado(true);
         $tribunalJuicio2->setDespacho(true);
             $manager->persist($tribunalJuicio2);
@@ -233,32 +233,205 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $causaControl4->setGrupo($grupoB);
             $manager->persist($causaControl4);
         
-        $causaJucio1 = new Causa();
-        $causaJucio1->setNombre('Apertura a Jucio');
-        $causaJucio1->setTribunalTipo($tribunalTipoJucio);
-        $causaJucio1->setGrupo($grupoA);
-            $manager->persist($causaJucio1);
+        $causaJuicio1 = new Causa();
+        $causaJuicio1->setNombre('Apertura a Juicio');
+        $causaJuicio1->setTribunalTipo($tribunalTipoJuicio);
+        $causaJuicio1->setGrupo($grupoA);
+            $manager->persist($causaJuicio1);
         
-        $causaJucio2 = new Causa();
-        $causaJucio2->setNombre('Querella');
-        $causaJucio2->setTribunalTipo($tribunalTipoJucio);
-        $causaJucio2->setGrupo($grupoB);
-            $manager->persist($causaJucio2);
+        $causaJuicio2 = new Causa();
+        $causaJuicio2->setNombre('Querella');
+        $causaJuicio2->setTribunalTipo($tribunalTipoJuicio);
+        $causaJuicio2->setGrupo($grupoB);
+            $manager->persist($causaJuicio2);
         
-        $causaJucio3 = new Causa();
-        $causaJucio3->setNombre('Acusación Privada');
-        $causaJucio3->setTribunalTipo($tribunalTipoJucio);
-        $causaJucio3->setGrupo($grupoB);
-            $manager->persist($causaJucio3);
+        $causaJuicio3 = new Causa();
+        $causaJuicio3->setNombre('Acusación Privada');
+        $causaJuicio3->setTribunalTipo($tribunalTipoJuicio);
+        $causaJuicio3->setGrupo($grupoB);
+            $manager->persist($causaJuicio3);
         
+        /** Fixtures de casos distribuidos **/
+        $nroAsuntoFiscal = "04-V4-0146-";
+        $nombresVictimas = array(
+            'Carlos Mendoza', 'Anais Ortega', 'Maria Barrios',' Yorman Montilla','Yhoana Sanchez',
+            'Yorvic Montilla' , 'Ariana Ortega', 'Ana Mora', 'Linda Lopez',
+        );
+        $nombresImputados = array(
+            'Eric Leon', 'Angelo Marquez', 'Pedro Peraza', 'Pedro Borquez','Juan Olivo','Rosaio Jaime',
+            'Ana Pachecho' , 'Ariana Andreina', 'Ariana Perez'
+        );
+        print count($nombresImputados);
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalControl3);
+        $distribucion->setCausa($causaControl1);
         
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."01");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
         
-        /*
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalControl1);
-        $distribucion->setCausa($causaControl1);
-            $manager->persist($distribucion);
+        $distribucion->setCausa($causaControl2);
         
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."02");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalControl3);
+        $distribucion->setCausa($causaControl1);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."03");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalControl1);
+        $distribucion->setCausa($causaControl3);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."04");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalControl2);
+        $distribucion->setCausa($causaControl3);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."05");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalControl2);
+        $distribucion->setCausa($causaControl4);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."06");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio1);
+        $distribucion->setCausa($causaJuicio2);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio2);
+        $distribucion->setCausa($causaJuicio2);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio2);
+        $distribucion->setCausa($causaJuicio1);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("3");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio1);
+        $distribucion->setCausa($causaJuicio3);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("1");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio1);
+        $distribucion->setCausa($causaJuicio2);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("2");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        $distribucion = new Distribucion();
+        $distribucion->setTribunal($tribunalJuicio2);
+        $distribucion->setCausa($causaJuicio3);
+        
+            $caso = new Caso();
+            $caso->setFiscalia($fiscalia);
+            $caso->setDistribucion($distribucion);
+            $caso->setNroAsuntoFiscal($nroAsuntoFiscal."09");
+            $caso->setPieza("2");
+            $caso->setNombreImputado($nombresImputados[rand(0,8)]);
+            $caso->setNombreVictima($nombresVictimas[rand(0,8)]);
+            $caso->setNroOficioFiscal("desconocido");
+                $manager->persist($caso);
+        
+        /*
+                
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalControl1);
         $distribucion->setCausa($causaControl1);
@@ -286,27 +459,27 @@ class ControlDistribucionFixtures implements FixtureInterface {
         
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalJuicio1);
-        $distribucion->setCausa($causaJucio1);
+        $distribucion->setCausa($causaJuicio1);
             $manager->persist($distribucion);
         
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalJuicio1);
-        $distribucion->setCausa($causaJucio2);
+        $distribucion->setCausa($causaJuicio2);
             $manager->persist($distribucion);
         
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalJuicio2);
-        $distribucion->setCausa($causaJucio1);
+        $distribucion->setCausa($causaJuicio1);
             $manager->persist($distribucion);
         
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalJuicio2);
-        $distribucion->setCausa($causaJucio2);
+        $distribucion->setCausa($causaJuicio2);
             $manager->persist($distribucion);
         
         $distribucion = new Distribucion();
         $distribucion->setTribunal($tribunalJuicio2);
-        $distribucion->setCausa($causaJucio3);
+        $distribucion->setCausa($causaJuicio3);
             $manager->persist($distribucion);
         */
         
