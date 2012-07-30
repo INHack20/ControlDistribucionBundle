@@ -9,8 +9,6 @@ namespace INHack20\ControlDistribucionBundle\TCPDF\Caso;
  */
 class Resumen extends \TCPDF {
     private $logo;
-    private $fecha;
-    
     //Page header
     public function Header() {
         // Set font
@@ -27,7 +25,6 @@ class Resumen extends \TCPDF {
                 Área de Alguacilazgo<br/>
                 San Fernando de Apure, <b>'.$fechaHoy->format('d-m-Y').'</b><br/>
                 <b>202° y 153°</b><br/><br/>
-                <b>Resumen del dia '.$this->fecha.'</b>
             </p>
             <br/>
         ';
@@ -47,9 +44,6 @@ class Resumen extends \TCPDF {
     
     public function setLogo($logo) {
         $this->logo = $logo;
-    }
-    public function setFecha($fecha) {
-        $this->fecha = $fecha;
     }
 }
 

@@ -6,6 +6,9 @@
         {% if(parametros is defined and parametros['f_desde'] != '' and parametros['f_hasta'] !='') %}
             <h2>Desde <b>{{ parametros['f_desde'] | date('d-m-Y') }}</b> Hasta <b>{{ parametros['f_hasta'] | date('d-m-Y') }}</b></h2>
         {% endif %}
+        {% if(parametros is defined and parametros['fecha'] != '') %}
+            <h2>Casos registrados en el dia {{ parametros['fecha'] | date('d-m-Y') }}</h2>
+        {% endif %}
     <br/>
     {% if formBuscar is defined %}
         {% include 'INHack20ControlDistribucionBundle:Caso:formBuscar.html.twig' %}

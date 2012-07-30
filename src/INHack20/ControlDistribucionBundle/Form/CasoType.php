@@ -23,6 +23,7 @@ class CasoType extends AbstractType
                 'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Fiscalia',
                 'property' => 'nombre',
                 'empty_value' => 'Seleccione',
+                'label' => 'Fiscal&iacute;a',
                 'query_builder' => function (EntityRepository $er) use ($estado){
                     return $er->createQueryBuilder('f')
                             ->where('f.estado = :estado')
@@ -56,7 +57,8 @@ class CasoType extends AbstractType
                 'required' => false,
             ))
             ->add('nombreVictima',null,array(
-                'label' => 'Nombre de la Victima',
+                'label' => 'Nombre de la V&iacute;ctima',
+                
             ))
             ->add('pieza',null,array(
                 'label' => 'Pieza(s)'

@@ -16,7 +16,7 @@
         {% for entity in entities %}
             <tr class="{% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}">
                 <td>{{ loop.index }}</td>
-                <td>Tribunal {{ entity.nro }} De {{ entity.tribunaltipo.nombre }}</td>
+                <td>Tribunal {{ entity.descripcion | title }}</td>
                 <td>
                     {% if entity.isdespacho %}
                         <font color="green">SI</font>

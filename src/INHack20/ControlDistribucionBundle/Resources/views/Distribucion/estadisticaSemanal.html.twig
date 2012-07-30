@@ -1,6 +1,6 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 {% block contenido %}
-<h1>Estadistica de Distribuci&oacute;n Semanal</h1>
+<h1>Estad&iacute;stica de Distribuci&oacute;n Semanal</h1>
 <br/><br/>
 <h2>Desde <b>{{ f_desde | date('d-m-Y') }}</b> Hasta <b>{{ f_hasta | date('d-m-Y') }}</b></h2>
     
@@ -26,16 +26,16 @@
         
         {% for tribunal in estadisticas|keys %}
             <tr class="even">
-                <td style="vertical-align: top;"><br></td>
+                <td style="vertical-align: top;">Tribunal<br></td>
                 <td colspan="6" rowspan="1"
                 style="vertical-align: top; text-align: center;">
-                   {{ tribunal }}
+                   {{ tribunal | title }}
                 </td>
             </tr>
                     {% for causa in estadisticas[tribunal]|keys %}
                          <tr class="odd">
                         <td style="vertical-align: top;">
-                            {{ causa }}{# Aqui va un td td#}
+                            {{ causa }}
                          </td>
                             {% for dia in estadisticas[tribunal][causa] %}
                                 {% if loop.index != 1 and loop.index!=7 %}

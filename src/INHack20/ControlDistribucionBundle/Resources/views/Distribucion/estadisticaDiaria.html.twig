@@ -1,6 +1,6 @@
 {% extends 'INHack20ControlDistribucionBundle:Principal:index.html.twig' %}
 {% block contenido %}
-<h1>Estadistica de Distribuci&oacute;n Diaria</h1>
+<h1>Estad&iacute;stica de Distribuci&oacute;n Diaria</h1>
 <br/><br/>
 <table style="text-align: left; width: auto; margin: auto" class="tableCSS" cellpadding="2" cellspacing="2">
     <thead>
@@ -14,10 +14,10 @@
         
         {% for tribunal in estadisticas|keys %}
             <tr class="even">
-                <td style="vertical-align: top;"><br></td>
+                <td style="vertical-align: top;">Tribunal<br></td>
                 <td 
                 style="vertical-align: top; text-align: center;">
-                   {{ tribunal }}
+                   {{ tribunal | title }}
                 </td>
             </tr>
                     {% for causa, valor in estadisticas[tribunal] %}

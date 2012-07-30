@@ -22,7 +22,7 @@
                 <td>{{ entity.nombreImputado }}</td>
                 <td>{{ entity.nombreVictima }}</td>
                 <td>{{ entity.pieza }}</td>
-                <td>{% if entity.distribucion and entity.distribucion.tribunal %}{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}{% endif %}</td>
+                <td>{% if entity.distribucion and entity.distribucion.tribunal %}{{ entity.distribucion.tribunal.descripcion | title }}{% endif %}</td>
                 <td>
                     <a href="{{ path('caso_show', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/inhack20controldistribucion/images/ver.png') }}" width="24" height="24" alt="" />
@@ -41,9 +41,18 @@
         </tbody>
 </table>
 <br/>
-{% if paginador.isPaginable %}
-    {% if parametros is not defined %}
+{% if parametros is not defined %}
         {% set parametros = {} %}
-    {% endif %}
-        {{ paginate(paginador,'caso',parametros) }}
+{% endif %}
+{% if paginador.isPaginable %}
+    {{ paginate(paginador,'caso',parametros) }}
+{% endif %}
+{% if paginador.hasResults %}
+    <br/>
+    <a href="{{ path('caso_resumen',parametros) }}">
+        <button class="css3button">
+            <img src="{{ asset('bundles/inhack20controldistribucion/images/pdf.png') }}" width="16" height="16" alt="" />
+            Exportar
+        </button>
+    </a>    
 {% endif %}

@@ -125,7 +125,7 @@ class ControlDistribucionFixtures implements FixtureInterface {
                 $fiscalias = range($fiscalias[0], $fiscalias[1]);
                 foreach ($fiscalias as $valor) {
                     $fiscalia = new Fiscalia();
-                    $fiscalia->setNombre('FISCALIA '. strtoupper($this->numeroToOrdinal($valor)));
+                    $fiscalia->setNombre('FISCALIA '. strtoupper($this->numeroToOrdinal($valor,'F')));
                     $fiscalia->setEstado($estadoApure);
                         $manager->persist($fiscalia);
                     
@@ -492,37 +492,43 @@ class ControlDistribucionFixtures implements FixtureInterface {
         $manager->flush();
     }
     
-    private function numeroToOrdinal($nro){
+    private function numeroToOrdinal($nro, $genero = 'M'){
         
-                    $nrosOrdinalesFemeninos = array(
-                    0 => '',
-                    1 => 'primera',
-                    2 => 'segunda',
-                    3 => 'tercera',
-                    4 => 'cuarta',
-                    5 => 'quinta',
-                    6 => 'sexta',
-                    7 => 'septima',
-                    8 => 'octava',
-                    9 => 'novena',
-                    10 => 'decima',
-                    20 => 'vigesima',
-                    30 => 'trigesima',
-                    40 => 'cuadragesima',
-                    50 => 'quincuagesima',
-                    60 => 'sexagesima',
-                );
-                if($nro >= 0 && $nro<=10)
-                    {
-                        $nro = $nrosOrdinalesFemeninos[$nro];
-                    }
-                elseif($nro >= 11 && $nro<=19){
-                        $nro = $nrosOrdinalesFemeninos[10] . ' ' . $nrosOrdinalesFemeninos[$nro - 10];
-                }    
-                elseif($nro >= 20 && $nro<=99){
-                        $resto = (floor($nro / 10)) * 10;
-                        $nro = $nrosOrdinalesFemeninos[$resto] . ' ' . $nrosOrdinalesFemeninos[$nro - $resto];
-                }
-                return $nro;
+        $l = 'o';
+        if($genero == 'F')
+            $l = 'a';
+            
+        $nrosOrdinalesFemeninos = array(
+            0 => '',
+            1 => 'primer'.$l,
+            2 => 'segund'.$l,
+            3 => 'tercer'.$l,
+            4 => 'cuart'.$l,
+            5 => 'quint'.$l,
+            6 => 'sext'.$l,
+            7 => 'septim'.$l,
+            8 => 'octav'.$l,
+            9 => 'noven'.$l,
+            10 => 'decim'.$l,
+            20 => 'vigesim'.$l,
+            30 => 'trigesim'.$l,
+            40 => 'cuadragesim'.$l,
+            50 => 'quincuagesim'.$l,
+            60 => 'sexagesim'.$l,
+        );
+
+        if($nro >= 0 && $nro<=10)
+            {
+                $nro = $nrosOrdinalesFemeninos[$nro];
+            }
+        elseif($nro >= 11 && $nro<=19){
+                $nro = $nrosOrdinalesFemeninos[10] . ' ' . $nrosOrdinalesFemeninos[$nro - 10];
+        }    
+        elseif($nro >= 20 && $nro<=99){
+                $resto = (floor($nro / 10)) * 10;
+                $nro = $nrosOrdinalesFemeninos[$resto] . ' ' . $nrosOrdinalesFemeninos[$nro - $resto];
+        }
+        return $nro;
      }//fin funcion
+      
 }

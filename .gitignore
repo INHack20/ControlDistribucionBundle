@@ -11,6 +11,7 @@ app/bootstrap*
 *.sql
 *.tar.*
 *.zip
+*.db
 # Comandos mas usados
 *.cmd
 

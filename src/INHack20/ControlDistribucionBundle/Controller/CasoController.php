@@ -446,7 +446,7 @@ class CasoController extends Controller
         $pdf->setLogo($this->getAssetUrl('bundles/inhack20controldistribucion/images/escudo.jpeg'));
         
         $pdf->setNroControlInterno($caso->getId());
-        $pdf->setNombre($usuario->getNombre());
+        $pdf->setNombre($usuario->getNombre().' '.$usuario->getApellido());
         $pdf->setCargo($usuario->getCargo());
         
         // set document information
@@ -494,24 +494,147 @@ class CasoController extends Controller
                 
                 <p style="margin-bottom: 0cm; line-height: 2" align="justify">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    En la Unidad de Recepción y Distribución de Documentos del Circuito Judicial Penal del Edo.
+                    En la Unidad de Recepción y Distribución de Documentos del Circuito Judicial Penal de San Fernando de
                     Apure en la fecha de hoy 
-                    <b>'.$caso->getCreado()->format('d-m-Y').'</b>
+                    <b>'.$caso->getCreado()->format('d-m-Y').', </b>
                     siendo las <b>'.$caso->getCreado()->format('h:i A').',</b>
                     se recibió la solicitud de
                     <b>'.$caso->getDistribucion()->getCausa()->getNombre()  .',</b>
-                    constante
+                    constante de 
                     <b>('.$caso->getPieza().')</b>
                     pieza, Emanada de la
                     <b>'.$caso->getFiscalia()->getNombre().'</b>
-                    del Ministerio Público, relacionado con el asunto Fiscal N°
+                    del MINISTERIO PÚBLICO, relacionado con el asunto Fiscal N°
                     <b>'.$caso->getNroAsuntoFiscal().'</b>,
                      seguido al imputado:
                     <b>'.strtoupper($caso->getNombreImputado()).',</b>
-                     por la presunta comisiona de un delito en perjuicio de la víctima
-                    <b>'.strtoupper($caso->getNombreVictima()).'.</b></p>
+                     por la presunta comisión de un delito en perjuicio de la víctima:
+                    <b>'.strtoupper($caso->getNombreVictima()).',</b>
+                     el cual por distribución aleatoria queda asignado al <b>TRIBUNAL N&deg;
+                     '.strtoupper($caso->getDistribucion()->getTribunal()->getDescripcion()).'</b>.
+                    </p>
         
             ';
+        
+        $pdf->writeHTML($html, true, false, true, false, '');
+        
+        return $pdf->Output();
+    }
+    
+    /**
+     * Genera el comprobante de un caso luego de hacer la distribucion del tribunal
+     * @Route("/resumen", name="caso_resumen")
+     */
+    public function resumenAction(){
+        $request = $this->getRequest();
+        
+        $parametros = array();
+        $parametros['fecha'] = $request->query->get('fecha');
+        $parametros['f_desde'] = $request->query->get('f_desde');
+        $parametros['f_hasta'] = $request->query->get('f_hasta');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $qb = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->createQueryBuilder('c');
+        
+        $html = '';
+        if($parametros['fecha']!=''){
+            $qb->andWhere ($qb->expr()->like('c.creado', "'".$parametros['fecha']."%'"));
+            $fecha = new \DateTime($parametros['fecha']);
+            $html .= '<b>Resumen de Casos: Fecha '.$fecha->format('d-m-Y').'.</b>';
+            $html.="<br/><br/>";
+        }
+        
+        if($parametros['f_desde'] != '' && $parametros['f_hasta'] != ''){
+            $qb->where('c.creado >= :f_desde')
+                    ->setParameter('f_desde', $parametros['f_desde'])
+                    ;
+            $qb->andWhere('c.creado <= :f_hasta')
+                    ->setParameter('f_hasta', $parametros['f_hasta']. '23:59 59')
+                    ;
+            $f_desde = new \DateTime($parametros['f_desde']);
+            $f_hasta = new \DateTime($parametros['f_hasta']);
+            $html .= '<b>Resumen de Casos: Desde '.$f_desde->format('d-m-Y').' hasta '.$f_hasta->format('d-m-Y').'.</b>';
+            $html.="<br/><br/>";
+            }//fin if
+        
+        $casos = $qb->getQuery()->getResult();    
+            
+        // create new PDF document
+        $pdf = new Resumen('L', 'mm', 'A4', true, 'UTF-8', false);
+        
+        $pdf->setLogo($this->getAssetUrl('bundles/inhack20controldistribucion/images/escudo.jpeg'));
+        
+        // set document information
+        $pdf->SetCreator('TCPDF');
+        $pdf->SetAuthor('Ing. Carlos Mendoza');
+        $pdf->SetTitle('Comprobante de recepcion de asunto nuevo');
+        $pdf->SetSubject('Comprobante de recepcion de asunto');
+        $pdf->SetKeywords('Comprobante, Distribucion');
+
+        // set default header data
+        //$pdf->SetHeaderData('tcpdf_logo.jpg', 30, 'EJEMPLO', 'POR MENDOZA CARLOS');
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array('helvetica', '', 10));
+        $pdf->setFooterFont(Array('helvetica', '', 8));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont('courier');
+        $pdf->SetFont('helvetica', '', 12);
+        
+
+        //set margins
+        $PDF_MARGIN_LEFT = 15;
+        $PDF_MARGIN_TOP = 75;
+        $PDF_MARGIN_RIGHT = 15;
+        $PDF_MARGIN_HEADER = 15;
+        $PDF_MARGIN_FOOTER = 25;
+        $pdf->SetMargins($PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, $PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin($PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin($PDF_MARGIN_FOOTER);
+        
+        $PDF_MARGIN_BOTTOM = 25;
+        //set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, $PDF_MARGIN_BOTTOM);
+        
+        $pdf->AddPage();
+        
+        $html.='            
+        <table style="text-align: center; width: 100%;" border="1" cellpadding="1" cellspacing="0">
+            <tbody>
+                <tr style="background-color: rgb(183, 184, 184);">
+                    <td style="width: 3%">N&deg;</td>
+                    <td style="width: 10%">Fecha</td>
+                    <td style="width: 10%">Hora</td>
+                    <td style="width: 13%">N&deg; Asunto</td>
+                    <td style="width: 13%">N&deg; Oficio</td>
+                    <td style="width: 15%">Imputado</td>
+                    <td style="width: 15%">Victima</td>
+                    <td style="width: 20%">Tribunal</td>
+                </tr>
+                ';
+        $i = 1;$caso= new Caso();
+        foreach ($casos as $caso) {
+            $html .='
+                <tr>
+                    <td style="">'.$i.'</td>
+                    <td style="">'.$caso->getCreado()->format('d-m-Y').'</td>
+                    <td style="">'.$caso->getCreado()->format('h:m a').'</td>
+                    <td style="">'.$caso->getNroAsuntoFiscal().'</td>
+                    <td style="">'.$caso->getNroOficioFiscal().'</td>
+                    <td style="">'.$caso->getNombreImputado().'</td>
+                    <td style="">'.$caso->getNombreVictima().'</td>
+                    <td style="">'.ucwords($caso->getDistribucion()->getTribunal()->getDescripcion()).'</td>
+                </tr>
+            ';
+            $i++;
+        }
+                
+        $html .='
+            </tbody>
+        </table>
+        ';
         
         $pdf->writeHTML($html, true, false, true, false, '');
         

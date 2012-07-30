@@ -41,7 +41,15 @@
             </tr>
             <tr class="odd">
                 <td>Tribunal Asignado</td>
-                <td>{{ entity.distribucion.tribunal.nro }} de {{ entity.distribucion.tribunal.tribunaltipo.nombre }}</td>
+                <td>{{ entity.distribucion.tribunal.descripcion | title }}</td>
+            </tr>
+            <tr class="even">
+                <td>Dia de Registro</td>
+                <td>{{ entity.creado | date('d-m-Y')}}</td>
+            </tr>
+            <tr class="odd">
+                <td>Hora de Registro</td>
+                <td>{{ entity.creado | date('h:i a')}}</td>
             </tr>
         </tbody>
         <thead>
