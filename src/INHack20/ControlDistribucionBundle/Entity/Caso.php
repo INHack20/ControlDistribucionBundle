@@ -29,6 +29,13 @@ class Caso
      * @ORM\JoinColumn(name="fiscalia_id", referencedColumnName="id")
      */
     private $fiscalia;
+    
+    /**
+     *
+     * @var boolean $acusacionPrivada
+     * @ORM\Column(name="acusacionPrivada", type="boolean"); 
+     */
+    private $acusacionPrivada;
 
     /**
      * @var string $nroAsuntoFiscal
@@ -86,6 +93,20 @@ class Caso
      * @ORM\JoinColumn(name="distribucion_id", referencedColumnName="id")
      */
     protected $distribucion;
+    
+    /**
+     *
+     * @var Caso $inhibicion
+     * @ORM\OneToOne(targetEntity="Caso")
+     * @ORM\JoinColumn(name="caso_id",referencedColumnName="id")
+     */
+    protected $inhibicion;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Tribunal")
+     * @ORM\JoinColumn(name="tribunal_id", referencedColumnName="id")
+     */
+    protected $procedenciaTribunal;
     
     /**
      *
@@ -252,7 +273,7 @@ class Caso
      *
      * @param INHack20\ControlDistribucionBundle\Entity\Fiscalia $fiscalia
      */
-    public function setFiscalia(\INHack20\ControlDistribucionBundle\Entity\Fiscalia $fiscalia)
+    public function setFiscalia(\INHack20\ControlDistribucionBundle\Entity\Fiscalia $fiscalia=null)
     {
         $this->fiscalia = $fiscalia;
     }
@@ -306,5 +327,74 @@ class Caso
     public function getNroAsuntoFiscal()
     {
         return $this->nroAsuntoFiscal;
+    }
+
+    /**
+     * Set acusacionPrivada
+     *
+     * @param boolean $acusacionPrivada
+     */
+    public function setAcusacionPrivada($acusacionPrivada)
+    {
+        $this->acusacionPrivada = $acusacionPrivada;
+    }
+
+    /**
+     * Get acusacionPrivada
+     *
+     * @return boolean 
+     */
+    public function getAcusacionPrivada()
+    {
+        return $this->acusacionPrivada;
+    }
+    /**
+     * Get acusacionPrivada
+     *
+     * @return boolean 
+     */
+    public function isAcusacionPrivada()
+    {
+        return $this->acusacionPrivada;
+    }
+
+    /**
+     * Set inhibicion
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\Caso $inhibicion
+     */
+    public function setInhibicion(\INHack20\ControlDistribucionBundle\Entity\Caso $inhibicion)
+    {
+        $this->inhibicion = $inhibicion;
+    }
+
+    /**
+     * Get inhibicion
+     *
+     * @return INHack20\ControlDistribucionBundle\Entity\Caso 
+     */
+    public function getInhibicion()
+    {
+        return $this->inhibicion;
+    }
+
+    /**
+     * Set procedenciaTribunal
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\Tribunal $procedenciaTribunal
+     */
+    public function setProcedenciaTribunal(\INHack20\ControlDistribucionBundle\Entity\Tribunal $procedenciaTribunal)
+    {
+        $this->procedenciaTribunal = $procedenciaTribunal;
+    }
+
+    /**
+     * Get procedenciaTribunal
+     *
+     * @return INHack20\ControlDistribucionBundle\Entity\Tribunal 
+     */
+    public function getProcedenciaTribunal()
+    {
+        return $this->procedenciaTribunal;
     }
 }

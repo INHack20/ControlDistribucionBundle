@@ -66,6 +66,9 @@ class CasoController extends Controller
             $parametros['nroOficioFiscal'] = $request->query->get('nroOficioFiscal');
             $parametros['nombreImputado'] = $request->query->get('nombreImputado');
             $parametros['nombreVictima'] = $request->query->get('nombreVictima');
+            $parametros['acusacionPrivada'] = $request->query->get('acusacionPrivada');
+            $parametros['horaInicio'] = $request->query->get('horaInicio');
+            $parametros['horaFin'] = $request->query->get('horaFin');
             
             $formBuscar->bindRequest($request);
             if($formBuscar->isValid()){
@@ -79,8 +82,10 @@ class CasoController extends Controller
                     $parametros['nroOficioFiscal'] = $data['nroOficioFiscal'];
                     $parametros['nombreImputado'] = $data['nombreImputado'];
                     $parametros['nombreVictima'] = $data['nombreVictima'];
+                    $parametros['acusacionPrivada'] = $data['acusacionPrivada'];
+                    $parametros['horaInicio'] = $data['horaInicio'];
+                    $parametros['horaFin'] = $data['horaFin'];                   
                }
-            
             // Creo la consulta de los datos del formulario
             $qb->join('c.distribucion','d');
 
@@ -113,14 +118,26 @@ class CasoController extends Controller
             
             if($parametros['nombreVictima'] != '')
                 $qb->andWhere ($qb->expr()->like('c.nombreVictima', "'%".$parametros['nombreVictima']."%'"));
+            
+            if($parametros['acusacionPrivada'] != '')
+                $qb->andWhere ('c.acusacionPrivada = :acusacionPrivada')
+                ->setParameter('acusacionPrivada', $parametros['acusacionPrivada'])
+                ;
+            
+            if($parametros['horaInicio'] != '')
+                $qb->andWhere ('c.creado >= :horaInicio')
+                ->setParameter('horaInicio', $parametros['horaInicio']);
+            
+            if($parametros['horaFin'] != '')
+                $qb->andWhere ('c.creado <= :horaFin')
+                ->setParameter('horaFin', $parametros['horaFin']);
         }
         
         $qb->orderBy('c.creado','desc');
         
         $adapter = new DoctrineOrmAdapter($qb);
         $paginador = new Pager($adapter, array('page' => $page,'limit' => $this->container->getParameter('LIMITE_PAGINACION')));
-        
-        
+            
         if($request->isXmlHttpRequest())
         {
             return $this->render('INHack20ControlDistribucionBundle:Caso:lista.html.twig',array(
@@ -173,11 +190,11 @@ class CasoController extends Controller
                     'required' => false,
                 ))
                 ->add('nroAsuntoFiscal',null,array(
-                    'label' => 'N&deg; Asunto Fiscal',
+                    'label' => 'N&deg; Causa',
                     'required' => false,
                 ))
                 ->add('nroOficioFiscal',null,array(
-                    'label' => 'N&deg; Oficio Fiscal',
+                    'label' => 'N&deg; Oficio',
                     'required' => false,
                 ))
                 ->add('nombreImputado',null,array(
@@ -186,6 +203,22 @@ class CasoController extends Controller
                 ))
                 ->add('nombreVictima',null,array(
                     'label' => 'Nombre de la Victima',
+                    'required' => false,
+                ))
+                ->add('acusacionPrivada','checkbox',array(
+                    'label' => '¿Acusaci&oacute;n Privada?',
+                    'required' => false,
+                ))
+                ->add('horaInicio','datetime',array(
+                    'input' => 'string',
+                    'widget' => 'single_text',
+                    'label' => 'Desde(fecha,hora)',
+                    'required' => false,
+                ))
+                ->add('horaFin','datetime',array(
+                    'input' => 'string',
+                    'widget' => 'single_text',
+                    'label' => 'Hasta(fecha,hora)',
                     'required' => false,
                 ))
                 ->getForm()
@@ -218,66 +251,121 @@ class CasoController extends Controller
     /**
      * Displays a form to create a new Caso entity.
      *
-     * @Route("/{idCausa}/new", name="caso_new")
+     * @Route("/{idCausa}/new", name="caso_new", requirements={"idCaso" = "0"}, defaults={"idCaso" = "0"})
+     * @Route("/{idCaso}/inhibicion/new", name="caso_new_inhibir", requirements={"idCausa" = "0"},defaults={"idCausa" = "0"})
      * @Template()
      * @Secure(roles="ROLE_SUPER_USER")
      */
-    public function newAction($idCausa)
+    public function newAction($idCausa,$idCaso)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $causa = $em->getRepository('INHack20ControlDistribucionBundle:Causa')->find($idCausa);
         
-        if (!$causa) {
-            throw $this->createNotFoundException('Unable to find Causa entity.');
+        $parametros = array();
+        $route = "";
+        $em = $this->getDoctrine()->getEntityManager();
+        if($idCausa != 0 ){
+            $causa = $em->getRepository('INHack20ControlDistribucionBundle:Causa')->find($idCausa);
+            if (!$causa) {
+                throw $this->createNotFoundException('Unable to find Causa entity.');
+            }
+            $parametros['idCausa'] = $causa->getId();
+            $route = 'caso_create';
+        }
+        
+        if($idCaso != 0)
+        {
+            $caso = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($idCaso);
+            if (!$caso) {
+                throw $this->createNotFoundException('Unable to find Caso entity.');
+            }
+            $causa = $caso->getDistribucion()->getCausa();
+            $route = 'caso_create_inhibir';
+            $parametros['idCaso'] = $caso->getId();
+        }
+        
+        if($idCausa == 0 && $idCaso == 0){
+            throw $this->createNotFoundException('No se ha recibido ninguna entidad valida Causa o Caso.');
         }
         
         $usuario = $this->container->get('security.context')->getToken()->getUser();
         
         $entity = new Caso();
         
+        if($idCaso != 0){
+            $entity->setNombreImputado($caso->getNombreImputado());
+            $entity->setNombreVictima($caso->getNombreVictima());
+            $entity->setPieza($caso->getPieza());
+        }
+        
         $form   = $this->createForm(new CasoType($usuario->getEstado()), $entity);
         
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'parametros' => $parametros,
             'causa' => $causa,
+            'route' => $route,
         );
     }
 
     /**
      * Creates a new Caso entity.
      *
-     * @Route("/{idCausa}/create", name="caso_create")
+     * @Route("/{idCausa}/create", name="caso_create", requirements={"idCaso" = "0"}, defaults={"idCaso" = "0"})
+     * @Route("/{idCaso}/inhibicion/create", name="caso_create_inhibir", requirements={"idCausa" = "0"}, defaults={"idCausa" = "0"})
      * @Method("post")
      * @Template("INHack20ControlDistribucionBundle:Caso:new.html.twig")
      * @Secure(roles="ROLE_SUPER_USER")
      */
-    public function createAction($idCausa)
+    public function createAction($idCausa,$idCaso)
     {
+        $parametros = array();
+        $route = "";
         $erroesDistribucion = array();
         $em = $this->getDoctrine()->getEntityManager();
-        $causa = $em->getRepository('INHack20ControlDistribucionBundle:Causa')->find($idCausa);
-        
-        if (!$causa) {
-            throw $this->createNotFoundException('Unable to find Causa entity.');
+        $casoInhibicion = NULL;
+        if($idCausa !=0 ){
+            $causa = $em->getRepository('INHack20ControlDistribucionBundle:Causa')->find($idCausa);
+            if (!$causa) {
+                throw $this->createNotFoundException('Unable to find Causa entity.');
+            }
+            $parametros['idCausa'] = $causa->getId();
+            $route = 'caso_create';
         }
+        if($idCaso != 0){
+            $casoInhibicion = $em->getRepository('INHack20ControlDistribucionBundle:Caso')->find($idCaso);
+            if(!$casoInhibicion){
+                throw $this->createNotFoundException('No se ha encontrado la entidad Caso');
+            }
+            $causa = $casoInhibicion->getDistribucion()->getCausa();
+            $route = 'caso_create_inhibir';
+            $parametros['idCaso'] = $casoInhibicion->getId();
+        }
+        
+        if($idCausa == 0 && $idCaso == 0){
+            throw $this->createNotFoundException('No se ha recibido ninguna entidad valida Causa o Caso.');
+        }
+        
         $usuario = $this->container->get('security.context')->getToken()->getUser();
         
         $entity  = new Caso();
         $request = $this->getRequest();
         $form    = $this->createForm(new CasoType($usuario->getEstado()), $entity);
         $form->bindRequest($request);
-
+        
         if ($form->isValid()) {
             
             $distribucion = new Distribucion($em);
             
-            if(!$distribucion->distribuir($causa))
+            if(!$distribucion->distribuir($causa,$casoInhibicion))
             {
                 $erroesDistribucion = $distribucion->getErrores();
             }
             else{
+                 if($casoInhibicion){
+                    $entity->setInhibicion($casoInhibicion);
+                    $em->persist($casoInhibicion);
+                 }
+                 
                  $entity->setDistribucion($distribucion);
                  $entity->setUsuario($this->container->get('security.context')->getToken()->getUser());
                  $em->persist($entity);
@@ -290,7 +378,9 @@ class CasoController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'parametros' => $parametros,
             'causa' => $causa,
+            'route' => $route,
             'erroesDistribucion' => $erroesDistribucion,
         );
     }
@@ -316,8 +406,11 @@ class CasoController extends Controller
         if($this->get('security.context')->isGranted('ROLE_ADMIN')){
             $read_only = false;
         }
-        
-        $editForm = $this->createForm(new CasoType($entity->getFiscalia()->getEstado(),$read_only),$entity);
+        if($entity->getFiscalia())
+            $estado = $entity->getFiscalia()->getEstado();
+        else
+            $estado = $this->container->get('security.context')->getToken()->getUser()->getEstado();
+        $editForm = $this->createForm(new CasoType($estado,$read_only),$entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -350,7 +443,11 @@ class CasoController extends Controller
         if($this->get('security.context')->isGranted('ROLE_ADMIN')){
             $read_only = false;
         }
-        $editForm   = $this->createForm(new CasoType($entity->getFiscalia()->getEstado(),$read_only), $entity);
+        if($entity->getFiscalia())
+            $estado = $entity->getFiscalia()->getEstado();
+        else
+            $estado = $this->container->get('security.context')->getToken()->getUser()->getEstado();
+        $editForm   = $this->createForm(new CasoType($estado,$read_only), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -502,15 +599,20 @@ class CasoController extends Controller
                     <b>'.$caso->getDistribucion()->getCausa()->getNombre()  .',</b>
                     constante de 
                     <b>('.$caso->getPieza().')</b>
-                    pieza, Emanada de la
-                    <b>'.$caso->getFiscalia()->getNombre().'</b>
-                    del MINISTERIO PÚBLICO, relacionado con el asunto Fiscal N°
+                    pieza, Emanada ';
+                    $procedencia = '<b>DESCONOCIDO';
+                    if($caso->getFiscalia())
+                            $procedencia = 'de la <b>'.$caso->getFiscalia()->getNombre() .' DEL MINISTERIO PUBLICO';
+                        elseif($caso->getProcedenciaTribunal())
+                            $procedencia = 'del <b>TRIBUNAL '.strtoupper($caso->getProcedenciaTribunal()->getDescripcion());
+                    $html.= $procedencia.'</b>,
+                    relacionado con la Causa N°
                     <b>'.$caso->getNroAsuntoFiscal().'</b>,
                      seguido al imputado:
                     <b>'.strtoupper($caso->getNombreImputado()).',</b>
                      por la presunta comisión de un delito en perjuicio de la víctima:
                     <b>'.strtoupper($caso->getNombreVictima()).',</b>
-                     el cual por distribución aleatoria queda asignado al <b>TRIBUNAL N&deg;
+                     el cual por distribución aleatoria fue asignado al <b>TRIBUNAL
                      '.strtoupper($caso->getDistribucion()->getTribunal()->getDescripcion()).'</b>.
                     </p>
         
@@ -556,8 +658,68 @@ class CasoController extends Controller
             $f_hasta = new \DateTime($parametros['f_hasta']);
             $html .= '<b>Resumen de Casos: Desde '.$f_desde->format('d-m-Y').' hasta '.$f_hasta->format('d-m-Y').'.</b>';
             $html.="<br/><br/>";
-            }//fin if
+        }//fin if
         
+            // Variables de busqueda desde formulario
+            $parametros['tribunaltipo'] = $request->query->get('tribunaltipo');
+            $parametros['id'] = $request->query->get('id');
+            $parametros['tribunal'] = $request->query->get('tribunal');
+            $parametros['causa'] = $request->query->get('causa');
+            $parametros['nroAsuntoFiscal'] = $request->query->get('nroAsuntoFiscal');
+            $parametros['nroOficioFiscal'] = $request->query->get('nroOficioFiscal');
+            $parametros['nombreImputado'] = $request->query->get('nombreImputado');
+            $parametros['nombreVictima'] = $request->query->get('nombreVictima');
+            $parametros['acusacionPrivada'] = $request->query->get('acusacionPrivada');
+            $parametros['horaInicio'] = $request->query->get('horaInicio');
+            $parametros['horaFin'] = $request->query->get('horaFin');
+            
+            // Creo la consulta de los datos del formulario
+            $qb->join('c.distribucion','d');
+
+            if($parametros['id']!='')
+                $qb->andWhere ('d.id = :id')
+                    ->setParameter('id', $parametros['id']);
+            
+            if($parametros['tribunal']!='')
+                $qb->andWhere ('d.tribunal = :tribunal')
+                    ->setParameter('tribunal', $parametros['tribunal']);
+
+            if($parametros['tribunaltipo'] != ''){
+                $qb->join('d.tribunal', 't');
+                $qb->andWhere('t.tribunalTipo = :tribunaltipo')
+                    ->setParameter('tribunaltipo',$parametros['tribunaltipo']);
+            }
+            
+            if($parametros['causa'] != '')
+                $qb->andWhere ('d.causa = :causa')
+                    ->setParameter('causa', $parametros['causa']);
+            
+            if($parametros['nroAsuntoFiscal'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nroAsuntoFiscal', "'%".$parametros['nroAsuntoFiscal']."%'"));
+            
+            if($parametros['nroOficioFiscal'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nroOficioFiscal', "'%".$parametros['nroOficioFiscal']."%'"));
+            
+            if($parametros['nombreImputado'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nombreImputado', "'%".$parametros['nombreImputado']."%'"));
+            
+            if($parametros['nombreVictima'] != '')
+                $qb->andWhere ($qb->expr()->like('c.nombreVictima', "'%".$parametros['nombreVictima']."%'"));
+            
+            if($parametros['acusacionPrivada'] != '')
+                $qb->andWhere ('c.acusacionPrivada = :acusacionPrivada')
+                ->setParameter('acusacionPrivada', $parametros['acusacionPrivada']);
+            
+            if($parametros['horaInicio'] != '')
+                $qb->andWhere ('c.creado >= :horaInicio')
+                ->setParameter('horaInicio', $parametros['horaInicio']);
+            
+            if($parametros['horaFin'] != '')
+                $qb->andWhere ('c.creado <= :horaFin')
+                ->setParameter('horaFin', $parametros['horaFin']);
+        
+        $qb->orderBy('c.creado','desc');    
+            
         $casos = $qb->getQuery()->getResult();    
             
         // create new PDF document
@@ -606,12 +768,13 @@ class CasoController extends Controller
                 <tr style="background-color: rgb(183, 184, 184);">
                     <td style="width: 3%">N&deg;</td>
                     <td style="width: 10%">Fecha</td>
-                    <td style="width: 10%">Hora</td>
+                    <td style="width: 8%">Hora</td>
                     <td style="width: 13%">N&deg; Asunto</td>
-                    <td style="width: 13%">N&deg; Oficio</td>
-                    <td style="width: 15%">Imputado</td>
-                    <td style="width: 15%">Victima</td>
-                    <td style="width: 20%">Tribunal</td>
+                    <td style="width: 12%">N&deg; Oficio</td>
+                    <td style="width: 14%">Imputado</td>
+                    <td style="width: 14%">Victima</td>
+                    <td style="width: 16%">Tribunal</td>
+                    <td style="width: 10%">Recibe</td>
                 </tr>
                 ';
         $i = 1;$caso= new Caso();
@@ -626,6 +789,7 @@ class CasoController extends Controller
                     <td style="">'.$caso->getNombreImputado().'</td>
                     <td style="">'.$caso->getNombreVictima().'</td>
                     <td style="">'.ucwords($caso->getDistribucion()->getTribunal()->getDescripcion()).'</td>
+                    <td>&nbsp;</td>    
                 </tr>
             ';
             $i++;

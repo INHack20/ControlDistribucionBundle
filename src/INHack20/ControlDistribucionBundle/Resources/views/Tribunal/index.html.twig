@@ -8,6 +8,7 @@
             <tr>
                 <th>N&deg;</th>
                 <th>Nro</th>
+                <th>Grupo Horario</th>
                 <th>¿Hay Despacho?</th>
                 <th>Acciones</th>
             </tr>
@@ -17,6 +18,9 @@
             <tr class="{% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}">
                 <td>{{ loop.index }}</td>
                 <td>Tribunal {{ entity.descripcion | title }}</td>
+                <td>
+                    {{ entity.grupo.nombre }}
+                </td>
                 <td>
                     {% if entity.isdespacho %}
                         <font color="green">SI</font>

@@ -23,6 +23,12 @@ class TribunalType extends AbstractType
                 'required' => false,
                 'label' => '¿Hay Despacho?'
             ))
+            ->add('grupo','entity',array(
+                'label' => 'Grupo de Horario',
+                'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Grupo',
+                'property' => 'nombre',
+                'empty_value' => 'Seleccione',
+            ))
         ;
     }
 

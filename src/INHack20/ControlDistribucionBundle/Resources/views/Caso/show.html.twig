@@ -17,39 +17,55 @@
             </tr>
             <tr class="odd">
                 <td>Procedencia</td>
-                <td>{{ entity.fiscalia.nombre }}</td>
+                <td>
+                    {% if entity.fiscalia %}{{ entity.fiscalia.nombre }}{% endif %}
+                    {% if entity.procedenciaTribunal %}{{ entity.procedenciaTribunal.descripcion | title }}{% endif %}
+                </td>
             </tr>
             <tr class="even">
-                <td>N&deg; Asunto Fiscal</td>
-                <td>{{ entity.nroAsuntoFiscal }}</td>
+                <td>¿Acusaci&oacute;n Privada?</td>
+                <td>{% if entity.isAcusacionPrivada %}SI{% else %}NO{% endif %}</td>
             </tr>
             <tr class="odd">
-                <td>N&deg; Oficio Fiscal</td>
-                <td>{{ entity.nroOficioFiscal }}</td>
+                <td>N&deg; Causa</td>
+                <td>{{ entity.nroAsuntoFiscal }}</td>
             </tr>
             <tr class="even">
+                <td>N&deg; Oficio</td>
+                <td>{{ entity.nroOficioFiscal }}</td>
+            </tr>
+            <tr class="odd">
                 <td>Nombre del Imputado</td>
                 <td>{{ entity.nombreImputado }}</td>
             </tr>
-            <tr class="odd">
+            <tr class="even">
                 <td>Nombre de la Victima</td>
                 <td>{{ entity.nombreVictima }}</td>
             </tr>
-            <tr class="even">
+            <tr class="odd">
                 <td>Pieza</td>
                 <td>{{ entity.pieza }}</td>
             </tr>
-            <tr class="odd">
+            <tr class="even">
                 <td>Tribunal Asignado</td>
                 <td>{{ entity.distribucion.tribunal.descripcion | title }}</td>
             </tr>
-            <tr class="even">
+            <tr class="odd">
                 <td>Dia de Registro</td>
                 <td>{{ entity.creado | date('d-m-Y')}}</td>
             </tr>
-            <tr class="odd">
+            <tr class="even">
                 <td>Hora de Registro</td>
                 <td>{{ entity.creado | date('h:i a')}}</td>
+            </tr>
+            <tr class="odd">
+                <td>Inhibici&oacute;n</td>
+                <td>{% if entity.inhibicion %}
+                    <a href="{{ path('caso_show',{ 'id' : entity.inhibicion.id }) }}">{{ entity.inhibicion.nroAsuntoFiscal}}</a>{% else %}Ninguna{% endif %}</td>
+            </tr>
+            <tr class="even">
+                <td>Usuario</td>
+                <td>{% if entity.usuario %}{{ entity.usuario.nombre ~ ' ' ~ entity.usuario.apellido }}{% endif %}</td>
             </tr>
         </tbody>
         <thead>

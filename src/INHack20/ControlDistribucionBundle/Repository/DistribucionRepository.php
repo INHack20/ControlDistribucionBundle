@@ -12,8 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class DistribucionRepository extends EntityRepository
 {
-    public function findTodayDistribuciones($tribunalTipo){
-        //SELECT d, count(d.tribunal) FROM INHack20ControlDistribucionBundle:Distribucion d GROUP BY d.tribunal
+    public function findDistribucionesHoy($tribunalTipo){
         $fechaHoy = new \DateTime('today');
         $qb = $this->getEntityManager()
                 ->createQueryBuilder();

@@ -37,14 +37,6 @@ class Causa
     protected $tribunalTipo;
     
     /**
-     *
-     * @var Grupo
-     * @ORM\ManyToOne(targetEntity="Grupo")
-     * @ORM\JoinColumn(name="grupo_id",referencedColumnName="id") 
-     */
-    protected $grupo;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -72,26 +64,6 @@ class Causa
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Set grupo
-     *
-     * @param INHack20\ControlDistribucionBundle\Entity\Grupo $grupo
-     */
-    public function setGrupo(\INHack20\ControlDistribucionBundle\Entity\Grupo $grupo)
-    {
-        $this->grupo = $grupo;
-    }
-
-    /**
-     * Get grupo
-     *
-     * @return INHack20\ControlDistribucionBundle\Entity\Grupo 
-     */
-    public function getGrupo()
-    {
-        return $this->grupo;
     }
 
     /**

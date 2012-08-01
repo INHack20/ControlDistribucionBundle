@@ -12,6 +12,11 @@ class CasoType extends AbstractType
     {
         $estado = $this->estado;
         $builder
+            ->add('procedencia','choice',array(
+                'property_path' => false,
+                'choices' => array('fiscalia' => 'Fiscalia','tribunal' => 'Tribunal'),
+                'empty_value' => 'Seleccione',
+            ))
             ->add('estado','entity',array(
                 'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Estado',
                 'property' => 'nombre',
@@ -29,10 +34,20 @@ class CasoType extends AbstractType
                             ->where('f.estado = :estado')
                             ->setParameter('estado', $estado)
                             ;
-                  }
+                  },
+            ))
+            ->add('procedenciaTribunal','entity',array(
+                'label' => 'Tribunal',
+                'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Tribunal',
+                'property' => 'descripcion',
+                'empty_value' => 'Seleccione',
+            ))
+            ->add('acusacionPrivada',null,array(
+                'label' => '¿Acusaci&oacute;n Privada?',
+                'required' => false,
             ))
             ->add('nroAsuntoFiscal',null,array(
-                'label' => 'N&deg; Asunto Fiscal',
+                'label' => 'N&deg; Causa',
                 'read_only' => $this->read_only,
             ))
             ->add('nroOficioDesconocido','checkbox',array(
@@ -41,7 +56,7 @@ class CasoType extends AbstractType
                 'required' => false,
             ))  
             ->add('nroOficioFiscal',null,array(
-                'label' => 'N&deg; Oficio Fiscal',
+                'label' => 'N&deg; Oficio',
             ))
             ->add('nombreImputadoDesconocido','checkbox',array(
                 'label' => '¿Desconocido?',

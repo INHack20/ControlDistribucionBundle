@@ -153,152 +153,24 @@ class Distribucion
     /**
      * Se encarga de realizar la distribucion equitativa de las causas en los tribunales de control.
      */
-    public function distribuir($causa){
+    public function distribuir($causa, \INHack20\ControlDistribucionBundle\Entity\Caso $casoInhibicion = NULL){
         $em = $this->em;
-        //$em = $this->getDoctrine()->getEntityManager();
-        /*
-        $causa = new \INHack20\ControlDistribucionBundle\Entity\Causa;
-        $causa =  $em->getRepository('INHack20ControlDistribucionBundle:Causa')->find($idCausa);
-            if(!$causa)
-            {
-                throw $this->createNotFoundException('No se ha encontrado la entidad Causa');
-            }
-         * 
-         */
-        $horarios = $causa->getGrupo()->getHorarios();
-        //Guardar todos los errores para presentarselos al usuario.
         $errores = array();
+        //$causa = new Causa();
+        $tribunalTipo = $causa->getTribunalTipo();
+        $tribunales = $tribunalTipo->getTribunales();
+        $tribunalesOriginales = array();
+        //Evaluo si hay despacho y si el tribunal esta dentro del horario de trabajo
+        foreach ($tribunales as $tribunal){
+            if($tribunal->isDespacho() && $this->isRecibeCausas($tribunal->getGrupo()->getHorarios()))
+                $tribunalesOriginales[] = $tribunal;
+        }
         
-        $dias = array(
-            0 =>'DOM',
-            1 =>'LUN',
-            2 =>'MAR',
-            3 =>'MIE',
-            4 =>'JUE',
-            5 =>'VIE',
-            6 =>'SAB',
-        );
-        $diasCompletos = array (
-            'Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'
-        );
-        //print_r($dias);   
-        
-        //echo '<br/>Cantidad de horarios = '.count($horarios).'<br/>';
-        $diasHorasTrabajoOriginal = array();
-        foreach ($horarios as $horario) {
-            $diasConvertidos=$horario->getDias();
+        //Si hay algun tribunal recibiendo causas.
+        if(count($tribunalesOriginales) > 0){
             
-            foreach($dias as $key => $dia) {
-                $diasConvertidos = str_replace($dia, $key, $diasConvertidos);
-            }
-            //echo $diasConvertidos;
-            $diasHorasTrabajoOriginal[]  = array(
-                'dias' => $diasConvertidos.",",
-                'horaInicio' => $horario->getHoraInicio(),
-                'horaFin' => $horario->getHoraFin(),
-            );
-            
-        }
-        //echo '<BR/>';
-        
-        $diasSeparados = '';
-        
-        //print_r($diasHorasTrabajoOriginal);
-        //echo '<br/>';
-        $diasHorasTrabajoFiltrado = array();
-        foreach ($diasHorasTrabajoOriginal as $datos){
-            foreach ($datos as $key => $value) {
-                
-                if($key == 'dias')
-                {
-                    if($datos['dias'] != ''){
-                        
-                        $diasSeparados = explode(',', $datos['dias']);
-                        
-                        foreach ($diasSeparados as $dia) {
-                            
-                                if(in_array('-', str_split($dia))){
-                                    $d= explode('-', $dia);
-                                        if(count($d)==2){
-                                            $rangoDias = range($d[0], $d[1]);
-                                                foreach ($rangoDias as $dia){
-                                                    
-                                                        $diasHorasTrabajoFiltrado [$dia] = array(
-                                                            'horaInicio' => $datos['horaInicio'],
-                                                            'horaFin' => $datos['horaFin'],
-                                                            );
-                                                }//fin foreach
-                                        }//fin if
-                                }//fin if
-                                else{
-                                    if($dia != '')
-                                    $diasHorasTrabajoFiltrado [$dia] = array(
-                                                        'horaInicio' => $datos['horaInicio'],
-                                                        'horaFin' => $datos['horaFin'],
-                                                        );
-                                }
-                        }
-                        
-                        
-                    }
-                    else
-                        unset($datos[$key]);
-                }
-                
-            }
-
-        }
-        
-        //sort($diasHorasTrabajoFiltrado);
-        //print_r($diasHorasTrabajoFiltrado);
-        $fechaHoy = new \DateTime();
-        
-        //echo 'Fecha de Hoy = '.$fechaHoy->format('d-m-Y h:i a  w').' <br/>';
-        $diasAutorizados = array();
-        foreach ($diasHorasTrabajoFiltrado as $key => $valor) {
-            $diaLetra=$key;
-            $diasAutorizados [] = $key;
-            foreach($dias as $indice => $dia) {
-                $diaLetra = str_replace($indice, $dia, $diaLetra);
-            }
-           // echo "Arreglo $key dia= ".$diaLetra.": ";
-            /*
-            foreach ($valor as $key => $value) {
-                echo $key.'='.$valor[$key]->format('h:i a').' ';
-            }
-             * 
-             */
-            //print_r($valor);
-            //echo '<br/>';
-        }
-        
-        //echo 'dia hoy = '. $fechaHoy->format('w').'<br/>';
-        
-        $distribuir = false;
-        if(in_array($fechaHoy->format('w'), $diasAutorizados)){
-             
-             $horaInicio = $diasHorasTrabajoFiltrado[$fechaHoy->format('w')]['horaInicio']
-                     ->setDate($fechaHoy->format('Y'),$fechaHoy->format('m'),$fechaHoy->format('d'));
-             
-             $horaFin = $diasHorasTrabajoFiltrado[$fechaHoy->format('w')]['horaFin']
-                     ->setDate($fechaHoy->format('Y'),$fechaHoy->format('m'),$fechaHoy->format('d'));
-             //echo $horaInicio->format('d-m-Y h:i a');
-             if($fechaHoy >= $horaInicio && $fechaHoy <= $horaFin){
-                    $distribuir = true;
-                 }
-             else
-                 $errores [] = 'En esta hora  '.$fechaHoy->format('h:i a').', no se permite la insercion de la causa '.$causa->getNombre();
-        }
-        else
-           $errores [] = 'Los dias '.$diasCompletos[$fechaHoy->format('w')].' no se permite la insercion de la causa '.$causa->getNombre();
-        
-        if($distribuir){
-        
-            $tribunalTipo = $causa->getTribunalTipo();
-            $tribunalesOriginales = $tribunalTipo->getTribunales();
-
             $distribuciones = new Distribucion();
-            $distribuciones = $em->getRepository('INHack20ControlDistribucionBundle:Distribucion')->findTodayDistribuciones($tribunalTipo);
+            $distribuciones = $em->getRepository('INHack20ControlDistribucionBundle:Distribucion')->findDistribucionesHoy($tribunalTipo);
 
             $limiteAsignacion=$tribunalTipo->getLimiteCausas();//limite de ocurrencia
 
@@ -306,51 +178,71 @@ class Distribucion
             $tribunales = array();
             $tribunalesSorteo = array();
             $idsTribunalesSorteo = array();
-
+            //Guardo los tribunales en un array con la cantidad respectivas de ocurrencias, tambien guardo los ids para manejarlos mas facil luego.
             foreach ($distribuciones as $distribucion) {
-                    $tribunales [] = array('tribunal' => $distribucion[0]->getTribunal() , 'valor' => $distribucion[1]); 
+                if($this->isRecibeCausas($distribucion[0]->getTribunal()->getGrupo()->getHorarios())){
+                    $tribunales [] = array('tribunal' => $distribucion[0]->getTribunal() , 'valor' => $distribucion[1]);//Valor = cantidad de tribunales encontrados 
                     $idsTribunalesSorteo [] = $distribucion[0]->getTribunal()->getId();
+                 }
             }
 
-                foreach ($tribunales as $datos) {
+            foreach ($tribunales as $datos) {
                 if($datos['tribunal']->isHabilitado() && $datos['tribunal']->isDespacho())
-                        $tribunalesSorteo [] = $datos['tribunal'];
+                     $tribunalesSorteo [] = $datos['tribunal'];
             }
 
                 //Si el array esta vacio, todos los tribunales de deben incluir en el sorteo
-                if(count($tribunalesSorteo)==0 && count($tribunales)==  count($tribunalesOriginales))
+                if(count($tribunalesSorteo) == 0 && count($tribunales) ==  count($tribunalesOriginales))
                 {
                     foreach ($tribunalesOriginales as $tribunal) {
                         $tribunalesSorteo [] = $tribunal;
                         $tribunal->setHabilitado(true);
                             $em->persist($tribunal);
                     }
-                    //die();
                 }
 
                 if(count($distribuciones)>0){
-
                     foreach ($tribunalesOriginales as $tribunalOriginal){
-
                         if(!in_array($tribunalOriginal->getId(), $idsTribunalesSorteo)){
-                                    $tribunalesSorteo [] = $tribunalOriginal;
-                                    $tribunalOriginal->setHabilitado(true);
-                                    echo '<font color="red">Sin registro = '.$tribunalOriginal->getDescripcion().'</font><br/<br/>';
-                                    //die();
+                            $tribunalesSorteo [] = $tribunalOriginal;
+                            $tribunalOriginal->setHabilitado(true);
+                            //echo '<font color="red">Sin registro = '.$tribunalOriginal->getDescripcion().'</font><br/<br/>';
+                            //die();
                         }
                     }
                 }
                 else{
                     foreach ($tribunalesOriginales as $tribunal) {
                         if($tribunal->isHabilitado() && $tribunal->isDespacho())
-                        $tribunalesSorteo [] = $tribunal;
+                            $tribunalesSorteo [] = $tribunal;
                         //die();
                     }
                 }
+            //Eliminamos los tribunales que han rechazado el caso por inhibicion
+            if($casoInhibicion){
+                $tempTribunalesSorteo = $tribunalesSorteo;
+                $tribunalesInhibicion = array();
+                while ($casoInhibicion){
+                    $tribunalesInhibicion [] = $casoInhibicion->getDistribucion()->getTribunal()->getId();
+                    $casoInhibicion = $casoInhibicion->getInhibicion();
+                }
+                foreach ($tempTribunalesSorteo as $key => $tribunal) {
+                     if(in_array($tribunal->getId(), $tribunalesInhibicion )){
+                         unset($tempTribunalesSorteo[$key]);
+                    }
+                }
+                if(count($tribunalesSorteo) != count($tempTribunalesSorteo)){
+                    $tribunalesSorteo = array();
+                    foreach ($tempTribunalesSorteo as $tribunal) {
+                        $tribunalesSorteo[] = $tribunal;
+                    }
+                }
+            }//fin if
+                
             $numAleatorio = rand(0, count($tribunalesSorteo)-1); //Genero numero aleatorio para elegir el tribunal
 
-            /**** DEBUG ****/
-            /**
+            /*** DEBUG ****/
+            /*
                 echo 'Tribunal de '.$tribunalTipo->getNombre().' ( 0 = FULL )<br/>';
 
                 foreach ($distribuciones as $distribucion) {
@@ -371,7 +263,7 @@ class Distribucion
                 echo '<br/>';
                 if(count($tribunalesSorteo) > 0)
                 echo '<font color ="green">El ganador es el tribunal '.$tribunalesSorteo[$numAleatorio]->getDescripcion(). '</font>';
-             * 
+             
              */
             /*** DEBUG *****/      
             
@@ -388,16 +280,14 @@ class Distribucion
                                 && $datos['tribunal']->isDespacho()
                                 && $tribunalesSorteo[$numAleatorio]->getId() == $datos['tribunal']->getId()
                         ){
-                                /*
-                                echo '<br/>';
+                                /**
                                 echo '<br/>';
                                 echo ($value % $limiteAsignacion).'=='.($limiteAsignacion - 1);
                                 echo '<br/>';
                                 echo $datos['tribunal']->getDescripcion();
                                 
                                 echo 'LIMITEEEEE';
-                                 * */
-                                 //die();
+                                 **/
                             $limite = true;
                         }
                     }
@@ -411,6 +301,9 @@ class Distribucion
             $em->flush();
             return true;
         }//fin if
+        else
+            $errores [] = 'En este momento no hay ningun tribunal disponible para despacho.
+                Verifique la hora y el tribunal de guardia.';
         
         $this->errores = $errores;
         return false;
@@ -418,4 +311,109 @@ class Distribucion
     public function getErrores() {
         return $this->errores;
     }
+    
+    //Recibe los horarios de un tribunal y verifica si puede o no recibir causas.
+    private  function isRecibeCausas($horarios) {
+        //Guardar todos los errores para presentarselos al usuario.
+        
+        $dias = array(
+            0 =>'DOM',
+            1 =>'LUN',
+            2 =>'MAR',
+            3 =>'MIE',
+            4 =>'JUE',
+            5 =>'VIE',
+            6 =>'SAB',
+        );
+        $diasCompletos = array (
+            'Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'
+        );
+        //echo '<br/>Cantidad de horarios = '.count($horarios).'<br/>';
+        $diasHorasTrabajoOriginal = array();
+        foreach ($horarios as $horario) {
+            $diasConvertidos=$horario->getDias();
+            foreach($dias as $key => $dia) {
+                $diasConvertidos = str_replace($dia, $key, $diasConvertidos);
+            }
+            $diasHorasTrabajoOriginal[]  = array(
+                'dias' => $diasConvertidos.",",
+                'horaInicio' => $horario->getHoraInicio(),
+                'horaFin' => $horario->getHoraFin(),
+            );
+
+        }
+        //echo '<BR/>';
+
+        $diasSeparados = '';
+
+        //print_r($diasHorasTrabajoOriginal);
+        //echo '<br/>';
+        $diasHorasTrabajoFiltrado = array();
+        foreach ($diasHorasTrabajoOriginal as $datos){
+            foreach ($datos as $key => $value) {
+
+                if($key == 'dias')
+                {
+                    if($datos['dias'] != ''){
+
+                        $diasSeparados = explode(',', $datos['dias']);
+
+                        foreach ($diasSeparados as $dia) {
+
+                                if(in_array('-', str_split($dia))){
+                                    $d= explode('-', $dia);
+                                        if(count($d)==2){
+                                            $rangoDias = range($d[0], $d[1]);
+                                                foreach ($rangoDias as $dia){
+
+                                                        $diasHorasTrabajoFiltrado [$dia] = array(
+                                                            'horaInicio' => $datos['horaInicio'],
+                                                            'horaFin' => $datos['horaFin'],
+                                                            );
+                                                }//fin foreach
+                                        }//fin if
+                                }//fin if
+                                else{
+                                    if($dia != '')
+                                        $diasHorasTrabajoFiltrado [$dia] = array(
+                                                        'horaInicio' => $datos['horaInicio'],
+                                                        'horaFin' => $datos['horaFin'],
+                                                        );
+                                }
+                        }
+
+
+                    }
+                    else
+                        unset($datos[$key]);
+                }//fin if $key
+            }//fin foreach $datos
+        }
+
+        //print_r($diasHorasTrabajoFiltrado);
+        $fechaHoy = new \DateTime();
+
+        $diasAutorizados = array();
+        foreach ($diasHorasTrabajoFiltrado as $key => $valor) {
+            $diaLetra=$key;
+            $diasAutorizados [] = $key;
+            foreach($dias as $indice => $dia) {
+                $diaLetra = str_replace($indice, $dia, $diaLetra);
+            }
+        }
+
+        $distribuir = false;
+        if(in_array($fechaHoy->format('w'), $diasAutorizados)){
+
+            $horaInicio = $diasHorasTrabajoFiltrado[$fechaHoy->format('w')]['horaInicio']
+                    ->setDate($fechaHoy->format('Y'),$fechaHoy->format('m'),$fechaHoy->format('d'));
+
+            $horaFin = $diasHorasTrabajoFiltrado[$fechaHoy->format('w')]['horaFin']
+                    ->setDate($fechaHoy->format('Y'),$fechaHoy->format('m'),$fechaHoy->format('d'));
+            if($fechaHoy >= $horaInicio && $fechaHoy <= $horaFin){
+                    $distribuir = true;
+                }
+        }
+        return $distribuir;
+    }//Fin funcion
 }

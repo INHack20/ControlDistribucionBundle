@@ -20,6 +20,7 @@
 <script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery.dcmegamenu.1.3.3.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery-ui.custom.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery.ui.datepicker-es.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/inhack20controldistribucion/js/jquery-ui-timepicker-addon.js') }}"></script>
 
 {# FOSJsRoutingBundle #}
 <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -82,11 +83,9 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            {% block javascript %}{% endblock %}
-        });
-    </script>
+    
+    {% block javascript %}{% endblock %}
+     
     {% include 'INHack20ControlDistribucionBundle:Principal:jqueryui.html.twig' %}
 </body>
 </html>

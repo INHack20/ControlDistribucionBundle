@@ -58,6 +58,14 @@ class Tribunal
      */
     protected $distribuciones;
     
+    /**
+     *
+     * @var Grupo
+     * @ORM\ManyToOne(targetEntity="Grupo")
+     * @ORM\JoinColumn(name="grupo_id",referencedColumnName="id") 
+     */
+    protected $grupo;
+    
     public function __construct(){
         $this->distribuciones = new ArrayCollection();
     }
@@ -134,7 +142,7 @@ class Tribunal
     
     public function getDescripcion()
     {
-        return $this->numeroToOrdinal($this->nro) . ' De ' . $this->tribunalTipo->getNombre();
+        return ucwords($this->numeroToOrdinal($this->nro)) . ' De ' . $this->tribunalTipo->getNombre();
     }
 
     /**
@@ -235,4 +243,24 @@ class Tribunal
         }
         return $nro;
      }//fin funcion
+
+    /**
+     * Set grupo
+     *
+     * @param INHack20\ControlDistribucionBundle\Entity\Grupo $grupo
+     */
+    public function setGrupo(\INHack20\ControlDistribucionBundle\Entity\Grupo $grupo)
+    {
+        $this->grupo = $grupo;
+    }
+
+    /**
+     * Get grupo
+     *
+     * @return INHack20\ControlDistribucionBundle\Entity\Grupo 
+     */
+    public function getGrupo()
+    {
+        return $this->grupo;
+    }
 }

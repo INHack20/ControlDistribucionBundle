@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use INHack20\ControlDistribucionBundle\Entity\Fiscalia;
 use INHack20\ControlDistribucionBundle\Form\FiscaliaType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Fiscalia controller.
@@ -198,5 +199,24 @@ class FiscaliaController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    /**
+     * @Route("/{idEstado}/listaFiscalias",name="fiscalia_lista", requirements={"idEstado" = "\d+"}, options={"expose" = true})
+     */
+    public function listarFiscaliasAction($idEstado){
+        $em = $this->getDoctrine()->getEntityManager();
+        $estado = $em->getRepository('INHack20ControlDistribucionBundle:Estado')->find($idEstado);
+        if(!$estado){
+            throw $this->createNotFoundException('No se ha encontrado la entidad Estado');
+        }
+        $qb = $em->getRepository('INHack20ControlDistribucionBundle:Fiscalia')->createQueryBuilder('f');
+        $qb->where('f.estado = :estado')
+                ->setParameter('estado', $estado);
+        $result = $qb->getQuery()->getArrayResult();
+        
+        $response = new Response();
+        $response->setContent(json_encode($result));
+        return $response;
     }
 }

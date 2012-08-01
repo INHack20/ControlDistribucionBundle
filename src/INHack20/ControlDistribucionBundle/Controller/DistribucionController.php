@@ -19,7 +19,7 @@ class DistribucionController extends Controller
     /**
      * Lists all Distribucion entities.
      *
-     * @Route("/", name="distribucion")
+     * Route("/", name="distribucion")
      * @Template()
      */
     public function indexAction()
@@ -34,7 +34,7 @@ class DistribucionController extends Controller
     /**
      * Finds and displays a Distribucion entity.
      *
-     * @Route("/{id}/show", name="distribucion_show")
+     * Route("/{id}/show", name="distribucion_show")
      * @Template()
      */
     public function showAction($id)
@@ -57,7 +57,7 @@ class DistribucionController extends Controller
     /**
      * Displays a form to create a new Distribucion entity.
      *
-     * @Route("/new", name="distribucion_new")
+     * Route("/new", name="distribucion_new")
      * @Template()
      */
     public function newAction()
@@ -74,7 +74,7 @@ class DistribucionController extends Controller
     /**
      * Creates a new Distribucion entity.
      *
-     * @Route("/create", name="distribucion_create")
+     * Route("/create", name="distribucion_create")
      * @Method("post")
      * @Template("INHack20ControlDistribucionBundle:Distribucion:new.html.twig")
      */
@@ -103,7 +103,7 @@ class DistribucionController extends Controller
     /**
      * Displays a form to edit an existing Distribucion entity.
      *
-     * @Route("/{id}/edit", name="distribucion_edit")
+     * Route("/{id}/edit", name="distribucion_edit")
      * @Template()
      */
     public function editAction($id)
@@ -129,7 +129,7 @@ class DistribucionController extends Controller
     /**
      * Edits an existing Distribucion entity.
      *
-     * @Route("/{id}/update", name="distribucion_update")
+     * Route("/{id}/update", name="distribucion_update")
      * @Method("post")
      * @Template("INHack20ControlDistribucionBundle:Distribucion:edit.html.twig")
      */
@@ -167,7 +167,7 @@ class DistribucionController extends Controller
     /**
      * Deletes a Distribucion entity.
      *
-     * @Route("/{id}/delete", name="distribucion_delete")
+     * Route("/{id}/delete", name="distribucion_delete")
      * @Method("post")
      */
     public function deleteAction($id)

@@ -11,8 +11,11 @@
                     <table style="text-align: left;" border="1" cellpadding="2"
                         cellspacing="2">
                         <tbody>
+                            {{ form_row(edit_form.procedencia) }}
                             {{ form_row(edit_form.estado) }}
                             {{ form_row(edit_form.fiscalia) }}
+                            {{ form_row(edit_form.procedenciaTribunal) }}
+                            {{ form_row(edit_form.acusacionPrivada) }}    
                             {{ form_row(edit_form.nroAsuntoFiscal) }}
                                 <tr>
                                     <td>
@@ -82,58 +85,141 @@
 {% endblock %}
    
 {% block javascript %}
-    var desconocido = "desconocido";
-    $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").click(function(){
-        var v = $(this).attr('checked');
-        if(v=="checked"){
-            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value",desconocido);
+<script type="text/javascript">
+    $(document).ready(function(){
+        var desconocido = "desconocido";
+        var acusacionPrivada = "privada";
+        
+        $("#inhack20_controldistribucionbundle_casotype_acusacionPrivada").click(function(){
+            var v = $(this).attr('checked')
+            if(v == 'checked'){
+                $("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").attr("value",acusacionPrivada);
+                $("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").attr("readonly","readonly");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value",acusacionPrivada);
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").attr("disabled","disabled");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").removeAttr("checked");
+            }
+            else
+            {
+                $("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").attr("value","");
+                $("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").removeAttr("readonly");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value","");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").removeAttr("readonly");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").removeAttr("disabled");
+            }
+        });
+        
+        $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").click(function(){
+            var v = $(this).attr('checked');
+            if(v == "checked"){
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value",desconocido);
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+                }
+            else
+            {
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value","");
+                $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").removeAttr("readonly");
+            }
+        });
+        $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").click(function(){
+            var v = $(this).attr('checked');
+            if(v=="checked"){
+                $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value",desconocido);
+                $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
+                }
+            else
+            {
+                $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value","");
+                $("#inhack20_controldistribucionbundle_casotype_nombreImputado").removeAttr("readonly");
+            }
+        });
+        $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").click(function(){
+            var v = $(this).attr('checked');
+            if(v=="checked"){
+                $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value",desconocido);
+                $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+                }
+            else
+            {
+                $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value","");
+                $("#inhack20_controldistribucionbundle_casotype_nombreVictima").removeAttr("readonly");
+            }
+        });
+        
+        if($("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").attr("value") == acusacionPrivada)
+        {
+            $("#inhack20_controldistribucionbundle_casotype_acusacionPrivada").attr("checked","checked");
+            $("#inhack20_controldistribucionbundle_casotype_nroAsuntoFiscal").attr("readonly","readonly");
             $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
-            }
-         else
-         {
-            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value","");
-            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").removeAttr("readonly");
-         }
-    });
-    $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").click(function(){
-        var v = $(this).attr('checked');
-        if(v=="checked"){
-            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value",desconocido);
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").attr("disabled","disabled");
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").removeAttr("checked");
+        }
+        
+        if($("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value") == desconocido){
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").attr("checked","checked");
+            $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
+        }
+
+        if($("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value") == desconocido){
+            $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").attr("checked","checked");
             $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
-            }
-         else
-         {
-            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value","");
-            $("#inhack20_controldistribucionbundle_casotype_nombreImputado").removeAttr("readonly");
-         }
-    });
-    $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").click(function(){
-        var v = $(this).attr('checked');
-        if(v=="checked"){
-            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value",desconocido);
+        }
+
+        if($("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value") == desconocido){
+            $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").attr("checked","checked");
             $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
+        }
+        $("#inhack20_controldistribucionbundle_casotype_procedencia").change(function(){
+            if($(this).val() == "fiscalia"){
+                $("#inhack20_controldistribucionbundle_casotype_estado").removeAttr("disabled");
+                $("#inhack20_controldistribucionbundle_casotype_fiscalia").removeAttr("disabled");
+                $("#inhack20_controldistribucionbundle_casotype_procedenciaTribunal").attr("disabled","disabled");
             }
-         else
-         {
-            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value","");
-            $("#inhack20_controldistribucionbundle_casotype_nombreVictima").removeAttr("readonly");
-         }
-    });
-    
-    if($("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("value") == desconocido)
-    {
-        $("#inhack20_controldistribucionbundle_casotype_nroOficioFiscal").attr("readonly","readonly");
-        $("#inhack20_controldistribucionbundle_casotype_nroOficioDesconocido").attr("checked","checked");
-    }
+            else if($(this).val() == "tribunal"){
+                $("#inhack20_controldistribucionbundle_casotype_procedenciaTribunal").removeAttr("disabled");
+                $("#inhack20_controldistribucionbundle_casotype_estado").attr("disabled","disabled");
+                $("#inhack20_controldistribucionbundle_casotype_fiscalia").attr("disabled","disabled");
+            }
+            else{
+                $("#inhack20_controldistribucionbundle_casotype_procedenciaTribunal").attr("disabled","disabled");
+                $("#inhack20_controldistribucionbundle_casotype_estado").attr("disabled","disabled");
+                $("#inhack20_controldistribucionbundle_casotype_fiscalia").attr("disabled","disabled");
+            }
+        });
         
-    if($("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("value") == desconocido){
-        $("#inhack20_controldistribucionbundle_casotype_nombreImputado").attr("readonly","readonly");
-        $("#inhack20_controldistribucionbundle_casotype_nombreImputadoDesconocido").attr("checked","checked");
-      }
+        $("#inhack20_controldistribucionbundle_casotype_procedenciaTribunal").attr("disabled","disabled");
+        $("#inhack20_controldistribucionbundle_casotype_estado").attr("disabled","disabled");
+        $("#inhack20_controldistribucionbundle_casotype_fiscalia").attr("disabled","disabled");
+        //Consulta JSON
+        $("#inhack20_controldistribucionbundle_casotype_estado").change(function(){
+            var estado = $("#inhack20_controldistribucionbundle_casotype_estado").val();
+            if(estado != ''){
+                var ruta = Routing.generate('fiscalia_lista',{'idEstado' : estado});
+                $.getJSON(ruta,function(data){
+                    $("#inhack20_controldistribucionbundle_casotype_fiscalia").find("option").remove().end().append("<option value=''>Seleccione</option>");
+                    $.each(data,function(index,value){
+                        $("#inhack20_controldistribucionbundle_casotype_fiscalia")
+                        .append("<option value='"+data[index]['id']+"'>"+data[index]['nombre']+"</option>");
+                    });
+                });
+            }
+        });
         
-    if($("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("value") == desconocido){
-        $("#inhack20_controldistribucionbundle_casotype_nombreVictima").attr("readonly","readonly");
-        $("#inhack20_controldistribucionbundle_casotype_nombreVictimaDesconocido").attr("checked","checked");
-     }   
+        var fiscalia = {% if entity.fiscalia %}'fiscalia'{% else %}null{% endif %};
+        var tribunal = {% if entity.procedenciaTribunal %}'tribunal'{% else %}null{% endif %};
+        $("#inhack20_controldistribucionbundle_casotype_procedencia option").each(function(){
+            if($(this).val() == fiscalia && fiscalia != null){
+                $(this).attr("selected","selected");
+                $("#inhack20_controldistribucionbundle_casotype_fiscalia").removeAttr("disabled");
+                $("#inhack20_controldistribucionbundle_casotype_estado").removeAttr("disabled");
+            }
+            if($(this).val() == tribunal && tribunal != null){
+                $(this).attr("selected","selected");
+                $("#inhack20_controldistribucionbundle_casotype_procedenciaTribunal").removeAttr("disabled");
+            }
+        });
         
+    });        
+</script>
 {% endblock %}

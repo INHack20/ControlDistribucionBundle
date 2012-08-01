@@ -3,8 +3,8 @@
             <tr>
                 <th>N&deg;</th>
                 <th>Procedencia</th>
-                <th>N&deg; Asutno Fiscal</th>
-                <th>N&deg; Oficio Fiscal</th>
+                <th>N&deg; Causa</th>
+                <th>N&deg; Oficio</th>
                 <th>Nombre del Imputado</th>
                 <th>Nombre de la Victima</th>
                 <th>Pieza</th>
@@ -16,7 +16,10 @@
         {% for entity in paginador.getResults %}
             <tr class="{% if loop.index % 2 == 0 %}odd{% else %}even{% endif %}">
                 <td>{{ LIMITE_PAGINACION * (paginador.getPage - 1) + loop.index }}</td>
-                <td>{% if entity.fiscalia %}{{ entity.fiscalia.nombre }}{% endif %}</td>
+                <td>
+                    {% if entity.fiscalia %}{{ entity.fiscalia.nombre }}{% endif %}
+                    {% if entity.procedenciaTribunal %}{{ entity.procedenciaTribunal.descripcion | upper }}{% endif %}
+                </td>
                 <td>{{ entity.nroAsuntoFiscal }}</td>
                 <td>{{ entity.nroOficioFiscal }}</td>
                 <td>{{ entity.nombreImputado }}</td>
@@ -29,6 +32,9 @@
                     </a>
                     <a href="{{ path('caso_edit', { 'id': entity.id }) }}">
                         <img src="{{ asset('bundles/inhack20controldistribucion/images/editar.png') }}" width="24" height="24" alt="" />
+                    </a>
+                    <a href="{{ path('caso_new_inhibir', { 'idCaso': entity.id}) }}">
+                        Inhibir
                     </a>
                 </td>
             </tr>

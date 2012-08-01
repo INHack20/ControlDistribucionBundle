@@ -13,6 +13,9 @@
             {{ form_row(formBuscar.nroOficioFiscal, { 'class' : '6' }) }}
             {{ form_row(formBuscar.nombreImputado, { 'class' : '7' }) }}
             {{ form_row(formBuscar.nombreVictima, { 'class' : '8' }) }}
+            {{ form_row(formBuscar.acusacionPrivada, { 'class' : '9' }) }}
+            {{ form_row(formBuscar.horaInicio, { 'class' : '10' }) }}
+            {{ form_row(formBuscar.horaFin, { 'class' : '11' }) }}
             {{ form_rest(formBuscar) }}    
                     </tbody></table>
         </div>
@@ -51,6 +54,28 @@
                     
             //Campos del formulario
             $("#form_fecha").datepicker();
+            $("#form_horaInicio").datetimepicker({
+                ampm: true,
+                dateFormat : 'yy-mm-dd',
+                timeOnlyTitle: 'Tiempo',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minutos',
+                secondText: 'Segundos',
+                currentText: 'Ahora',
+                closeText: 'Listo'
+            });
+            $("#form_horaFin").datetimepicker({
+                ampm: true,
+                dateFormat : 'yy-mm-dd',
+                timeOnlyTitle: 'Tiempo',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minutos',
+                secondText: 'Segundos',
+                currentText: 'Ahora',
+                closeText: 'Listo'
+            });
         });
     </script>
     <style type="text/css">
