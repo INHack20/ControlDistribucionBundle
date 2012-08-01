@@ -76,7 +76,7 @@ class Caso
     /**
      *
      * @var DateTime $creado
-     * @ORM\Column(name="creado", type="datetime") 
+     * @ORM\Column(name="creado", type="datetime")
      */
     protected $creado;
     /**

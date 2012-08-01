@@ -1,0 +1,39 @@
+INHack20\ControlDistribucionBundle\Entity\Caso:
+  properties:
+    nroAsuntoFiscal:
+      - NotBlank: { message: Ingrese el N° Causa }
+    nroOficioFiscal:
+      - NotBlank: { message: Ingrese el N° Oficio }
+    nombreImputado:
+      - NotBlank: { message: Ingrese el nombre del imputado }
+    nombreVictima:
+      - NotBlank: { message: Ingrese el nombre de la victima }
+    pieza:
+      - NotBlank: { message: Ingrese la cantidad de piezas }
+      - Type:
+          type: integer
+          message: Debe ingresar un numero entero
+
+INHack20\ControlDistribucionBundle\Entity\Causa:
+  properties:
+    nombre:
+      - NotBlank: { message: Debe ingresar el nombre de la causa }
+    tribunalTipo:
+      - NotNull: { message: Debe selecionar el tipo de tribunal }
+      
+INHack20\ControlDistribucionBundle\Entity\Estado:
+  properties:
+    nombre:
+      - NotBlank: { message: Debe ingresar el nombre del estado }
+
+INHack20\ControlDistribucionBundle\Entity\Fiscalia:
+  properties:
+    nombre:
+      - NotBlank: { message: Debe ingresar el nombre de la fiscalia }
+    estado:
+      - NotNull: { message: Debe seleccionar el estado de la fiscalia }
+
+INHack20\ControlDistribucionBundle\Entity\Grupo:
+  properties:
+    nombre:
+      - NotBlank: { message: Debe ingresar el nombre del grupo }

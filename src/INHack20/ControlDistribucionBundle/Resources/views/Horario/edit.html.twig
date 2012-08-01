@@ -5,6 +5,13 @@
     <br/><br/>
     <fieldset>
          <legend>Datos</legend>
+         <br/>
+            Los dias deben ser ingresados en el siguiente formato:<br/>LUN,MAR,MIE,JUE,VIE,SAB,DOM<br/><br/>
+            Se puede crear diferentes combinaciones:<br/>
+            <b>LUN-JUE,SAB (Luneas a Jueves y Sabado)<br/>
+            LUN,MIE,VIE (Lunes, Miercoles y Viernes)<br/>
+            LUN,MIE-SAB (Lunes, Miercoles a Sabado)</b>
+            <br/><br/>
     <form action="{{ path('horario_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}
                 <br/><br/>

@@ -76,7 +76,7 @@ class CasoType extends AbstractType
                 
             ))
             ->add('pieza',null,array(
-                'label' => 'Pieza(s)'
+                'label' => 'Pieza(s)',
             ))
           
         ;

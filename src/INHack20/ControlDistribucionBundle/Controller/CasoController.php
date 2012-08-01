@@ -73,7 +73,7 @@ class CasoController extends Controller
             $formBuscar->bindRequest($request);
             if($formBuscar->isValid()){
                $data = $formBuscar->getData();
-                    $parametros['fecha'] = $data['fecha']!='' ? $data['fecha']->format('Y-m-d') : '';
+                    //$parametros['fecha'] = $data['fecha']!='' ? $data['fecha']->format('Y-m-d') : '';
                     $parametros['id'] = $data['id'];
                     $parametros['tribunaltipo'] = $data['tribunaltipo']!='' ? $data['tribunaltipo']->getId() : '';
                     $parametros['tribunal'] = $data['tribunal']!= '' ? $data['tribunal']->getId() : '';
