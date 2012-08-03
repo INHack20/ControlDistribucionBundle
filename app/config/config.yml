@@ -26,6 +26,11 @@ twig:
       resources: ['INHack20ControlDistribucionBundle:Form:fields_global.html.twig']
     globals:
       LIMITE_PAGINACION : %LIMITE_PAGINACION%
+      #Estado de registro y actualizacion
+      EXITO_REGISTRO: %EXITO_REGISTRO%
+      FALLO_REGISTRO: %FALLO_REGISTRO%
+      EXITO_ACTUALIZACION: %EXITO_ACTUALIZACION%
+      FALLO_ACTUALIZACION: %FALLO_ACTUALIZACION%
 
 # Assetic Configuration
 assetic:

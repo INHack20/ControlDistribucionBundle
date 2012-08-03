@@ -61,7 +61,13 @@
             <tr class="odd">
                 <td>Inhibici&oacute;n</td>
                 <td>{% if entity.inhibicion %}
-                    <a href="{{ path('caso_show',{ 'id' : entity.inhibicion.id }) }}">{{ entity.inhibicion.nroAsuntoFiscal}}</a>{% else %}Ninguna{% endif %}</td>
+                        <a href="{{ path('caso_show',{ 'id' : entity.inhibicion.id }) }}">{{ entity.inhibicion.nroAsuntoFiscal}}</a>
+                    {% else %}
+                        <a href="{{ path('caso_new_inhibir', { 'idCaso': entity.id}) }}">
+                        Inhibir Caso
+                        </a>
+                    {% endif %}
+                </td>
             </tr>
             <tr class="even">
                 <td>Usuario</td>

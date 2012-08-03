@@ -17,11 +17,6 @@ class CausaType extends AbstractType
                 'empty_value' => 'Seleccione',
                 'label' => 'Tribunal De ',
             ))
-            ->add('grupo','entity',array(
-                'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\Grupo',
-                'property' => 'nombre',
-                'empty_value' => 'Selecione',
-            ))
         ;
     }
 

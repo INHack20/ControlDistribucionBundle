@@ -1,3 +1,8 @@
 parameters:
     #Limite de paginacion
     LIMITE_PAGINACION : 3
+    #Estado de registro y actualizacion
+    EXITO_REGISTRO: 1
+    FALLO_REGISTRO: 2
+    EXITO_ACTUALIZACION: 3
+    FALLO_ACTUALIZACION: 4

@@ -382,6 +382,7 @@ class CasoController extends Controller
             'causa' => $causa,
             'route' => $route,
             'erroesDistribucion' => $erroesDistribucion,
+            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -417,6 +418,7 @@ class CasoController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->getRequest()->query->get('errors'),
         );
     }
 
@@ -458,13 +460,15 @@ class CasoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('caso_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('caso_edit', array('id' => $id,
+                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 

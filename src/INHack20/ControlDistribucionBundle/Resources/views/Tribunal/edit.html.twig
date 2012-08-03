@@ -5,7 +5,7 @@
     <br/><br/>
     <fieldset>
          <legend>Datos</legend>
-            <form action="{{ path('tribunal_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+         <form id="frmGuardarCambios" action="{{ path('tribunal_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
                 {{ form_widget(edit_form) }}
                 <br/><br/>
                 <p align="center">
@@ -14,9 +14,9 @@
                         Guardar Cambios</button>
                 </p>
             </form>
-            <form action="{{ path('tribunal_delete', { 'id': entity.id }) }}" method="post">
+            <form id="frmEliminar" action="{{ path('tribunal_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                    <button type="submit" class="css3button" style="float: right;">
+                    <button type="submit" class="css3button eliminar" style="float: right;">
                     <img src="{{ asset('bundles/inhack20controldistribucion/images/eliminar.png') }}" width="16" height="16" alt="" />                        
                     Eliminar</button>
             </form>

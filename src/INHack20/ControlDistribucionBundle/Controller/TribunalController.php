@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\TribunalType;
 /**
  * Tribunal controller.
  *
- * @Route("/config/tribunal")
+ * @Route("/configuracion/tribunal")
  */
 class TribunalController extends Controller
 {
@@ -68,7 +68,7 @@ class TribunalController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
         );
     }
 
@@ -87,6 +87,7 @@ class TribunalController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
+            $entity->setHabilitado(true);
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
@@ -97,7 +98,8 @@ class TribunalController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -119,11 +121,12 @@ class TribunalController extends Controller
 
         $editForm = $this->createForm(new TribunalType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-
+        
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->getRequest()->query->get('errors'),
         );
     }
 
@@ -155,13 +158,16 @@ class TribunalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tribunal_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tribunal_edit', array(
+                'id' => $id,
+                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
-
+        
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 

@@ -86,8 +86,7 @@
                                                     <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
                                                 </li>
 						<li>
-                                                    <label class="centered info"><a id="forgotpassword" href="#">Pista de mi contrase&ntilde;a...</a></label>
-                                                    <div id="c_error">
+                                                    <div id="c_error" align="right">
                                                         <font color="red">{% if error %}
                                                                                 <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
                                                                             {% endif %}</font>

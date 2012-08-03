@@ -14,9 +14,9 @@
                         Guardar Cambios</button>
                 </p>
             </form>
-            <form action="{{ path('grupo_delete', { 'id': entity.id }) }}" method="post">
+         <form id="frmEliminar" action="{{ path('grupo_delete', { 'id': entity.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                    <button type="submit" class="css3button" style="float: right;">
+                    <button type="submit" class="css3button eliminar" style="float: right;">
                     <img src="{{ asset('bundles/inhack20controldistribucion/images/eliminar.png') }}" width="16" height="16" alt="" />                        
                     Eliminar</button>
             </form>

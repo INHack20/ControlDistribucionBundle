@@ -48,8 +48,8 @@
                     &nbsp;&nbsp;&nbsp;
             </td>
             <td>
-                <form action="{{ path('horario_delete', { 'id': entity.id }) }}" method="post">
-                        <button class="css3button">
+                <form id="frmEliminar" action="{{ path('horario_delete', { 'id': entity.id }) }}" method="post">
+                        <button class="css3button eliminar">
                             <img src="{{ asset('bundles/inhack20controldistribucion/images/eliminar.png') }}" width="16" height="16" alt="" />
                             Eliminar
                         </button>

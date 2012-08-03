@@ -37,3 +37,31 @@ INHack20\ControlDistribucionBundle\Entity\Grupo:
   properties:
     nombre:
       - NotBlank: { message: Debe ingresar el nombre del grupo }
+      
+INHack20\ControlDistribucionBundle\Entity\Horario:
+  properties:
+    dias:
+      - NotBlank: { message: Debe ingresar los dias correspondientes a este horario }
+    horaInicio:
+      - NotBlank: { message: Seleccione la hora de entrada }
+    horaFin:
+      - NotBlank: { message: Seleccione la hora de salida }
+      
+INHack20\ControlDistribucionBundle\Entity\Tribunal:
+  properties:
+    nro:
+      - NotBlank: { message: Debe ingresar el numero del tribunal }
+      - Type:
+          type: integer
+          message: Debe ingresar un numero entero
+    tribunalTipo:
+      - NotNull: { message: Debe seleccionar el tipo de tribunal }
+    grupo:
+      - NotNull: { message: Debe seleccionar el grupo de horario perteneciente }
+
+INHack20\ControlDistribucionBundle\Entity\TribunalTipo:
+  properties:
+    nombre:
+      - NotNull: { message: Debe ingresar el nombre del tribunal }
+    limiteCausas:
+      - NotNull: { message: Debe ingresar el limite de causas }

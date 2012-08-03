@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\GrupoType;
 /**
  * Grupo controller.
  *
- * @Route("/config/grupo")
+ * @Route("/configuracion/grupo")
  */
 class GrupoController extends Controller
 {
@@ -96,7 +96,8 @@ class GrupoController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -123,6 +124,7 @@ class GrupoController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->getRequest()->query->get('errors'),
         );
     }
 
@@ -154,13 +156,15 @@ class GrupoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grupo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('grupo_edit', array('id' => $id,
+                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 

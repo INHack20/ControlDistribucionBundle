@@ -218,6 +218,8 @@ class Distribucion
                         //die();
                     }
                 }
+            //Guardo los tribunales del sorteo antes de filtrar los que tiene por inhibicion
+            $tribunalesSorteoSinFiltro = $tribunalesSorteo;
             //Eliminamos los tribunales que han rechazado el caso por inhibicion
             if($casoInhibicion){
                 $tempTribunalesSorteo = $tribunalesSorteo;
@@ -231,6 +233,7 @@ class Distribucion
                          unset($tempTribunalesSorteo[$key]);
                     }
                 }
+               
                 if(count($tribunalesSorteo) != count($tempTribunalesSorteo)){
                     $tribunalesSorteo = array();
                     foreach ($tempTribunalesSorteo as $tribunal) {
@@ -263,14 +266,24 @@ class Distribucion
                 echo '<br/>';
                 if(count($tribunalesSorteo) > 0)
                 echo '<font color ="green">El ganador es el tribunal '.$tribunalesSorteo[$numAleatorio]->getDescripcion(). '</font>';
-             
              */
+             
             /*** DEBUG *****/      
-            
+           
             $this->setCausa($causa);
             if(count($tribunalesSorteo) > 0)
                 $this->setTribunal($tribunalesSorteo[$numAleatorio]);
-
+            else{
+                    if(count($tribunalesSorteoSinFiltro) > 0 ){
+                        $errores [] = "No se puede realizar la distribucion debido a que la causa tiene como procedencia los 
+                            tribunales disponibles actualmente o el que se encuentra de guardia, por lo tanto no puede ser inhibida.";
+                        foreach ($tribunalesSorteoSinFiltro as $tribunalProcedente) {
+                            $errores [] = $tribunalProcedente->getDescripcion();
+                        }
+                    }
+                    $this->errores = $errores;
+                    return false;
+                }
                 $limite = false;
                 foreach ($tribunales as $datos) {
                     foreach ($datos as $key => $value) {
@@ -296,8 +309,6 @@ class Distribucion
                     $tribunalesSorteo[$numAleatorio]->setHabilitado(false);
                     $em->persist($tribunalesSorteo[$numAleatorio]);
                 }
-
-            //$em->persist($this);
             $em->flush();
             return true;
         }//fin if

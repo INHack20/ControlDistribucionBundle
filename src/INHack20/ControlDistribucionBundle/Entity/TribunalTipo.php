@@ -31,7 +31,6 @@ class TribunalTipo
     
     /**
      * @ORM\Column(name="limiteCausas", type="integer")
-     * @var type 
      */
     private $limiteCausas;
     

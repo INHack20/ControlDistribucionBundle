@@ -4,14 +4,19 @@
     <br/><br/>
     {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
         {% for error in erroesDistribucion %}
-            <font color="red">{{ error }}</font><br/>
+            <font color="red">{{ error }}</font><br/><br/>
         {% endfor%}
         <br/>
     {% endif %}
     <fieldset>
         <legend>Informaci&oacute;n</legend>
-        <b style="text-transform: uppercase;">Destino: Tribunal de {{ causa.tribunaltipo.nombre }}<br/><br/>
-            Causa: {{ causa.nombre }}</b> 
+        <b style="text-transform: uppercase;">
+            Destino: Tribunal de {{ causa.tribunaltipo.nombre }}<br/><br/>
+            Causa: {{ causa.nombre }}
+            {% if app.request.attributes.get('_route') == 'caso_new_inhibir' %}
+             Por Inhibici&oacute;n
+            {% endif%}
+        </b> 
     </fieldset>
     <br/><br/><br/>
     <fieldset>

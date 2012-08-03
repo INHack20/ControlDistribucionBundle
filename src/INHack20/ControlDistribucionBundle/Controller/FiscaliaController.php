@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Fiscalia controller.
  *
- * @Route("/config/fiscalia")
+ * @Route("/configuracion/fiscalia")
  */
 class FiscaliaController extends Controller
 {
@@ -97,7 +97,8 @@ class FiscaliaController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -124,6 +125,7 @@ class FiscaliaController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->getRequest()->query->get('errors'),
         );
     }
 
@@ -155,13 +157,15 @@ class FiscaliaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('fiscalia_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('fiscalia_edit', array('id' => $id,
+                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 

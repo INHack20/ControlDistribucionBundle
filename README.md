@@ -18,6 +18,7 @@ Requerimientos:
 
 2) Verificar el correcto funcionamiento del Framework Symfony2 en el equipo ejecutando desde la raiz del proyecto el comando 
 php app/check.php desde una terminal o visitando la pagina web/config.php
+( En caso de error, instalar nuevamente las dependencias y librerias de terceros con el commando bin/vendors --reinstall )
 
 3) Modificar el archivo app/config/parameters.ini y coloque los datos correspondientes a su conexion.
 

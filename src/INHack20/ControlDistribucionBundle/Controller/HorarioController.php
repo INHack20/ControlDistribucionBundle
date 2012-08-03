@@ -12,7 +12,7 @@ use INHack20\ControlDistribucionBundle\Form\HorarioType;
 /**
  * Horario controller.
  *
- * @Route("/config/horario")
+ * @Route("/configuracion/horario")
  */
 class HorarioController extends Controller
 {
@@ -51,7 +51,8 @@ class HorarioController extends Controller
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+            );
     }
 
     /**
@@ -96,7 +97,8 @@ class HorarioController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -123,6 +125,7 @@ class HorarioController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->getRequest()->query->get('errors'),
         );
     }
 
@@ -154,13 +157,15 @@ class HorarioController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('horario_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('horario_edit', array('id' => $id,
+                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 
