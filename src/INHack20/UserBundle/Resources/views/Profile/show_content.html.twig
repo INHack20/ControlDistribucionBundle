@@ -45,6 +45,10 @@
                 <td>{{ 'profile.show.bloqueada'|trans({}, 'FOSUserBundle') }}:</td>
                 <td>{% if user.locked %}<font color="red">Si</font>{% else %}<font color="green">No</font>{% endif %}</td>
             </tr>
+            <tr class="odd">
+                <td>{{ 'profile.show.roleDescripcion'|trans({}, 'FOSUserBundle') }}:</td>
+                <td>{{ user.roleDescripcion }}</td>
+            </tr>
         <thead>
             <tr>
                 <td></td>

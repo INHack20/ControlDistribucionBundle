@@ -52,9 +52,15 @@ class Distribucion
      */
     protected $causa;
     
+   /**
+     * @var ContainerInterface
+     */
+    private $container;
+    
     private $em;
-    public function __construct($em = null){
+    public function __construct($em = null, $container = null){
         $this->em = $em;
+        $this->container = $container;
     }
     
     /**
@@ -275,11 +281,7 @@ class Distribucion
                 $this->setTribunal($tribunalesSorteo[$numAleatorio]);
             else{
                     if(count($tribunalesSorteoSinFiltro) > 0 ){
-                        $errores [] = "No se puede realizar la distribucion debido a que la causa tiene como procedencia los 
-                            tribunales disponibles actualmente o el que se encuentra de guardia, por lo tanto no puede ser inhibida.";
-                        foreach ($tribunalesSorteoSinFiltro as $tribunalProcedente) {
-                            $errores [] = $tribunalProcedente->getDescripcion();
-                        }
+                        $errores [] = $this->container->getParameter("INHIBICION_NO_PERMITIDA");
                     }
                     $this->errores = $errores;
                     return false;
@@ -293,14 +295,6 @@ class Distribucion
                                 && $datos['tribunal']->isDespacho()
                                 && $tribunalesSorteo[$numAleatorio]->getId() == $datos['tribunal']->getId()
                         ){
-                                /**
-                                echo '<br/>';
-                                echo ($value % $limiteAsignacion).'=='.($limiteAsignacion - 1);
-                                echo '<br/>';
-                                echo $datos['tribunal']->getDescripcion();
-                                
-                                echo 'LIMITEEEEE';
-                                 **/
                             $limite = true;
                         }
                     }
@@ -313,8 +307,7 @@ class Distribucion
             return true;
         }//fin if
         else
-            $errores [] = 'En este momento no hay ningun tribunal disponible para despacho.
-                Verifique la hora y el tribunal de guardia.';
+            $errores [] = $this->container->getParameter("TRIBUNAL_NO_DISPONIBLE");
         
         $this->errores = $errores;
         return false;
@@ -336,10 +329,7 @@ class Distribucion
             5 =>'VIE',
             6 =>'SAB',
         );
-        $diasCompletos = array (
-            'Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'
-        );
-        //echo '<br/>Cantidad de horarios = '.count($horarios).'<br/>';
+               
         $diasHorasTrabajoOriginal = array();
         foreach ($horarios as $horario) {
             $diasConvertidos=$horario->getDias();
@@ -353,12 +343,9 @@ class Distribucion
             );
 
         }
-        //echo '<BR/>';
-
+       
         $diasSeparados = '';
 
-        //print_r($diasHorasTrabajoOriginal);
-        //echo '<br/>';
         $diasHorasTrabajoFiltrado = array();
         foreach ($diasHorasTrabajoOriginal as $datos){
             foreach ($datos as $key => $value) {
@@ -390,10 +377,8 @@ class Distribucion
                                                         'horaInicio' => $datos['horaInicio'],
                                                         'horaFin' => $datos['horaFin'],
                                                         );
-                                }
-                        }
-
-
+                                }// if in_array
+                         }// foreach
                     }
                     else
                         unset($datos[$key]);

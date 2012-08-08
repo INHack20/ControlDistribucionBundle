@@ -25,12 +25,17 @@ twig:
     form:
       resources: ['INHack20ControlDistribucionBundle:Form:fields_global.html.twig']
     globals:
+      #Version de la aplicacion
+      VERSION_APP : %VERSION_APP%
       LIMITE_PAGINACION : %LIMITE_PAGINACION%
       #Estado de registro y actualizacion
       EXITO_REGISTRO: %EXITO_REGISTRO%
       FALLO_REGISTRO: %FALLO_REGISTRO%
       EXITO_ACTUALIZACION: %EXITO_ACTUALIZACION%
       FALLO_ACTUALIZACION: %FALLO_ACTUALIZACION%
+      EXITO_ELIMINACION: %EXITO_ELIMINACION%
+      TRIBUNAL_NO_DISPONIBLE: %TRIBUNAL_NO_DISPONIBLE%
+      INHIBICION_NO_PERMITIDA: %INHIBICION_NO_PERMITIDA%
 
 # Assetic Configuration
 assetic:

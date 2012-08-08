@@ -15,8 +15,7 @@
             <br/><br/>
             ({{ app.request.uri }})
         </div>
-    <br/>
-    
+        
         <div id="cajaEstatus">
             <h2 align="right" >El Servidor Ha Retornado "{{ status_code }} {{ status_text }}".</h2>
         </div>
@@ -38,9 +37,7 @@
         }
         #cajaEstatus{
             float: right;
-            position: absolute;
-            bottom: 0;
-            clear: both;
+            position: static;
             margin-left: 35%;
         }
         #error403 {

@@ -112,7 +112,7 @@
 		});
                 
                 //Cuadro de dialogo de mensaje
-                $( "#dialog-guardar-exito" ).dialog({
+                $( "#dialog-estatus" ).dialog({
 			modal: true,
                         autoOpen: true,
                         position: "top",
@@ -181,40 +181,77 @@
 <div id="dialog-eliminar" title="¿Confirma Eliminar Datos?">
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
             Atenci&oacute;n este registro sera eliminado permanentemente y no podra ser recuperado.
-            ¿Esta seguro?
+            ¿Esta seguro? - Cod. 7
         </p>
 </div>
-
 {# Mensajes de exito y error #}
-{% if errors is defined %}
-    {% if errors == FALLO_ACTUALIZACION %}
+{% if status is defined %}
+    {% if status == EXITO_REGISTRO %}
         <div class="ui-widget">
-          
-            <div id="dialog-guardar-exito" title="Fallo Actualizacion">
+            <div id="dialog-estatus" title="Registro Exitoso">
                 <p>
-                    <div class="ui-state-error ui-corner-all" style="margin-top: -12px; margin-bottom: -30px;padding: 0 .7em;">
-                            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                            <strong>Alerta:</strong> No se pudo guardar los cambios, por favor verifique los datos.</p>
+                    <div class="ui-state-highlight ui-corner-all" style="margin-top: -12px; margin-bottom: -20px;padding: 0 .7em;">
+                        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                        Se ha realizado el registro exitosamente. - Cod. {{ EXITO_REGISTRO }}</p>
                     </div>
                 </p>
             </div>
         </div>
-    {% elseif errors == EXITO_ACTUALIZACION %}
-       <div id="dialog-guardar-exito" title="Actualizaci&oacute;n Exitosa">
+    {% elseif status == FALLO_ACTUALIZACION %}
+        <div class="ui-widget">
+          
+            <div id="dialog-estatus" title="Fallo Actualizaci&oacute;n">
+                <p>
+                    <div class="ui-state-error ui-corner-all" style="margin-top: -12px; margin-bottom: -20px;padding: 0 .7em;">
+                            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                            <strong>Alerta:</strong> No se pudo guardar los cambios, por favor verifique los datos. - Cod. Error {{ FALLO_ACTUALIZACION }}</p>
+                    </div>
+                </p>
+            </div>
+        </div>
+    {% elseif status == EXITO_ACTUALIZACION %}
+       <div id="dialog-estatus" title="Actualizaci&oacute;n Exitosa">
             <p>
-                   <div class="ui-state-highlight ui-corner-all" style="margin-top: -12px; margin-bottom: -30px;padding: 0 .7em;">
+                   <div class="ui-state-highlight ui-corner-all" style="margin-top: -12px; margin-bottom: -20px;padding: 0 .7em;">
                         <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-                        Se han guardado los cambios exitosamente.</p>
+                        Se han guardado los cambios exitosamente. - Cod. {{ EXITO_ACTUALIZACION }}</p>
                     </div>
             </p>
         </div>
-    {% elseif errors == FALLO_REGISTRO %}
+    {% elseif status == FALLO_REGISTRO %}
+        {% set titulo = 'Error En Registro' %}
+            {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
+                {% for error in erroesDistribucion %}
+                    {% if error == INHIBICION_NO_PERMITIDA %}
+                       {% set titulo = 'Inhibici&oacute;n No Realizada' %}
+                    {% elseif error == TRIBUNAL_NO_DISPONIBLE %}
+                        {% set titulo = 'Distribuci&oacute;n No Realizada' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         <div class="ui-widget">
-            <div id="dialog-guardar-exito" title="Datos invalidos o vacios.">
+            <div id="dialog-estatus" title="{{ titulo }}">
                 <p>
-                    <div class="ui-state-error ui-corner-all" style="margin-top: -12px; margin-bottom: -30px;padding: 0 .7em;">
-                            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                            <strong>Alerta:</strong> No se han guardado los datos, por favor verifiquelos.</p>
+                    <div class="ui-state-error ui-corner-all" style="margin-top: -12px; margin-bottom: -20px;padding: 0 .7em;">
+                            <p>
+                                {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
+                                    {% for error in erroesDistribucion %}
+                                        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                        {% if error == INHIBICION_NO_PERMITIDA %}
+                                            Distribuci&oacute;n no realizada. La causa procede de los tribunales disponibles
+                                            actualmente. Inhibici&oacute;n No Permitida.
+                                            - Cod. Error {{ INHIBICION_NO_PERMITIDA }}
+                                        {% elseif error == TRIBUNAL_NO_DISPONIBLE %}
+                                            En este momento no hay ning&uacute;n tribunal disponible para despacho. Verifique la hora y el tribunal de guardia. 
+                                            - Cod. Error {{ TRIBUNAL_NO_DISPONIBLE }}
+                                        {% endif %}
+                                        <br/><br/>
+                                    {% endfor %}
+                                {% else %}    
+                                     <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                     <strong>Alerta:</strong> No se han guardado los datos, por favor verifiquelos. - Cod. Error {{ FALLO_REGISTRO }}
+                                {% endif %}
+                            </p>
                     </div>
                 </p>
             </div>

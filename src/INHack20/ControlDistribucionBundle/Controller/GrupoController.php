@@ -51,7 +51,9 @@ class GrupoController extends Controller
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView(),
+            'status' => $this->getRequest()->query->get('status'),
+            );
     }
 
     /**
@@ -90,14 +92,15 @@ class GrupoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('grupo_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('grupo_show', array('id' => $entity->getId(),
+                'status' => $this->container->getParameter('EXITO_REGISTRO'),)));
             
         }
 
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'errors' => $this->container->getParameter('FALLO_REGISTRO'),
+            'status' => $this->container->getParameter('FALLO_REGISTRO'),
         );
     }
 
@@ -124,7 +127,7 @@ class GrupoController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'errors' => $this->getRequest()->query->get('errors'),
+            'status' => $this->getRequest()->query->get('status'),
         );
     }
 
@@ -157,14 +160,14 @@ class GrupoController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('grupo_edit', array('id' => $id,
-                'errors' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
+                'status' => $this->container->getParameter('EXITO_ACTUALIZACION'),)));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'errors' => $this->container->getParameter('FALLO_ACTUALIZACION'),
+            'status' => $this->container->getParameter('FALLO_ACTUALIZACION'),
         );
     }
 

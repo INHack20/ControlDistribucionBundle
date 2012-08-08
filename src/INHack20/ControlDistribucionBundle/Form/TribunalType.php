@@ -11,7 +11,9 @@ class TribunalType extends AbstractType
     {
         $builder
             ->add('nro',null,array(
-                'label' => 'N&deg; Tribunal'
+                'label' => 'N&deg; Tribunal',
+                'invalid_message' => 'Debe ingresar un numero entero',
+                'error_bubbling' => false,
             ))
             ->add('tribunalTipo','entity',array(
                 'class' => 'INHack20\\ControlDistribucionBundle\\Entity\\TribunalTipo',

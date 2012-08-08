@@ -260,4 +260,19 @@ class User extends BaseUser
     {
         return $this->estado;
     }
+    
+    /**
+     * @param \DateTime $date
+     * @return User
+     */
+    public function setExpiresAt(\DateTime $date = null)
+    {
+        $this->expiresAt = $date;
+
+        return $this;
+    }
+    
+    public function getExpiresAt(){
+        return $this->expiresAt;
+    }
 }

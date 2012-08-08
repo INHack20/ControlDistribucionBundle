@@ -11,8 +11,8 @@ INHack20\ControlDistribucionBundle\Entity\Caso:
     pieza:
       - NotBlank: { message: Ingrese la cantidad de piezas }
       - Type:
-          type: integer
-          message: Debe ingresar un numero entero
+         type: integer
+         message: Debe ingresar un numero entero
 
 INHack20\ControlDistribucionBundle\Entity\Causa:
   properties:

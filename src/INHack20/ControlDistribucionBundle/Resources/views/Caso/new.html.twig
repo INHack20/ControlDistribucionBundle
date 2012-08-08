@@ -2,12 +2,6 @@
 {% block contenido %}
     <h1>Registro de Caso</h1>
     <br/><br/>
-    {% if erroesDistribucion is defined and erroesDistribucion|length > 0 %}
-        {% for error in erroesDistribucion %}
-            <font color="red">{{ error }}</font><br/><br/>
-        {% endfor%}
-        <br/>
-    {% endif %}
     <fieldset>
         <legend>Informaci&oacute;n</legend>
         <b style="text-transform: uppercase;">

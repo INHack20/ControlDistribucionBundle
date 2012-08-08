@@ -36,6 +36,7 @@ profile:
         estado: Estado
         activada: Habilitada
         bloqueada: Bloqueada
+        roleDescripcion: Privilegio
     edit:
         submit: Actualizar usuario
     flash:
@@ -137,6 +138,7 @@ inhack20_user_profile_email: "E-mail"
 inhack20_user_profile_enabled: "Cuenta Activada"
 inhack20_user_profile_locked: "Cuenta Bloqueada"
 
+inhack20_user_profile_expiresAt: "Fecha de Expiración"
 inhack20_user_profile_role: "Privilegios"
 
 inhack20_user_profile_nombre: "Nombre"

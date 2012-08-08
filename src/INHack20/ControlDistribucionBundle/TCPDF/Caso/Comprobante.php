@@ -24,7 +24,7 @@ class Comprobante extends \TCPDF{
         $html ='
             
                             <p style="margin-bottom: 0cm;" align="center">
-                                REPUBLICA BOLIVARIANA DE VENEZUELA<br/>
+                                REP&Uacute;BLICA BOLIVARIANA DE VENEZUELA<br/>
                                 <img style="width: 48px; height: 48px;" alt="" src="'.$this->logo.'"><br/>
                                 PODER JUDICIAL
                             </p>
@@ -56,7 +56,7 @@ class Comprobante extends \TCPDF{
                         <tbody>
                             <tr>
                                 <td style="text-align: center;">
-                                    '.$this->nombre.'<br>'.$this->cargo.'<br>
+                                    '.strtoupper($this->nombre).'<br>'.strtoupper($this->cargo).'<br>
                                 </td>
                                 <td style="vertical-align: top; text-align: center;">
                                     RECIBIDO<br>

@@ -28,6 +28,10 @@ class UserType extends AbstractType
             ->add('locked',null,array(
                 'required' => false,
             ))
+            ->add('expiresAt','date',array(
+                'widget' => 'single_text',
+                'required' => false,
+            ))
             ->add('role', 'choice' , array(
                 'choices' => array(
                     '' => 'Seleccione',

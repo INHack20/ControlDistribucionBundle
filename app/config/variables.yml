@@ -1,8 +1,14 @@
 parameters:
+    #Version de la aplicacion
+    VERSION_APP : 1.0.0
     #Limite de paginacion
     LIMITE_PAGINACION : 3
     #Estado de registro y actualizacion
-    EXITO_REGISTRO: 1
-    FALLO_REGISTRO: 2
-    EXITO_ACTUALIZACION: 3
-    FALLO_ACTUALIZACION: 4
+    FALLO_REGISTRO: 1
+    EXITO_REGISTRO: 6
+    EXITO_ACTUALIZACION: 2
+    FALLO_ACTUALIZACION: 3
+    EXITO_ELIMINACION: 7
+    # Errores de Distribucion
+    TRIBUNAL_NO_DISPONIBLE: 4
+    INHIBICION_NO_PERMITIDA: 5

@@ -20,3 +20,15 @@
         <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>{% autoescape false %}{{ label|trans }}{% endautoescape %}</label>
     {% endspaceless %}
 {% endblock %}
+
+{% block field_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li><font color="red">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</font></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock field_errors %}
